@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   * Grocery App
+   * https://github.com/quintuslabs/GroceryStore
+   * Created on 18-Feb-2019.
+   * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
+   -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_male"
+            android:title="My Profile" />
+    </group>
+
+    <group
+        android:id="@+id/nav_communication_group1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_offers"
+            android:icon="@drawable/ic_discount"
+            android:title="Offers" />
+        <item
+            android:id="@+id/nav_new_product"
+            android:icon="@drawable/ic_list"
+            android:title="New Products" />
+        <item
+            android:id="@+id/nav_popular_products"
+            android:icon="@drawable/ic_grid"
+            android:title="Popular Products" />
+    </group>
+
+
+    <group
+        android:id="@+id/nav_communication_group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_options"
+            android:title="Category" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="Search" />
+    </group>
+
+
+    <group
+        android:id="@+id/nav_communication_group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_order"
+            android:icon="@drawable/ic_listed_items"
+            android:title="My Order" />
+        <item
+            android:id="@+id/nav_my_cart"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
+            android:title="My Cart" />
+    </group>
+
+
+</menu>

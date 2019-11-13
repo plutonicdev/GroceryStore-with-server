@@ -1,0 +1,140 @@
+{
+  "statelist": [
+    {
+      "id": 1,
+      "State": "Andaman and Nicobar Islands"
+    },
+    {
+      "id": 2,
+      "State": "Andhra Pradesh"
+    },
+    {
+      "id": 3,
+      "State": "Arunachal Pradesh"
+    },
+    {
+      "id": 4,
+      "State": "Assam"
+    },
+    {
+      "id": 5,
+      "State": "Bihar"
+    },
+    {
+      "id": 6,
+      "State": "Chandigarh"
+    },
+    {
+      "id": 7,
+      "State": "Chhattisgarh"
+    },
+    {
+      "id": 8,
+      "State": "Dadra and Nagar Haveli"
+    },
+    {
+      "id": 9,
+      "State": "Delhi"
+    },
+    {
+      "id": 10,
+      "State": "Goa"
+    },
+    {
+      "id": 11,
+      "State": "Gujarat"
+    },
+    {
+      "id": 12,
+      "State": "Haryana"
+    },
+    {
+      "id": 13,
+      "State": "Himachal Pradesh"
+    },
+    {
+      "id": 14,
+      "State": "Jammu and Kashmir"
+    },
+    {
+      "id": 15,
+      "State": "Jharkhand"
+    },
+    {
+      "id": 16,
+      "State": "Karnataka"
+    },
+    {
+      "id": 17,
+      "State": "Karnatka"
+    },
+    {
+      "id": 18,
+      "State": "Kerala"
+    },
+    {
+      "id": 19,
+      "State": "Madhya Pradesh"
+    },
+    {
+      "id": 20,
+      "State": "Maharashtra"
+    },
+    {
+      "id": 21,
+      "State": "Manipur"
+    },
+    {
+      "id": 22,
+      "State": "Meghalaya"
+    },
+    {
+      "id": 23,
+      "State": "Mizoram"
+    },
+    {
+      "id": 24,
+      "State": "Nagaland"
+    },
+    {
+      "id": 25,
+      "State": "Odisha"
+    },
+    {
+      "id": 26,
+      "State": "Puducherry"
+    },
+    {
+      "id": 27,
+      "State": "Punjab"
+    },
+    {
+      "id": 28,
+      "State": "Rajasthan"
+    },
+    {
+      "id": 29,
+      "State": "Tamil Nadu"
+    },
+    {
+      "id": 30,
+      "State": "Telangana"
+    },
+    {
+      "id": 31,
+      "State": "Tripura"
+    },
+    {
+      "id": 32,
+      "State": "Uttar Pradesh"
+    },
+    {
+      "id": 33,
+      "State": "Uttarakhand"
+    },
+    {
+      "id": 34,
+      "State": "West Bengal"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   * Grocery App
+   * https://github.com/quintuslabs/GroceryStore
+   * Created on 18-Feb-2019.
+   * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
+   -->
+<resources>
+    <declare-styleable name="gif_view">
+        <attr name="starting_on_init" format="boolean" />
+        <attr name="on_click_start_or_pause" format="boolean" />
+        <attr name="delay_in_millis" format="integer" />
+        <attr name="gif_src" format="string" />
+    </declare-styleable>
+</resources>
