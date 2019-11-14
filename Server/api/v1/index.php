@@ -1,3 +1,9 @@
+<!--
+ Author: Quintus Labs
+  Author URL: http://quintuslabs.com
+  date: 12/11/2019
+  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+-->
 <?php
 require 'config.php';
 require 'Slim/Slim.php';
