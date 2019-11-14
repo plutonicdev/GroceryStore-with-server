@@ -43,7 +43,7 @@ exit("Error: " . $e->getMessage());
 ?>
 ```
 
-- Config App API. app\config.php and set your database server configurations.
+- Config App API. api\v1\config.php and set your database server configurations.
 
 ```
 /* DATABASE CONFIGURATION */
