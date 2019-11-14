@@ -49,3 +49,12 @@ The screen contains more than 60 icons and most of all required elements require
 <img src="screen/screen5.png">
 
 <img src="screen/screen6.png">
+
+<img src="screen/1.png">
+
+<img src="screen/2.png">
+
+<img src="screen/3.png">
+
+<img src="screen/4.png">
+
