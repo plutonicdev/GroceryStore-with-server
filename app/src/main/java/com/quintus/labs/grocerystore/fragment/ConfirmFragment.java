@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,9 +33,7 @@ import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -163,24 +160,6 @@ public class ConfirmFragment extends Fragment {
 
     }
 
-    private void closeProgress() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                progressDialog.dismiss();
-
-            }
-        }, 3000); // 5000 milliseconds
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        Order order = new Order(id, orderNo, currentDateandTime, "Rs. " + _totalAmount, "Pending");
-        orderList.add(order);
-        String orderString = gson.toJson(orderList);
-        localStorage.setOrder(orderString);
-        localStorage.deleteCart();
-
-        // showCustomDialog();
-    }
 
     private void showCustomDialog() {
 

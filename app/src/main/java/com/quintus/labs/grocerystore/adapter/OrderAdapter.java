@@ -53,7 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         final Order order = orderList.get(position);
-        holder.orderId.setText(order.getOrderId());
+        holder.orderId.setText("#" + order.getId());
         holder.date.setText(order.getDate());
         holder.total.setText(order.getTotal());
         holder.status.setText(order.getStatus());

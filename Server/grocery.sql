@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2019 at 04:56 PM
+-- Generation Time: Nov 14, 2019 at 03:58 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -122,22 +122,17 @@ CREATE TABLE `orders` (
   `area` varchar(100) NOT NULL,
   `address` varchar(500) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `user_id` varchar(11) NOT NULL
+  `user_id` varchar(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `total` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `fname`, `lname`, `mobile`, `area`, `address`, `status`, `user_id`) VALUES
-(17000041, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000042, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000043, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000044, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000045, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000046, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000047, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23'),
-(17000048, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', '', '23');
+INSERT INTO `orders` (`id`, `fname`, `lname`, `mobile`, `area`, `address`, `status`, `user_id`, `date`, `total`) VALUES
+(17000061, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', 'Pending', '23', '2019-11-14 14:57:32', '470');
 
 -- --------------------------------------------------------
 
@@ -162,11 +157,8 @@ CREATE TABLE `orderslist` (
 --
 
 INSERT INTO `orderslist` (`id`, `orderid`, `itemname`, `itemquantity`, `attribute`, `currency`, `itemImage`, `itemprice`, `itemtotal`) VALUES
-(2018088, '17000044', 'Kesar mango', '3', '1Kg', 'Rs.', NULL, '130', '390.0'),
-(2018089, '17000045', 'Kesar mango', '3', '1Kg', 'Rs.', '20191110031111000000.png', '130', '390.0'),
-(2018090, '17000046', 'Kesar mango', '3', '1Kg', 'Rs.', '20191110031111000000.png', '130', '390.0'),
-(2018091, '17000047', 'Kesar mango', '3', '1Kg', 'Rs.', '20191110031111000000.png', '130', '390.0'),
-(2018092, '17000048', 'Kesar mango', '3', '1Kg', 'Rs.', '20191110031111000000.png', '130', '390.0');
+(2018117, '17000061', 'Orange Fruit', '2', '1Kg', 'Rs.', '20191110041112000000.png', '100', '200.0'),
+(2018118, '17000061', 'Apple Red (6 Pcs Big size)', '1', '1Kg', 'Rs.', '20191110041121000000.png', '270', '270.0');
 
 -- --------------------------------------------------------
 
@@ -193,7 +185,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `area`, `address`, `state`, `city`, `zip`, `mobile`, `email`, `password`) VALUES
-(23, 'Santosh', '', '', 'Test Address', 'Odisha', 'Bhubaneswar', '075698', '9778178337', 'Santosh@quintuslabs.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+(23, 'Santosh', '', '', 'Test Address', 'Odisha', 'Bhubaneswar', '075698', '9778178337', 'Santosh@quintuslabs.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+(24, 'Test', 'User', '', '', '', '', '', '0123456789', '', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 
 --
 -- Indexes for dumped tables
@@ -273,19 +266,19 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17000049;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17000062;
 
 --
 -- AUTO_INCREMENT for table `orderslist`
 --
 ALTER TABLE `orderslist`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2018093;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2018119;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

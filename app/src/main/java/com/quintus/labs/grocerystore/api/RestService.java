@@ -3,6 +3,7 @@ package com.quintus.labs.grocerystore.api;
 
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.ProductResult;
@@ -43,6 +44,9 @@ public interface RestService {
 
     @POST("api/v1/placeorder")
     Call<OrdersResult> confirmPlaceOrder(@Body PlaceOrder placeOrder);
+
+    @POST("api/v1/orderDetails")
+    Call<OrdersResult> orderDetails(@Body Order order);
 
     @POST("api/v1/updateUser")
     Call<UserResult> updateUser(@Body User user);

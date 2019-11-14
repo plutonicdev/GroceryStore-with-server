@@ -42,12 +42,12 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        localStorage = new LocalStorage(getContext());
 
         name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
         mobile = view.findViewById(R.id.mobile);
         address = view.findViewById(R.id.address);
+        localStorage = new LocalStorage(getContext());
 
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
         name.setText(user.getFname());
