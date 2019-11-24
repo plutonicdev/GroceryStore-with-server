@@ -9,9 +9,17 @@ Grocery Store CMS PHP Restful API is an online grocery shop. The project is deve
 - Add , Manage Category
 - Update Price
 - View Orders (Confirmed, Preparing, On Way, Dilivered)
-- Generate Bills
 - Manage Customers
 - App Token Authentication
+
+### AdminPanel access
+
+-uplod server file in your server or in xampp/wampp
+- import database
+- http://yourdomain/admin
+- username:-admin
+- password:- admin
+
 
 | Screenshot |
 | --------------------- |
