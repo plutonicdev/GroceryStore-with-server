@@ -54,8 +54,8 @@ define("SITE_KEY", 'yourSecretKey');
 
 | Screenshot | Screenshot |
 | --------------------- | -------------------- |
-| <img src="/sc/1.png"> | <img src="/sc/2.png"> |
-| <img src="/sc/3.png">| <img src="/sc/4.PNG"> |
+| <img src="sc/1.png"> | <img src="sc/2.png"> |
+| <img src="sc/3.png">| <img src="sc/4.PNG"> |
 
 ### App API Requests
 
