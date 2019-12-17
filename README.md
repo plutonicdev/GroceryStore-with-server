@@ -2,6 +2,14 @@
 
 * [GroceryStore](https://github.com/quintuslabs/GroceryStore/blob/master/GroceryStore1.0.apk) - Download APK
 
+* [GroceryStore](https://megagrocerystore.000webhostapp.com/) - Grocery Store Website
+
+* [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin
+
+- username:-admin
+- password:- admin
+
+
 
 # GroceryStore
 Grocery App, is online shopping UI Kit, geniune mobile application to which you can rely on. It guides you to formulate incredible mobile application. It comprise of 10+ screens with different features to navigate screens easily.
