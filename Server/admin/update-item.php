@@ -1,9 +1,3 @@
-<!--
- Author: Quintus Labs
-  Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
 <?php
 session_start();
 error_reporting(0);
@@ -33,6 +27,14 @@ $msg="Price Updated successfully";
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
+
+<!-- /*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/ -->
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,6 +58,7 @@ $msg="Price Updated successfully";
     <link rel="stylesheet" href="css/fileinput.min.css">
     <!-- Awesome Bootstrap checkbox -->
     <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
+    <link rel="icon" href="img/logo.png" type="image/gif" sizes="16x16">
     <!-- Admin Stye -->
     <link rel="stylesheet" href="css/style.css">
     <script type= "text/javascript" src="../vendor/countries.js">

@@ -11,6 +11,12 @@ define('DB_DATABASE', 'grocery');
 define("BASE_URL", "http://localhost/grocery/app/");
 define("SITE_KEY", 'AIzjdsfs212nkcbcxzfssd');
 
+/*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/
 
 function getDB() 
 {

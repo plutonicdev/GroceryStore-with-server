@@ -131,8 +131,11 @@ a:focus, a:hover {
     line-height: 37px;
     font-weight: bold;
 }
-.logo {
-    margin-top: 1em;
+img.logo {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+   
 }
 .logo a i {
     padding: 0 6px;

@@ -1,9 +1,3 @@
-<!--
- Author: Quintus Labs
-  Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
 <?php
 require 'config.php';
 require 'Slim/Slim.php';
@@ -22,6 +16,13 @@ $app->post('/orderDetails','getOrders');
 $app->post('/updateUser','updateUser');
 
 $app->run();
+
+/*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/
 
 /************************* USER LOGIN *************************************/
 /* ### User login ### */
@@ -320,6 +321,7 @@ function placeorder() {
     $fname=$data->fname;
     $lname=$data->lname;
     $mobile=$data->mobile;
+    $status="Pending";
     $area=$data->area;
     $address=$data->address;
     $user_id=$data->user_id;
@@ -331,7 +333,9 @@ function placeorder() {
          
         if($systemToken == $token){
             $db = getDB();
-            $sqlorder = "INSERT INTO orders(fname, lname, area, address, mobile,user_id)VALUES(:fname,:lname,:area,:address,:mobile,:user_id)";
+            $total = totalPrice($orderitems, 'itemtotal');
+            
+            $sqlorder = "INSERT INTO orders(fname, lname, area, address, mobile,user_id,total,status)VALUES(:fname,:lname,:area,:address,:mobile,:user_id,:total,:status)";
             $stmtorder = $db->prepare($sqlorder);
             $stmtorder->bindParam("fname", $fname,PDO::PARAM_STR);
             $stmtorder->bindParam("lname", $lname,PDO::PARAM_STR);
@@ -339,8 +343,11 @@ function placeorder() {
             $stmtorder->bindParam("area", $area,PDO::PARAM_STR);
             $stmtorder->bindParam("address", $address,PDO::PARAM_STR);
             $stmtorder->bindParam("user_id", $user_id,PDO::PARAM_STR);
+            $stmtorder->bindParam("total", $total,PDO::PARAM_STR);
+            $stmtorder->bindParam("status", $status,PDO::PARAM_STR);
             $stmtorder->execute();
             $lastid = $db->lastInsertId();
+            $totalPrice=0;
 
             foreach ($orderitems as $orderitem) {
 
@@ -351,6 +358,7 @@ function placeorder() {
                 $itemImage = $orderitem->itemImage;
                 $itemprice = $orderitem->itemprice;
                 $itemtotal = $orderitem->itemtotal;
+                $totalPrice = $totalPrice+$itemtotal;
 
                 $sqlitem = "INSERT INTO orderslist (orderid,itemname,itemquantity,attribute,currency,itemImage,itemprice,itemtotal) VALUES (:orderid,:itemname,:itemquantity,:attribute,:currency,:itemImage,:itemprice,:itemtotal)";   
                 $stmtitem = $db->prepare($sqlitem);
@@ -363,7 +371,10 @@ function placeorder() {
                 $stmtitem->bindParam("itemprice", $itemprice, PDO::PARAM_STR);
                 $stmtitem->bindParam("itemtotal", $itemtotal, PDO::PARAM_STR);
                 $stmtitem->execute();
-          }  
+          }
+         
+        
+
             $db = null;
             echo '{"code": 200,"status": "Success"}';
         } else{
@@ -386,12 +397,12 @@ function getOrders() {
         if($systemToken == $token){
             $feedData = '';
             $db = getDB();
-            $sql = "SELECT o.*,ol.* FROM orders o, orderslist ol WHERE o.id = ol.orderid AND o.user_id=".$user_id;
+            $sql = "SELECT id,status,user_id,date,total FROM orders WHERE user_id=".$user_id;
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $feedData = $stmt->fetchAll(PDO::FETCH_OBJ);    
             $db = null;
-            echo '{"code": 200,"status": "Success","feedData": ' . json_encode($feedData) . '}';
+            echo '{"code": 200,"status": "Success","orders": ' . json_encode($feedData) . '}';
         } else{
             echo '{"code": 401,"status": "UnAuthorised"}';
         }
@@ -424,5 +435,16 @@ function internalContactDetails($input) {
     
 }
 
+
+function totalPrice(array $arr, $property) {
+
+    $sum = 0;
+
+    foreach($arr as $object) {
+        $sum += isset($object->{$property}) ? $object->{$property} : 0;
+    }
+
+    return $sum;
+}
 
 ?>

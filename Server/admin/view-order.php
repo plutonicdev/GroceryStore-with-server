@@ -1,9 +1,3 @@
-<!--
- Author: Quintus Labs
-  Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
 <?php
 session_start();
 error_reporting(0);
@@ -20,6 +14,14 @@ $orderid=intval($_GET['orderid']);
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
+
+<!-- /*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/ -->
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,6 +29,7 @@ $orderid=intval($_GET['orderid']);
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
+    <link rel="icon" href="img/logo.png" type="image/gif" sizes="16x16">
     <title>GS | View Order  
     </title>
     <!-- Font awesome -->
@@ -43,6 +46,7 @@ $orderid=intval($_GET['orderid']);
     <link rel="stylesheet" href="css/fileinput.min.css">
     <!-- Awesome Bootstrap checkbox -->
     <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
+
     <!-- Admin Stye -->
     <link rel="stylesheet" href="css/style.css">
     <style>

@@ -1,14 +1,15 @@
-<!--
-	Author: Quintus Labs
-	Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
-
 <?php
 session_start();
 error_reporting(0);
 include('includes/config.php');
+
+/*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/
+
 if(strlen($_SESSION['alogin'])==0)
 {	
 header('location:index.php');
@@ -56,6 +57,7 @@ $error="Something went wrong. Please try again";
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
+    <link rel="icon" href="img/logo.png" type="image/gif" sizes="16x16">
     <title>GS | Admin Category
     </title>
     <link rel="stylesheet" href="css/font-awesome.min.css">

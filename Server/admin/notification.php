@@ -1,9 +1,3 @@
-<!--
- Author: Quintus Labs
-  Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
 <?php
 session_start();
 error_reporting(0);
@@ -45,6 +39,14 @@ $error="Something went wrong. Please try again";
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
+
+<!-- /*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/ -->
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,6 +54,7 @@ $error="Something went wrong. Please try again";
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
+    <link rel="icon" href="img/logo.png" type="image/gif" sizes="16x16">
     <title>Notification
     </title>
     <!-- Font awesome -->

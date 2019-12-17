@@ -1,14 +1,13 @@
-<!--
- Author: Quintus Labs
-  Author URL: http://quintuslabs.com
-  date: 12/11/2019
-  Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
--->
 <?php
 
 session_start();
-
 include('includes/config.php');
+/*
+Author: Quintus Labs
+Author URL: http://quintuslabs.com
+date: 12/11/2019
+Github URL: https://github.com/quintuslabs/GroceryStore-with-server/
+*/
 
 if(isset($_POST['login']))
 
@@ -52,8 +51,6 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 
 }
 
-
-
 ?>
 
 <!doctype html>
@@ -74,7 +71,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 
 	<meta name="author" content="">
 
-
+	<link rel="icon" href="img/logo.png" type="image/gif" sizes="16x16">
 
 	
 

@@ -1106,19 +1106,7 @@ li {
 
 }
 
-.brand .logo {
 
-  box-sizing: border-box;
-
-  padding: 20px;
-
-  float: left;
-
-  display: block;
-
-  width: 200px;
-
-}
 
 @media only screen and (min-width: 992px) {
 
@@ -1513,4 +1501,9 @@ li {
 .panel-heading {
   padding: 10px 15px;
  
+}
+
+.brand .logo {
+    width: 30px;
+    border-radius: 50%;
 }

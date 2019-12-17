@@ -13,12 +13,10 @@ Grocery Store CMS PHP Restful API is an online grocery shop. The project is deve
 - Manage Customers
 - App Token Authentication
 
-| Screenshot |
-| --------------------- |
-| <img src="sc/1.png"> |
-| <img src="sc/2.png"> |
-| <img src="sc/3.png"> |
-| <img src="sc/4.png"> |
+| Screenshot | Screenshot |
+| --------------------- | -------------------- |
+| <img src="/sc/1.PNG"> | <img src="/sc/2.PNG"> |
+| <img src="/sc/3.PNG">| <img src="/sc/4.PNG"> |
 
 ### Config
 
@@ -43,7 +41,7 @@ exit("Error: " . $e->getMessage());
 ?>
 ```
 
-- Config App API. api\v1\config.php and set your database server configurations.
+- Config App API. app\config.php and set your database server configurations.
 
 ```
 /* DATABASE CONFIGURATION */
@@ -55,77 +53,12 @@ define("BASE_URL", "http://localhost/app/");
 define("SITE_KEY", 'yourSecretKey');
 ```
 
-- Database file included in Repo. (healthykitchendb.sql)
+- Database file included in Repo. (server/grocery.sql)
 
 ### App API Requests
 
-#### Register User :  
-Link : yoursite.com/api/v1/register
-
-```
-Request Body :
-{
- "fname":"Test",
- "lname":"User",
- "mobile":"0123456789",
- "password":"password"
-
-}
-
-{
-  "code": 201,
-  "status": "Registeration Successfull !!",
-  "userData": {
-    "id": "24",
-    "fname": "Test",
-    "lname": "User",
-    "area": "",
-    "address": "",
-    "state": "",
-    "city": "",
-    "zip": "",
-    "mobile": "0123456789",
-    "email": "",
-    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "token": "app963"
-  }
-}
-```
-
-#### Login User :  
-Link : yoursite.com/api/v1/login
-
-```
-Request Body :
-{
- "mobile":"0123456789",
- "password":"password"
-
-}
-
-{
-  "code": 200,
-  "status": "Login Successfull !!",
-  "userData": {
-    "id": "24",
-    "fname": "Test",
-    "lname": "User",
-    "area": "",
-    "address": "",
-    "state": "",
-    "city": "",
-    "zip": "",
-    "mobile": "0123456789",
-    "email": "",
-    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "token": "app963"
-  }
-}
-```
-
-
 #### Get all Category :  
-Link : yoursite.com/api/v1/allcategory 
+Link : yoursite.com/app/allcategory 
 
 ```
 Request Body :
@@ -133,125 +66,66 @@ Request Body :
  "token":"app963" 
 } 
 
-{
-  "code": 200,
-  "status": "success",
-  "categories": [
-    {
-      "id": "20",
-      "categry": "Food",
-      "cateimg": "20191110031135000000.png"
-    },
-    {
-      "id": "21",
-      "categry": "Home & Cleaning",
-      "cateimg": "20191110031140000000.png"
-    },
-    {
-      "id": "22",
-      "categry": "Baby & Child Care",
-      "cateimg": "20191110031119000000.png"
-    },
-    {
-      "id": "23",
-      "categry": "Pet Care",
-      "cateimg": "20191110031138000000.png"
-    },
-    {
-      "id": "24",
-      "categry": "Sports & Nutrition",
-      "cateimg": "20191110031155000000.png"
-    },
-    {
-      "id": "25",
-      "categry": "Health & HouseHold",
-      "cateimg": "20191110031113000000.png"
-    }
-  ]
-}
+Response: 
+{ 
+    "feedData": [ 
+        { 
+            "id": "9", 
+            "categry": "Fruits" 
+        }, 
+        { 
+            "id": "10", 
+            "categry": "Juice" 
+        }, 
+        { 
+            "id": "11", 
+            "categry": "Vegetables" 
+        }, 
+        { 
+            "id": "12", 
+            "categry": "Salad" 
+        } 
+    ] 
+} 
 ```
 #### Get Items Click on Category :  
 
-Link : yoursite.com/api/v1/getlist  
+Link : yoursite.com/app/getlist  
 
 ```
 Request Body : 
 { 
  "token":"app963", 
- "categry":"Food" 
+ "categoryname":"Fruits" 
 }  
 
 Response 
-{
-  "code": 200,
-  "status": "success",
-  "products": [
-    {
-      "id": "10",
-      "name": "Kesar mango",
-      "category": "Food",
-      "description": "The Kesar mango is one of the rarest and best mangoes, which are famous for their fruit quality, attractiveness fruit and pulp colour, taste & good",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "110",
-      "price": "130",
-      "image": "20191110031111000000.png",
-      "homepage": ""
-    },
-    {
-      "id": "11",
-      "name": "Yellow Mango",
-      "category": "Food",
-      "description": "1 piece = 250 - 350 grams (approx.) Sri Lanka is truly the land of mangoes, boasting more varieties than you can count on your fingers. ",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "130",
-      "price": "150",
-      "image": "20191110031155000000.png",
-      "homepage": ""
-    },
-    {
-      "id": "13",
-      "name": "Apple Fruit",
-      "category": "Food",
-      "description": "Hari Vithal Export Import - offering Apple Fruit, Apple Fruit, ?????, ??? at Rs 200 /kilogram in Valsad, Gujarat. Get best price and read about",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "200",
-      "price": "250",
-      "image": "20191110031151000000.png",
-      "homepage": ""
-    },
-    {
-      "id": "14",
-      "name": "Apple Red (6 Pcs Big size)",
-      "category": "Food",
-      "description": "Fresh red apple, 6 big sizes in a pack",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "220",
-      "price": "270",
-      "image": "20191110041121000000.png",
-      "homepage": "YES"
-    },
-    {
-      "id": "15",
-      "name": "Orange Fruit",
-      "category": "Food",
-      "description": "",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "90",
-      "price": "100",
-      "image": "20191110041112000000.png",
-      "homepage": "YES"
-    }
-  ]
-}
+{ 
+    "feedData": [ 
+        { 
+            "id": "2", 
+            "name": "Kiwi", 
+            "category": "Fruits", 
+            "description": "no des", 
+            "price": "630", 
+            "image": "3.png", 
+            "homepage": "YES" 
+        }, 
+        { 
+            "id": "3", 
+            "name": "Apple", 
+            "category": "Fruits", 
+            "description": "No Des", 
+            "price": "110", 
+            "image": "2.png", 
+            "homepage": "YES" 
+        } 
+    ] 
+} 
 
 ```
 #### Save Customer Information :  
-Link : yoursite.com/api/v1/savecustomer 
+Link : yoursite.com/app/savecustomer 
 
 ```
 Request Body : 
@@ -271,7 +145,7 @@ Response
 }
 ```
 #### Get Homepage Products :  
-Link : yoursite.com/api/v1/homepage 
+Link : yoursite.com/app/homepage 
 
 ```
 Request Body : 
@@ -279,75 +153,63 @@ Request Body :
  "token":"app963" 
 } 
 Response 
-{
-  "code": 200,
-  "status": "Success",
-  "products": [
-    {
-      "id": "14",
-      "name": "Apple Red (6 Pcs Big size)",
-      "category": "Food",
-      "description": "Fresh red apple, 6 big sizes in a pack",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "220",
-      "price": "270",
-      "image": "20191110041121000000.png",
-      "homepage": "YES"
-    },
-    {
-      "id": "15",
-      "name": "Orange Fruit",
-      "category": "Food",
-      "description": "",
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "discount": "90",
-      "price": "100",
-      "image": "20191110041112000000.png",
-      "homepage": "YES"
-    }
-  ]
-}
+{ 
+    "feedData": [ 
+        { 
+            "id": "2", 
+            "name": "Kiwi", 
+            "category": "Fruits", 
+            "description": "no des", 
+            "price": "630", 
+            "image": "3.png", 
+            "homepage": "YES" 
+        }, 
+        { 
+            "id": "3", 
+            "name": "Apple", 
+            "category": "Fruits", 
+            "description": "No Des", 
+            "price": "110", 
+            "image": "2.png", 
+            "homepage": "YES" 
+        } 
+    ] 
+} 
 ```
 #### Place Order :  
-Link : yoursite.com/api/v1/placeorder 
+Link : yoursite.com/app/placeorder 
 
 ```
 Request Body : 
-{
-  "token": "app963",
-  "user_id": "23",
-  "address": "Test Address",
-  "area": "Bhubaneswar",
-  "fname": "Santosh",
-  "lname": " ",
-  "mobile": "9778178337",
-  "orderitems": [
-    {
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "itemImage": "20191110041112000000.png",
-      "itemname": "Orange Fruit",
-      "itemprice": "100",
-      "itemquantity": "2",
-      "itemtotal": "200.0"
-    },
-    {
-      "attribute": "1Kg",
-      "currency": "Rs.",
-      "itemImage": "20191110041121000000.png",
-      "itemname": "Apple Red (6 Pcs Big size)",
-      "itemprice": "270",
-      "itemquantity": "1",
-      "itemtotal": "270.0"
-    }
-  ]
-  
-}
+{ 
+ "token":"app963", 
+ "fname":"bhinderjit", 
+ "lname":"Singh", 
+ "mobile":"9915248596", 
+ "area":"Rayya", 
+ "address":"Lohgarh", 
+ "orderitems":[ 
+  { 
+   "itemname":"Apple", 
+   "itemquantity":"6", 
+   "itemprice":"50", 
+   "itemtotal":"300" 
+  }, 
+  { 
+   "itemname":"Lichi", 
+   "itemquantity":"1", 
+   "itemprice":"40", 
+   "itemtotal":"40" 
+  } 
+  ] 
+} 
  
 Response 
-{"code": 200,"status": "Success"}
+{ 
+    "success": { 
+        "text": "Order Placed Sucessfully" 
+    } 
+} 
 ```
 
 ### Happy Coding...
