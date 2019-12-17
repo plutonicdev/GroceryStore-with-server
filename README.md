@@ -44,6 +44,13 @@ The screen contains more than 60 icons and most of all required elements require
 -App Token Authentication
 -For Api integration Please Contact us:- contact@quintuslabs.com
 
+### AdminPanel access
+
+-uplod server file in your server or in xampp/wampp
+- import database
+- http://yourdomain/admin
+- username:-admin
+- password:- admin
 
 ## Screen 
 
