@@ -63,7 +63,7 @@ define("BASE_URL", "http://localhost/app/");
 define("SITE_KEY", 'yourSecretKey');
 ```
 
-- Database file included in Repo. (healthykitchendb.sql)
+- Database file included in Repo. (Server/grocery.sql)
 
 ### App API Requests
 
