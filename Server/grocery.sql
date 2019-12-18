@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 17, 2019 at 01:51 PM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.9
+-- Host: localhost:3306
+-- Generation Time: Dec 18, 2019 at 11:55 AM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `grocery`
+-- Database: `id11971473_grocerystore`
 --
 
 -- --------------------------------------------------------
@@ -132,7 +132,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `fname`, `lname`, `mobile`, `area`, `address`, `status`, `user_id`, `date`, `total`) VALUES
-(17000061, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', 'Pending', '23', '2019-11-14 14:57:32', '470');
+(17000061, 'Santosh', ' ', '9778178337', 'Bhubaneswar', 'Test Address', 'Confirmed', '23', '2019-12-17 14:35:59', '470');
 
 -- --------------------------------------------------------
 
@@ -168,15 +168,15 @@ INSERT INTO `orderslist` (`id`, `orderid`, `itemname`, `itemquantity`, `attribut
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `fname` varchar(100) NOT NULL,
-  `lname` varchar(50) NOT NULL,
-  `area` varchar(100) NOT NULL,
-  `address` text NOT NULL,
-  `state` varchar(100) NOT NULL,
-  `city` varchar(100) NOT NULL,
-  `zip` varchar(11) NOT NULL,
+  `fname` varchar(100) DEFAULT NULL,
+  `lname` varchar(50) DEFAULT NULL,
+  `area` varchar(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `zip` varchar(11) DEFAULT NULL,
   `mobile` varchar(30) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -185,8 +185,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `area`, `address`, `state`, `city`, `zip`, `mobile`, `email`, `password`) VALUES
-(23, 'Santosh', '', '', 'Test Address', 'Odisha', 'Bhubaneswar', '075698', '9778178337', 'Santosh@quintuslabs.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
-(24, 'Test', 'User', '', '', '', '', '', '0123456789', '', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+(26, 'Test', 'User', NULL, NULL, NULL, NULL, NULL, '0123456780', NULL, '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+(27, 'Test', 'User', NULL, NULL, NULL, NULL, NULL, '0123456788', NULL, '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 
 --
 -- Indexes for dumped tables
@@ -278,7 +278,7 @@ ALTER TABLE `orderslist`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
