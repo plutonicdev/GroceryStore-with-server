@@ -30,13 +30,14 @@ $itemdes=$_POST['itemdes'];
 $itemprice=$_POST['itemprice'];
 $discount=$_POST['discount'];
 $attribute=$_POST['attribute'];
+$homepage="NO";
 
 if(move_uploaded_file($file_loc,$folder.$date.".png"))
 	{
 
 		$itemimg=$date.".png";
 	}
-$sql="INSERT INTO items(name,category,description,price,discount,attribute,image) VALUES(:name,:category,:description,:price,:discount,:attribute,:images)";
+$sql="INSERT INTO items(name,category,description,price,discount,attribute,image,homepage) VALUES(:name,:category,:description,:price,:discount,:attribute,:images,:homepage)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':name',$itemname,PDO::PARAM_STR);
 $query->bindParam(':category',$itemcategory,PDO::PARAM_STR);
@@ -45,6 +46,7 @@ $query->bindParam(':price',$itemprice,PDO::PARAM_STR);
 $query->bindParam(':discount',$discount,PDO::PARAM_STR);
 $query->bindParam(':attribute',$attribute,PDO::PARAM_STR);
 $query->bindParam(':images',$itemimg,PDO::PARAM_STR);
+$query->bindParam(':homepage',$homepage,PDO::PARAM_STR);
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
