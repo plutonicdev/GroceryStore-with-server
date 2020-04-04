@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
-    public static final String BASE_URL = "http://192.168.0.100/grocery/";//http://<ipaddress>/directoryname
+    public static final String BASE_URL = "https://megagrocerystore.000webhostapp.com/";//http://<ipaddress>/directoryname
     public static Retrofit RETROFIT = null;
     public static Retrofit RETROFIT1 = null;
     public static RestService restService = null;

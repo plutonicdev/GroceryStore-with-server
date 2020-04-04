@@ -195,9 +195,7 @@ public class MainActivity extends BaseActivity
             case R.id.nav_offers:
                 fragment = new OffrersFragment();
                 break;
-            case R.id.nav_search:
-                //fragment = new CategoryFragment();
-                break;
+
             case R.id.nav_my_order:
                 fragment = new MyOrderFragment();
                 break;

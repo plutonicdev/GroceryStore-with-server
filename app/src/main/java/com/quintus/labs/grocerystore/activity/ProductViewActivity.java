@@ -99,13 +99,13 @@ public class ProductViewActivity extends BaseActivity {
         Log.d(TAG, "Discount : " + _discount);
 
 
-        if (_discount != null || _discount.length() != 0 || _discount != "") {
+        if (_price != null && _price.length() != 0 && _price != "" && _discount != null && _discount.length() != 0 && _discount != "") {
             double M = Double.parseDouble(_price);
             double S = Double.parseDouble(_discount);
             double discount_m = M - S;
             int disPercent = (int) Math.round((discount_m / M) * 100);
 
-            if (disPercent > 0) {
+            if (disPercent > 1) {
                 discount.setText(disPercent + "% OFF");
             } else {
                 discount.setVisibility(View.GONE);

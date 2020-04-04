@@ -85,18 +85,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         cartList = ((BaseActivity) context).getCartList();
         holder.title.setText(product.getName());
 
-        if (product.getPrice() != null || product.getPrice().length() != 0 || product.getPrice() != "") {
+        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0  ) {
 
             double M = Double.parseDouble(product.getPrice());
             double S = Double.parseDouble(product.getDiscount());
             double discount = M - S;
+
             int disPercent = (int) Math.round((discount / M) * 100);
 
-            if (disPercent > 0) {
+            if (disPercent > 1) {
                 holder.offer.setText(disPercent + "% OFF");
             } else {
                 holder.offer.setVisibility(View.GONE);
             }
+
         } else {
             holder.offer.setVisibility(View.GONE);
         }

@@ -20,7 +20,10 @@
     <group
         android:id="@+id/nav_communication_group1"
         android:checkableBehavior="single">
-
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_options"
+            android:title="Category" />
         <item
             android:id="@+id/nav_offers"
             android:icon="@drawable/ic_discount"
@@ -36,18 +39,7 @@
     </group>
 
 
-    <group
-        android:id="@+id/nav_communication_group2"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_category"
-            android:icon="@drawable/ic_options"
-            android:title="Category" />
-        <item
-            android:id="@+id/nav_search"
-            android:icon="@drawable/ic_search_black_24dp"
-            android:title="Search" />
-    </group>
+
 
 
     <group
