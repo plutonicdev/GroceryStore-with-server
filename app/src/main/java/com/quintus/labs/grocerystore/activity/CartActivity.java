@@ -144,6 +144,14 @@ public class CartActivity extends BaseActivity {
         return myQuittingDialogBox;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(CartActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        finish();
+    }
 
     private void changeActionBarTitle(ActionBar actionBar) {
         // Create a LayoutParams for TextView
