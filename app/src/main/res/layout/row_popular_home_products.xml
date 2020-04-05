@@ -54,13 +54,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
-                android:text="Food"
+                android:gravity="center"
                 android:lines="2"
                 android:maxLines="2"
-                android:gravity="center"
+                android:text="Food"
                 android:textColor="@color/colorAccent"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textSize="14dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

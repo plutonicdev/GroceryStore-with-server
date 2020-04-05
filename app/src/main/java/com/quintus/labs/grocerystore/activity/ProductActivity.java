@@ -50,7 +50,7 @@ import retrofit2.Response;
 public class ProductActivity extends BaseActivity {
     private static int cart_count = 0;
     Data data;
-    ProductAdapter mAdapter;
+
     String Tag = "List";
     View progress;
     LocalStorage localStorage;
@@ -60,6 +60,7 @@ public class ProductActivity extends BaseActivity {
     String categoryName;
     Category category;
     List<Product> productList = new ArrayList<>();
+    ProductAdapter mAdapter;
     private RecyclerView recyclerView;
 
     @SuppressLint("ResourceAsColor")

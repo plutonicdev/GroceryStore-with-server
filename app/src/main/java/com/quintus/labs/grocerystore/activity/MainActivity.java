@@ -4,27 +4,36 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.adapter.SearchAdapter;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.fragment.CategoryFragment;
 import com.quintus.labs.grocerystore.fragment.HomeFragment;
 import com.quintus.labs.grocerystore.fragment.MyOrderFragment;
@@ -33,10 +42,17 @@ import com.quintus.labs.grocerystore.fragment.OffrersFragment;
 import com.quintus.labs.grocerystore.fragment.PopularProductFragment;
 import com.quintus.labs.grocerystore.fragment.ProfileFragment;
 import com.quintus.labs.grocerystore.helper.Converter;
+import com.quintus.labs.grocerystore.model.Product;
+import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -48,6 +64,9 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int cart_count = 0;
     User user;
+    List<Product> productList = new ArrayList<>();
+    SearchAdapter mAdapter;
+    private RecyclerView recyclerView;
 
     @SuppressLint("ResourceAsColor")
     static void centerToolbarTitle(@NonNull final Toolbar toolbar) {
@@ -96,8 +115,95 @@ public class MainActivity extends BaseActivity
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem menuItem = menu.findItem(R.id.cart_action);
         menuItem.setIcon(Converter.convertLayoutToImage(MainActivity.this, cart_count, R.drawable.ic_shopping_basket));
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        searchView.setQueryHint("Search Here...");
+        EditText searchBox = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchBox.setTextColor(Color.BLACK);
+        searchBox.setHintTextColor(Color.GRAY);
+        searchView.setIconifiedByDefault(true);
+        ImageView searchClose = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        searchClose.setImageResource(R.drawable.ic_close_black_24dp);
+
+        if (searchView != null) {
+            final SearchView finalSearchView = searchView;
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // Toast like print
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                    if (s.length() == 0) {
+                        recyclerView.setVisibility(View.GONE);
+                        productList = new ArrayList<>();
+                    } else {
+                        getSearchProduct(s);
+                    }
+
+                    return true;
+                }
+            });
+        }
+
+
+
 
         return true;
+    }
+
+    private void getSearchProduct(String query) {
+        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
+        call.enqueue(new Callback<ProductResult>() {
+            @Override
+            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    ProductResult productResult = response.body();
+                    if (productResult.getCode() == 200) {
+
+                        productList = productResult.getProductList();
+                        setUpRecyclerView();
+
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResult> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+
+
+            }
+        });
+
+    }
+
+    private void setUpRecyclerView() {
+        if (productList.size() > 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+        }
+
+        mAdapter = new SearchAdapter(productList, MainActivity.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -124,6 +230,7 @@ public class MainActivity extends BaseActivity
         cart_count = cartCount();
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        recyclerView = findViewById(R.id.search_recycler_view);
         fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

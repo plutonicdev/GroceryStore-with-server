@@ -13,7 +13,9 @@ import com.quintus.labs.grocerystore.model.UserResult;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * RetrofitExample
@@ -50,6 +52,9 @@ public interface RestService {
 
     @POST("api/v1/updateUser")
     Call<UserResult> updateUser(@Body User user);
+
+    @GET("api/v1/product/search")
+    Call<ProductResult> searchProduct(@Query("s") String search);
 
 
 }
