@@ -6,8 +6,8 @@
 
 * [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin
 
-- username:-admin
-- password:- admin
+- username/password:- Please Contact us for admin panel :- contact@quintuslabs.com
+
 
 
 
