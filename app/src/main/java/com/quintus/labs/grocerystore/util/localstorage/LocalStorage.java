@@ -12,7 +12,7 @@ import android.content.SharedPreferences.Editor;
  */
 public class LocalStorage {
 
-
+    private static final String KEY_FIREBASE_TOKEN = "firebaseToken";
     public static final String KEY_USER = "User";
     public static final String KEY_USER_ADDRESS = "user_address";
 
@@ -117,6 +117,17 @@ public class LocalStorage {
     public void deleteOrder() {
         Editor editor = sharedPreferences.edit();
         editor.remove("ORDER");
+        editor.commit();
+    }
+
+
+    public String getFirebaseToken() {
+        return sharedPreferences.getString(KEY_FIREBASE_TOKEN, null);
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        editor = sharedPreferences.edit();
+        editor.putString(KEY_FIREBASE_TOKEN, firebaseToken);
         editor.commit();
     }
 
