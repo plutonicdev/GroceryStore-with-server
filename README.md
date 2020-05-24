@@ -2,7 +2,7 @@
 
 * [GroceryStore](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/GroceryStore2.0.apk) - Download APK
 
-* [GroceryStore](https://megagrocerystore.000webhostapp.com/) - Grocery Store Website
+* [GroceryStore](https://megagrocerystore.000webhostapp.com/) - Grocery Store Website (Demo)
 
 * [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin
 
