@@ -55,6 +55,4 @@ public interface RestService {
 
     @GET("api/v1/product/search")
     Call<ProductResult> searchProduct(@Query("s") String search);
-
-
 }

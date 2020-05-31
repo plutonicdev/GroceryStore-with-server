@@ -2,11 +2,12 @@
 
 * [GroceryStore](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/GroceryStore2.0.apk) - Download APK
 
-* [GroceryStore](https://megagrocerystore.000webhostapp.com/) - Grocery Store Website
+* [GroceryStore](https://megagrocerystore.000webhostapp.com/) - Grocery Store Website (Demo)
 
-* [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin
+* [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin (Demo)
 
-- username/password:- Please Contact us for admin panel :- contact@quintuslabs.com
+- username/password for Admin Demo :- admin/Admin@2020
+- For Backend API & Admin pane source code send email to contact[at]quintuslabs.com
 
 
 
@@ -53,13 +54,6 @@ The screen contains more than 60 icons and most of all required elements require
 -App Token Authentication
 -For Api integration Please Contact us:- contact@quintuslabs.com
 
-### AdminPanel access
-
--uplod server file in your server or in xampp/wampp
-- import database
-- http://yourdomain/admin
-- username:-admin
-- password:- admin
 
 ## Screen 
 
