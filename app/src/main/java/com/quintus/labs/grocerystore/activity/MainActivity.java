@@ -94,8 +94,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-
-
     /*public void toggleCommunicationGroup(View button) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         MenuItem group = navigationView.getMenu().findItem(R.id.nav_communication_group);
@@ -111,12 +109,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem menuItem = menu.findItem(R.id.cart_action);
         menuItem.setIcon(Converter.convertLayoutToImage(MainActivity.this, cart_count, R.drawable.ic_shopping_basket));
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-
 
         SearchView searchView = null;
         if (searchItem != null) {
@@ -154,9 +152,6 @@ public class MainActivity extends BaseActivity
             });
         }
 
-
-
-
         return true;
     }
 
@@ -173,22 +168,15 @@ public class MainActivity extends BaseActivity
 
                         productList = productResult.getProductList();
                         setUpRecyclerView();
-
                     }
-
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<ProductResult> call, Throwable t) {
                 Log.d("Error", t.getMessage());
-
-
             }
         });
-
     }
 
     private void setUpRecyclerView() {
@@ -203,7 +191,6 @@ public class MainActivity extends BaseActivity
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -215,9 +202,7 @@ public class MainActivity extends BaseActivity
                 return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
-
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -239,7 +224,6 @@ public class MainActivity extends BaseActivity
                         .setAction("Action", null).show();
             }
         });
-
 
         localStorage = new LocalStorage(getApplicationContext());
         String userString = localStorage.getUserLogin();
@@ -310,8 +294,6 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(getApplicationContext(), CartActivity.class));
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 break;
-
-
         }
 
         //replacing the fragment
@@ -320,7 +302,6 @@ public class MainActivity extends BaseActivity
             ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -348,6 +329,4 @@ public class MainActivity extends BaseActivity
     public void onRemoveProduct() {
         super.onRemoveProduct();
     }
-
-
 }
