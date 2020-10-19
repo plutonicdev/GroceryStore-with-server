@@ -55,7 +55,9 @@ All the code used, are well organized and layered to make the development precis
 - Redis Caching.
 - Solr Search.
 - Analytics and advanced dashboard.
- 
+
+**_For upcoming premium features Contact us:- contact@quintuslabs.com_**  
+
 
 * [GroceryStore](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/GroceryStore2.1.apk) - Download APK
 
