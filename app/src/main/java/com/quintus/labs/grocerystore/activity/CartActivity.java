@@ -69,10 +69,7 @@ public class CartActivity extends BaseActivity {
         totalPrice = findViewById(R.id.total_price);
         totalPrice.setText("Rs. " + getTotalPrice() + "");
         setUpCartRecyclerview();
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,14 +127,12 @@ public class CartActivity extends BaseActivity {
                         invalidateOptionsMenu();
                         dialog.dismiss();
                     }
-
                 })
 
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         dialog.dismiss();
-
                     }
                 })
                 .create();
@@ -177,7 +172,6 @@ public class CartActivity extends BaseActivity {
         actionBar.setCustomView(tv);
     }
 
-
     private void setUpCartRecyclerview() {
         cartList = new ArrayList<>();
         cartList = getCartList();
@@ -195,12 +189,10 @@ public class CartActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
     }
 
-
     public void onCheckoutClicked(View view) {
 
         startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
     }
-
 
     @Override
     public void updateTotalPrice() {
@@ -213,5 +205,4 @@ public class CartActivity extends BaseActivity {
             checkoutLL.setVisibility(View.GONE);
         }
     }
-
 }
