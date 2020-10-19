@@ -49,6 +49,7 @@ All the code used, are well organized and layered to make the development precis
 - OpenAPI support.
 - Web store front end using React & Redux.
 
+
 **_For premium features Contact us:- contact@quintuslabs.com_** 
 
 **Upcoming Premium Paid Features**
@@ -57,6 +58,9 @@ All the code used, are well organized and layered to make the development precis
 - Inventory and stock tracking.
 - Redis Caching.
 - Solr Search.
+- Mobile analytics.
+- Google Analytics.
+- SEO integration.
 
 
 
@@ -74,15 +78,6 @@ All the code used, are well organized and layered to make the development precis
 
 * [GroceryStor-Android-Ios](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/grocerystore-reactnative.png) - Grocery Store ReactNative (Demo)
 
-
-
-## Screen (Content)
-```
-The screen contains more than 60 icons and most of all required elements required to design an application like this.I News UI  KIT in 20+ screen available in this kit.
-   The XML and JAVA files contains comments at each and every point for easy understanding.
-   Everything was made with a detail oriented style and followed by today's web trends. Clean coded & Layers are well-organized, carefully named, and grouped.
-
-```
 
 ## Screen 
 
