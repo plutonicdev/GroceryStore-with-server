@@ -1,4 +1,4 @@
-<a href="https://github.com/quintuslabs/GroceryStore"><img src="screen/logo.png" height="150px" width="150px" title="Grocery" alt="Grocery Store"></a>
+<center><a href="https://github.com/quintuslabs/GroceryStore"><img src="screen/logo.png" height="150px" width="150px" title="Grocery" alt="Grocery Store"></a></center>
 # Grocery Store
 Grocery Store App, is an online shopping cart application. This is a geniune and native mobile application to which you can rely on, specially when you want to get it done quickly. 
 It comprises of 10+ screens with different features to make the navigate smooth & user-friendly.
@@ -35,6 +35,7 @@ All the code used, are well organized and layered to make the development precis
 
 **Premium Paid Features**
 - Python django backend.
+- android & ios support.
 - Better looking brand new dashboard.
 - Customized advertisement & promotional banners.
 - Payment Gateway Integration.
@@ -48,6 +49,12 @@ All the code used, are well organized and layered to make the development precis
 - OpenAPI support.
 
 **_For premium features Contact us:- contact@quintuslabs.com_** 
+
+**Upcoming Premium Paid Features**
+- Web store front end using React & Redux.
+- Redis Caching.
+- Solr Search.
+- Analytics and advanced dashboard.
  
 
 * [GroceryStore](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/GroceryStore2.1.apk) - Download APK
