@@ -30,6 +30,7 @@ All the code used, are well organized and layered to make the development precis
 - Manage Customers.
 - Token Based Authentication.
 - Only COD and offline payment support.
+
 **_For Api integration Please Contact us:- contact@quintuslabs.com_**
 
 **Premium Paid Features**
@@ -44,6 +45,8 @@ All the code used, are well organized and layered to make the development precis
 - Manage payment
 - OTP based authentication.
 - Push notification support.
+- OpenAPI support.
+
 **_For premium features Contact us:- contact@quintuslabs.com_** 
  
 
