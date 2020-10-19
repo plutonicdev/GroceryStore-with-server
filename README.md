@@ -74,9 +74,10 @@ All the code used, are well organized and layered to make the development precis
 * [GroceryStoreAdmin](https://megagrocerystore.000webhostapp.com/admin/) - Grocery Store Admin (Demo)
 
 - username/password for Admin Demo :- admin/Admin@2020
-- For Backend API & Admin pane source code send email to contact[at]quintuslabs.com
 
-* [GroceryStor-Android-Ios](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/grocerystore-reactnative.png) - Grocery Store ReactNative (Demo)
+- For Backend API & Admin panel source code send email to contact[at]quintuslabs.com
+
+* [GroceryStore-Android-Ios](https://github.com/quintuslabs/GroceryStore-with-server/blob/master/grocerystore-reactnative.png) - Grocery Store ReactNative (Demo)
 
 
 ## Screen 
