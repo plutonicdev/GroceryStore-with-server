@@ -4,23 +4,29 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
-import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.util.NotificationHelper;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -32,8 +38,12 @@ public class ForgotPassword_Fragment extends Fragment implements
         OnClickListener {
     private static View view;
 
-    private static EditText emailId;
-    private static TextView submit, back;
+    private static EditText mobile, password, confirm_password, code;
+    private static TextView submit, back, reset, resend;
+    FrameLayout forgot_password_FL, reset_password_FL;
+    View progress;
+    Gson gson = new Gson();
+    User user;
 
     public ForgotPassword_Fragment() {
 
@@ -51,9 +61,18 @@ public class ForgotPassword_Fragment extends Fragment implements
 
     // Initialize the views
     private void initViews() {
-        emailId = view.findViewById(R.id.registered_emailid);
+        mobile = view.findViewById(R.id.registered_mobile);
         submit = view.findViewById(R.id.forgot_button);
         back = view.findViewById(R.id.backToLoginBtn);
+        forgot_password_FL = view.findViewById(R.id.forgot_passwordFL);
+        reset_password_FL = view.findViewById(R.id.reset_password_FL);
+        password = view.findViewById(R.id.passsword_text);
+        confirm_password = view.findViewById(R.id.conf_passsword_text);
+        code = view.findViewById(R.id.otp_text);
+        reset = view.findViewById(R.id.reset_button);
+        resend = view.findViewById(R.id.resend_button);
+        reset_password_FL = view.findViewById(R.id.reset_password_FL);
+        progress = view.findViewById(R.id.progress_bar);
 
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
@@ -73,6 +92,8 @@ public class ForgotPassword_Fragment extends Fragment implements
     private void setListeners() {
         back.setOnClickListener(this);
         submit.setOnClickListener(this);
+        reset.setOnClickListener(this);
+        resend.setOnClickListener(this);
     }
 
     @Override
@@ -85,38 +106,129 @@ public class ForgotPassword_Fragment extends Fragment implements
                 break;
 
             case R.id.forgot_button:
-
                 // Call Submit button task
                 submitButtonTask();
+                break;
+            case R.id.reset_button:
+                // Call Submit button task
+                resetButtonTask();
+                break;
+            case R.id.resend_button:
+                // Call Submit button task
+                forgotPassword();
                 break;
 
         }
 
     }
 
+    private void resetButtonTask() {
+        String getOtp = code.getText().toString();
+        String getPassword = password.getText().toString();
+        String getConfPassword = confirm_password.getText().toString();
+        if (getOtp.equalsIgnoreCase("") || getOtp.length() == 0 || getOtp.length() < 6) {
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Please enter your valid Code");
+        } else if (getPassword.equalsIgnoreCase("") || getPassword.length() == 0 || getPassword.length() < 8) {
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Please enter your valid password");
+        } else if (getConfPassword.equalsIgnoreCase("") || getConfPassword.length() == 0 || getConfPassword.length() < 8) {
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Please enter your valid confirm password");
+        } else if (!getConfPassword.equalsIgnoreCase(getPassword)) {
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Password and confirm password doesn't match");
+        } else {
+            user.setReset_code(getOtp);
+            user.setPassword(getPassword);
+            resetPassword();
+        }
+
+    }
+
+    private void resetPassword() {
+        showProgressDialog();
+        Call<UserResult> call = RestClient.getRestService(getContext()).resetPassword(user);
+        call.enqueue(new Callback<UserResult>() {
+            @Override
+            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    UserResult userResult = response.body();
+                    if (userResult != null && userResult.getCode() == 200) {
+                        new LoginRegisterActivity().replaceLoginFragment();
+                    } else {
+                        new CustomToast().Show_Toast(getActivity(), view,
+                                "Please try again");
+                    }
+                } else {
+                    new CustomToast().Show_Toast(getActivity(), view,
+                            "Please enter your valid Code");
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<UserResult> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+    }
+
+
     private void submitButtonTask() {
-        String getEmailId = emailId.getText().toString();
-
-        // Pattern for email id validation
-        Pattern p = Pattern.compile(Utils.regEx);
-
-        // Match the pattern
-        Matcher m = p.matcher(getEmailId);
-
-        // First check if email id is not null else show error toast
-        if (getEmailId.equals("") || getEmailId.length() == 0)
+        String getMobile = mobile.getText().toString();
+        if (getMobile.equals("") || getMobile.length() == 0 || getMobile.length() < 10) {
 
             new CustomToast().Show_Toast(getActivity(), view,
-                    "Please enter your Email Id.");
+                    "Please enter your Mobile Number");
+        } else {
+            user = new User();
+            user.setMobile(getMobile);
+            forgotPassword();
+        }
+    }
 
-            // Check if email id is valid or not
-        else if (!m.find())
-            new CustomToast().Show_Toast(getActivity(), view,
-                    "Your Email Id is Invalid.");
+    private void forgotPassword() {
+        showProgressDialog();
+        Call<UserResult> call = RestClient.getRestService(getContext()).forgotPassword(user);
+        call.enqueue(new Callback<UserResult>() {
+            @Override
+            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    UserResult userResult = response.body();
+                    if (userResult != null && userResult.getCode() == 200) {
+                        String userString = gson.toJson(userResult.getUser());
+                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
+                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
+                        reset_password_FL.setVisibility(View.VISIBLE);
+                        forgot_password_FL.setVisibility(View.GONE);
+                    } else {
+                        new CustomToast().Show_Toast(getActivity(), view,
+                                "Please enter your valid mobile number");
+                    }
+                }
+                hideProgressDialog();
+            }
 
-            // Else submit email id and fetch passwod or do your stuff
-        else
-            Toast.makeText(getActivity(), "Get Forgot Password.",
-                    Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<UserResult> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+    }
+
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
     }
 }

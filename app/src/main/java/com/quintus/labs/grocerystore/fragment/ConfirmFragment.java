@@ -63,7 +63,7 @@ public class ConfirmFragment extends Fragment {
     List<Order> orderList = new ArrayList<>();
     List<OrderItem> orderItemList = new ArrayList<>();
     PlaceOrder confirmOrder;
-    String orderNo;
+    String orderNo, address;
     String id;
     OrderItem orderItem = new OrderItem();
 
@@ -91,7 +91,7 @@ public class ConfirmFragment extends Fragment {
         orderList = ((BaseActivity) getActivity()).getOrderList();
         cartList = ((BaseActivity) getContext()).getCartList();
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-
+        address = user.getAddress() + "," + user.getCity() + "," + user.getState() + "," + user.getZip();
 
         for (int i = 0; i < cartList.size(); i++) {
 
@@ -99,7 +99,7 @@ public class ConfirmFragment extends Fragment {
             orderItemList.add(orderItem);
         }
 
-        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), user.getAddress(), user.getId(), orderItemList);
+        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), address, user.getId(), orderItemList);
 
 
         _total = ((BaseActivity) getActivity()).getTotalPrice();

@@ -7,8 +7,8 @@
 
     <gradient
         android:angle="180"
-        android:endColor="#FC5952"
-        android:startColor="#FC5952"
+        android:endColor="@color/colorPrimaryDark"
+        android:startColor="@color/colorPrimaryDark"
         android:type="linear" />
     <corners android:radius="5dp" />
     <stroke

@@ -19,21 +19,25 @@ public class User {
     String city;
     String zip;
     String token;
+    String reset_code;
+    String firebase_token;
 
 
     public User() {
     }
 
-    public User(String fname, String lname, String mobile, String password) {
+    public User(String fname, String lname, String mobile, String password, String firebase_token) {
         this.fname = fname;
         this.lname = lname;
         this.mobile = mobile;
         this.password = password;
+        this.firebase_token = firebase_token;
     }
 
-    public User(String mobile, String password) {
+    public User(String mobile, String password, String firebase_token) {
         this.mobile = mobile;
         this.password = password;
+        this.firebase_token = firebase_token;
     }
 
     public User(String id, String fname, String mobile, String email, String address, String state, String city, String zip, String token) {
@@ -142,5 +146,21 @@ public class User {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getReset_code() {
+        return reset_code;
+    }
+
+    public void setReset_code(String reset_code) {
+        this.reset_code = reset_code;
+    }
+
+    public String getFirebase_token() {
+        return firebase_token;
+    }
+
+    public void setFirebase_token(String firebase_token) {
+        this.firebase_token = firebase_token;
     }
 }

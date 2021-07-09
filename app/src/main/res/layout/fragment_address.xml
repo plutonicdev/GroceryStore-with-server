@@ -39,7 +39,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_placeholder" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adderss"
@@ -59,7 +59,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_credit_card_unselect" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Payment"
@@ -79,7 +79,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_confirm_unselect" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Confirm"
@@ -120,7 +120,7 @@
 
                         <EditText
                             android:id="@+id/sa_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
@@ -155,7 +155,7 @@
 
                         <EditText
                             android:id="@+id/sa_email"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
@@ -190,7 +190,7 @@
 
                         <EditText
                             android:id="@+id/sa_mobile"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
@@ -305,7 +305,7 @@
 
                                 <EditText
                                     android:id="@+id/sa_zip"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginTop="5dp"

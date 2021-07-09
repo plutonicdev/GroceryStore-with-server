@@ -59,6 +59,7 @@
             android:padding="7dp"
             android:text="All Category"
             android:textSize="14dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

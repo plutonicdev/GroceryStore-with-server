@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        >
 
         <androidx.cardview.widget.CardView
             android:layout_width="100dp"
@@ -32,7 +33,7 @@
         </androidx.cardview.widget.CardView>
 
 
-        <com.quintus.labs.grocerystore.customfonts.MyTextViewOleoScriptBold
+        <com.quintus.labs.grocerystore.customfonts.TextViewBold
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
@@ -63,7 +64,7 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textColorHint="@color/yellow"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +91,7 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textColorHint="@color/yellow"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,7 +117,7 @@
                 android:textSize="14sp"
                 android:visibility="gone" />
 
-            <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+            <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                 android:id="@+id/forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,7 +142,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <com.quintus.labs.grocerystore.customfonts.MyTextView
+    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
         android:id="@+id/createAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

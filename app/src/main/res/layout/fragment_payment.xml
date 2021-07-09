@@ -39,7 +39,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_placeholder_select" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adderss"
@@ -59,7 +59,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_credit_card" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Payment"
@@ -80,7 +80,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_confirm_unselect" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Confirm"
@@ -106,14 +106,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:checked="true"
+                android:checked="false"
+                android:enabled="false"
                 android:text="CARD PAYMENT" />
 
             <RadioButton
                 android:id="@+id/cash_on_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="CAH ON DELIVERY" />
 
         </RadioGroup>
@@ -141,7 +142,7 @@
                         android:orientation="vertical">
 
 
-                        <com.quintus.labs.grocerystore.customfonts.MyTextView
+                        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
@@ -149,131 +150,139 @@
                             android:textColor="@color/lightgrey"
                             android:textSize="@dimen/text" />
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="horizontal">
+                            android:text="Online Payment Not Available"
+                            android:textAlignment="center"
+                            android:textColor="#474747"
+                            android:textSize="25dp" />
+
+                        <!-- <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:orientation="horizontal">
 
 
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:backgroundTint="@color/lightgrey" />
+                             <RadioButton
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginLeft="16dp"
+                                 android:backgroundTint="@color/lightgrey" />
 
-                            <com.quintus.labs.grocerystore.customfonts.MyTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="16dp"
-                                android:layout_weight="1"
-                                android:text="4543   34**   ****   3376" />
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@drawable/bg_ccv"
-                                android:padding="5dp">
-
-                                <com.quintus.labs.grocerystore.customfonts.MyEditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="#00000000"
-                                    android:hint="CCV"
-                                    android:inputType="number"
-                                    android:maxLength="3"
-                                    android:paddingLeft="5dp"
-                                    android:paddingRight="5dp"
-                                    android:textColor="@color/text"
-                                    android:textColorHint="@color/lightgrey"
-                                    android:textSize="11dp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="16dp"
-                                android:layout_weight="1.9"
-                                android:gravity="right">
-
-                                <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="22dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/visa"
-
-                                    />
-                            </LinearLayout>
+                             <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:layout_marginLeft="16dp"
+                                 android:layout_weight="1"
+                                 android:text="4543   34**   ****   3376" />
 
 
-                        </LinearLayout>
+                             <LinearLayout
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:background="@drawable/bg_ccv"
+                                 android:padding="5dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="horizontal">
+                                 <com.quintus.labs.grocerystore.customfonts.EditTextRegular
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:background="#00000000"
+                                     android:hint="CCV"
+                                     android:inputType="number"
+                                     android:maxLength="3"
+                                     android:paddingLeft="5dp"
+                                     android:paddingRight="5dp"
+                                     android:textColor="@color/text"
+                                     android:textColorHint="@color/lightgrey"
+                                     android:textSize="11dp" />
+                             </LinearLayout>
 
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp" />
+                             <LinearLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:layout_marginRight="16dp"
+                                 android:layout_weight="1.9"
+                                 android:gravity="right">
 
-                            <com.quintus.labs.grocerystore.customfonts.MyTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="16dp"
-                                android:layout_weight="1"
+                                 <ImageView
+                                     android:layout_width="35dp"
+                                     android:layout_height="22dp"
+                                     android:layout_gravity="center"
+                                     android:src="@drawable/visa"
 
-                                android:text="3376   34**   ****   4333" />
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@drawable/bg_ccv"
-                                android:padding="5dp">
-
-                                <com.quintus.labs.grocerystore.customfonts.MyEditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="#00000000"
-                                    android:hint="CCV"
-                                    android:inputType="number"
-                                    android:maxLength="3"
-                                    android:paddingLeft="5dp"
-                                    android:paddingRight="5dp"
-                                    android:textColor="@color/text"
-                                    android:textColorHint="@color/lightgrey"
-                                    android:textSize="11dp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="16dp"
-                                android:layout_weight="1.9"
-                                android:gravity="right">
-
-                                <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="22dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/master"
-
-                                    />
-                            </LinearLayout>
+                                     />
+                             </LinearLayout>
 
 
-                        </LinearLayout>
+                         </LinearLayout>-->
 
+                        <!-- <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:orientation="horizontal">
+
+                             <RadioButton
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginLeft="16dp" />
+
+                             <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:layout_marginLeft="16dp"
+                                 android:layout_weight="1"
+
+                                 android:text="3376   34**   ****   4333" />
+
+
+                             <LinearLayout
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:background="@drawable/bg_ccv"
+                                 android:padding="5dp">
+
+                                 <com.quintus.labs.grocerystore.customfonts.EditTextRegular
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:background="#00000000"
+                                     android:hint="CCV"
+                                     android:inputType="number"
+                                     android:maxLength="3"
+                                     android:paddingLeft="5dp"
+                                     android:paddingRight="5dp"
+                                     android:textColor="@color/text"
+                                     android:textColorHint="@color/lightgrey"
+                                     android:textSize="11dp" />
+                             </LinearLayout>
+
+                             <LinearLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_gravity="center"
+                                 android:layout_marginRight="16dp"
+                                 android:layout_weight="1.9"
+                                 android:gravity="right">
+
+                                 <ImageView
+                                     android:layout_width="35dp"
+                                     android:layout_height="22dp"
+                                     android:layout_gravity="center"
+                                     android:src="@drawable/master"
+
+                                     />
+                             </LinearLayout>
+
+
+                         </LinearLayout>
+ -->
 
                         <View
                             android:layout_width="match_parent"
@@ -284,7 +293,7 @@
                             android:background="@color/lightgrey"></View>
 
 
-                        <com.quintus.labs.grocerystore.customfonts.MyTextView
+                        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
@@ -304,7 +313,7 @@
                             android:padding="13dp">
 
 
-                            <com.quintus.labs.grocerystore.customfonts.MyEditText
+                            <com.quintus.labs.grocerystore.customfonts.EditTextRegular
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -312,6 +321,7 @@
                                 android:background="#00000000"
                                 android:focusable="true"
                                 android:hint="CARD NUMBER"
+                                android:enabled="false"
                                 android:inputType="number"
                                 android:lines="1"
                                 android:maxLength="20"
@@ -347,7 +357,7 @@
                             android:padding="14dp">
 
 
-                            <com.quintus.labs.grocerystore.customfonts.MyEditText
+                            <com.quintus.labs.grocerystore.customfonts.EditTextRegular
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -355,6 +365,7 @@
                                 android:background="#00000000"
                                 android:focusable="true"
                                 android:hint=" NAME ON CARD"
+                                android:enabled="false"
                                 android:lines="1"
                                 android:maxLength="25"
                                 android:paddingLeft="5dp"
@@ -385,7 +396,7 @@
                                 android:padding="14dp">
 
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextView
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -394,13 +405,14 @@
                                     android:textColor="@color/lightgrey"
                                     android:textSize="@dimen/sub_text" />
 
-                                <com.quintus.labs.grocerystore.customfonts.MyEditText
+                                <com.quintus.labs.grocerystore.customfonts.EditTextRegular
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="1"
                                     android:background="#00000000"
                                     android:lines="1"
+                                    android:enabled="false"
                                     android:maxLength="5"
                                     android:paddingLeft="5dp"
                                     android:paddingRight="5dp"
@@ -423,7 +435,7 @@
                                 android:padding="14dp">
 
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextView
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -433,11 +445,12 @@
                                     android:textColor="@color/lightgrey"
                                     android:textSize="@dimen/sub_text" />
 
-                                <com.quintus.labs.grocerystore.customfonts.MyEditText
+                                <com.quintus.labs.grocerystore.customfonts.EditTextRegular
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="1"
+                                    android:enabled="false"
                                     android:background="#00000000"
                                     android:inputType="number"
                                     android:lines="1"
@@ -465,7 +478,7 @@
                             android:padding="14dp">
 
 
-                            <com.quintus.labs.grocerystore.customfonts.MyTextView
+                            <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                 android:id="@+id/total_pay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

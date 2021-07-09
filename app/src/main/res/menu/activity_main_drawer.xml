@@ -39,9 +39,6 @@
     </group>
 
 
-
-
-
     <group
         android:id="@+id/nav_communication_group3"
         android:checkableBehavior="single">

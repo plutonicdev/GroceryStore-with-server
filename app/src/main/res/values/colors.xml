@@ -5,9 +5,9 @@
    * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
    -->
 <resources>
-    <color name="colorPrimary">#FA5258</color>
-    <color name="colorPrimaryDark">#FAD23C</color>
-    <color name="colorAccent">#ff009688</color>
+    <color name="colorPrimary">#f9a825</color>
+    <color name="colorPrimaryDark">#f9a825</color>
+    <color name="colorAccent">#F37C15</color>
     <color name="red_400">#FC5952</color>
     <color name="yellow_400">#E8CA54</color>
     <color name="white">#FFFFFF</color>

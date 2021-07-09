@@ -151,7 +151,7 @@ public class AddressFragment extends Fragment {
         return v;
     }
 
-    private void saveUserAddress(User userAddress) {
+    private void saveUserAddress(final User userAddress) {
 
         Call<UserResult> call = RestClient.getRestService(getContext()).updateUser(userAddress);
         call.enqueue(new Callback<UserResult>() {
@@ -162,6 +162,13 @@ public class AddressFragment extends Fragment {
 
                     UserResult userResult = response.body();
                     if (userResult.getCode() == 200) {
+                        user.setAddress(userAddress.getAddress());
+                        user.setState(userAddress.getState());
+                        user.setCity(userAddress.getCity());
+                        user.setZip(userAddress.getZip());
+                        user.setZip(userAddress.getZip());
+                        userString = gson.toJson(user);
+                        localStorage.createUserLoginSession(userString);
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);

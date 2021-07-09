@@ -2,6 +2,7 @@ package com.quintus.labs.grocerystore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,15 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
         holder.quantity.setText("1");
 
         holder.title.setText(product.getName());
-        holder.price.setText(product.getPrice());
+        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+            holder.price.setText(product.getDiscount());
+            holder.org_price.setText(product.getPrice());
+            holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        } else {
+            holder.price.setText(product.getPrice());
+            holder.org_price.setVisibility(View.GONE);
+        }
         holder.currency.setText(product.getCurrency());
         holder.attribute.setText(product.getAttribute());
         Log.d(TAG, Utils.ProductImage + product.getImage());
@@ -119,7 +128,11 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             public void onClick(View v) {
                 holder.shopNow.setVisibility(View.GONE);
                 holder.quantity_ll.setVisibility(View.VISIBLE);
-                _price = product.getPrice();
+                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+                    _price = product.getDiscount();
+                } else {
+                    _price = product.getPrice();
+                }
                 _quantity = holder.quantity.getText().toString();
                 _attribute = product.getAttribute();
                 _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
@@ -227,7 +240,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView title, attribute, currency, price, shopNow;
+        TextView title, attribute, currency, price, org_price, shopNow;
         ProgressBar progressBar;
         LinearLayout quantity_ll;
         TextView plus, minus, quantity;
@@ -240,6 +253,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             title = itemView.findViewById(R.id.product_title);
             attribute = itemView.findViewById(R.id.product_attribute);
             price = itemView.findViewById(R.id.product_price);
+            org_price = itemView.findViewById(R.id.original_price);
             currency = itemView.findViewById(R.id.product_currency);
             shopNow = itemView.findViewById(R.id.shop_now);
             progressBar = itemView.findViewById(R.id.progressbar);

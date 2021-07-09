@@ -2,6 +2,7 @@ package com.quintus.labs.grocerystore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         cartList = ((BaseActivity) context).getCartList();
         holder.title.setText(product.getName());
 
-        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0  ) {
+        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0) {
 
             double M = Double.parseDouble(product.getPrice());
             double S = Double.parseDouble(product.getDiscount());
@@ -102,11 +103,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         } else {
             holder.offer.setVisibility(View.GONE);
         }
-
-
         holder.attribute.setText(product.getAttribute());
         holder.currency.setText(product.getCurrency());
-        holder.price.setText(product.getPrice());
+        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+            holder.price.setText(product.getDiscount());
+            holder.org_price.setText(product.getPrice());
+            holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        } else {
+            holder.price.setText(product.getPrice());
+            holder.org_price.setVisibility(View.GONE);
+        }
+
         Picasso.get()
                 .load(Utils.ProductImage + product.getImage())
                 .into(holder.imageView, new Callback() {
@@ -133,7 +141,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     holder.subTotal.setVisibility(View.VISIBLE);
                     holder.quantity.setText(cartList.get(i).getQuantity());
                     _quantity = cartList.get(i).getQuantity();
-                    _price = product.getPrice();
+                    if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+                        _price = product.getDiscount();
+                    } else {
+                        _price = product.getPrice();
+                    }
+
                     _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
                     holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
                     Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
@@ -220,7 +233,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 holder.subTotal.setVisibility(View.VISIBLE);
 
 
-                _price = product.getPrice();
+                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+                    _price = product.getDiscount();
+                } else {
+                    _price = product.getPrice();
+                }
                 _quantity = holder.quantity.getText().toString();
                 _attribute = product.getAttribute();
 
@@ -282,7 +299,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         TextView title;
         ProgressBar progressBar;
         CardView cardView;
-        TextView offer, currency, price, quantity, attribute, addToCart, subTotal;
+        TextView offer, currency, price, org_price, quantity, attribute, addToCart, subTotal;
         Button plus, minus;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -295,6 +312,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             offer = itemView.findViewById(R.id.product_discount);
             currency = itemView.findViewById(R.id.product_currency);
             price = itemView.findViewById(R.id.product_price);
+            org_price = itemView.findViewById(R.id.original_price);
             quantity = itemView.findViewById(R.id.quantity);
             addToCart = itemView.findViewById(R.id.add_to_cart);
             attribute = itemView.findViewById(R.id.product_attribute);

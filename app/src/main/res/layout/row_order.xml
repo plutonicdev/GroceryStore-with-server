@@ -27,7 +27,7 @@
                 android:layout_margin="@dimen/margin_10dp"
                 android:orientation="vertical">
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/order_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,19 +43,31 @@
                     android:text="12/04/2018"
                     android:textSize="14dp" />
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/total_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:text="Rs.500.00" />
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:text="pending" />
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                    android:id="@+id/viewDetails"
+                    style="@android:style/MediaButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shop_button_bg"
+                    android:padding="10dp"
+                    android:text="View Details"
+                    android:textColor="@color/gen_white" />
 
 
             </LinearLayout>

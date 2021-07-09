@@ -42,7 +42,10 @@ public class CheckoutActivity extends BaseActivity {
         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
         ft.replace(R.id.content_frame, new AddressFragment());
         ft.commit();
+
+
     }
+
 
     private void changeActionBarTitle(ActionBar actionBar) {
         // Create a LayoutParams for TextView
@@ -56,7 +59,7 @@ public class CheckoutActivity extends BaseActivity {
         //tv.setTypeface(null, Typeface.BOLD);
         // Set text to display in TextView
         tv.setText("Checkout"); // ActionBar title text
-        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Merienda-Bold.ttf");
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Poppins-Bold.ttf");
         tv.setTypeface(tf);
         tv.setTextSize(20);
 
@@ -69,6 +72,7 @@ public class CheckoutActivity extends BaseActivity {
         // Finally, set the newly created TextView as ActionBar custom view
         actionBar.setCustomView(tv);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,6 +91,7 @@ public class CheckoutActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     @Override
     public void onBackPressed() {

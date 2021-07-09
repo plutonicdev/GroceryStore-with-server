@@ -2,6 +2,7 @@ package com.quintus.labs.grocerystore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +84,15 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         cartList = ((BaseActivity) context).getCartList();
 
         holder.title.setText(product.getName());
-        holder.price.setText(product.getPrice());
+        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+            holder.price.setText(product.getDiscount());
+            holder.org_price.setText(product.getPrice());
+            holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        } else {
+            holder.price.setText(product.getPrice());
+            holder.org_price.setVisibility(View.GONE);
+        }
         holder.attribute.setText(product.getAttribute());
         Picasso.get().load(Utils.ProductImage + product.getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
             @Override
@@ -115,7 +124,11 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             public void onClick(View v) {
                 holder.shopNow.setVisibility(View.GONE);
                 holder.quantity_ll.setVisibility(View.VISIBLE);
-                _price = product.getPrice();
+                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+                    _price = product.getDiscount();
+                } else {
+                    _price = product.getPrice();
+                }
                 holder.currency.setText(product.getCurrency());
                 _quantity = holder.quantity.getText().toString();
                 _attribute = product.getAttribute();
@@ -223,7 +236,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView title, attribute, currency, price, shopNow;
+        TextView title, attribute, currency, price, org_price, shopNow;
         ProgressBar progressBar;
         LinearLayout quantity_ll;
         TextView plus, minus, quantity;
@@ -236,6 +249,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             title = itemView.findViewById(R.id.product_title);
             attribute = itemView.findViewById(R.id.product_attribute);
             price = itemView.findViewById(R.id.product_price);
+            org_price = itemView.findViewById(R.id.original_price);
             currency = itemView.findViewById(R.id.product_currency);
             shopNow = itemView.findViewById(R.id.shop_now);
             progressBar = itemView.findViewById(R.id.progressbar);

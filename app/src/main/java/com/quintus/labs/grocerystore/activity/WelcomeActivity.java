@@ -1,6 +1,7 @@
 package com.quintus.labs.grocerystore.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -39,10 +40,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getSupportActionBar().hide();
         localStorage = new LocalStorage(getApplicationContext());
         if (localStorage.isUserLoggedIn()) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));

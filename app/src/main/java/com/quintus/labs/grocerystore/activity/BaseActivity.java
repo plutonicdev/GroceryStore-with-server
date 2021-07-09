@@ -51,6 +51,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
         //user = gson.fromJson(userJson, UserResult.class);
         //  NetworkCheck.isNetworkAvailable(getApplicationContext());
         cartCount();
+
     }
 
     public int cartCount() {
@@ -62,6 +63,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
             Type type = new TypeToken<List<Cart>>() {
             }.getType();
             cartList = gson.fromJson(jsonCart, type);
+
 
             //Toast.makeText(getContext(),remedyList.size()+"",Toast.LENGTH_LONG).show();
             return cartList.size();
@@ -156,6 +158,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
                 }
             }
         }
+
     }
 
     public ProgressDialog showProgressDialog(String message) {

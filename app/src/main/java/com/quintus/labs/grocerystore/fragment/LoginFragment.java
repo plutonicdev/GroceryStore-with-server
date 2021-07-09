@@ -36,6 +36,7 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
+import com.quintus.labs.grocerystore.util.NetworkCheck;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
@@ -64,6 +65,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
     LocalStorage localStorage;
     String userString;
     User user;
+    String firebaseToken;
 
     public LoginFragment() {
 
@@ -91,15 +93,22 @@ public class LoginFragment extends Fragment implements OnClickListener {
                 .findViewById(R.id.show_hide_password);
         loginLayout = view.findViewById(R.id.login_layout);
 
+        NetworkCheck.isNetworkAvailable(getContext());
+
         localStorage = new LocalStorage(getContext());
         String userString = localStorage.getUserLogin();
         Gson gson = new Gson();
         userString = localStorage.getUserLogin();
         user = gson.fromJson(userString, User.class);
+        firebaseToken = localStorage.getFirebaseToken();
+        if(firebaseToken==null){
+             firebaseToken="Axydsmkoidfslfsad";
+        }
         Log.d("User", userString);
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.shake);
+
 
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
@@ -199,8 +208,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Enter both credentials.");
             vibrate(200);
-        } else {
-            user = new User(getMobile, getPassword);
+        } else if (NetworkCheck.isNetworkAvailable(getContext())) {
+            user = new User(getMobile, getPassword, firebaseToken);
             login(user);
         }
     }
@@ -216,7 +225,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
                 if (response != null) {
 
                     UserResult userResult = response.body();
-                    if (userResult.getCode() == 200) {
+                    if (userResult != null && userResult.getCode() == 200) {
                         String userString = gson.toJson(userResult.getUser());
                         localStorage.createUserLoginSession(userString);
                         Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
@@ -224,7 +233,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
                         getActivity().finish();
                     } else {
                         new CustomToast().Show_Toast(getActivity(), view,
-                                userResult.getStatus());
+                                "Server error Please try after sometime");
                     }
 
                 } else {

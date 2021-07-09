@@ -25,16 +25,31 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="NavigationView" parent="AppTheme">
-        <item name="android:listDivider">@color/yellow</item>
+        <item name="android:listDivider">@color/colorPrimary</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">#FAD23C</item>
+        <item name="color">@color/colorPrimaryDark</item>
     </style>
 
     <style name="CustomTextStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textSize">12.5dp</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- Set this to true if you want Full Screen without status bar -->
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="android:windowIsFloating">false</item>
+
+        <!-- This is important! Don't forget to set window background -->
+        <item name="android:windowBackground">@color/white</item>
+
     </style>
 </resources>

@@ -12,39 +12,6 @@
     tools:context=".activity.CartActivity">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bg_3" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_2" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_1" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/graphe" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -90,7 +57,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total : "
@@ -99,7 +66,7 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,7 +86,7 @@
                 android:onClick="onCheckoutClicked"
                 android:orientation="horizontal">
 
-                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Checkout "

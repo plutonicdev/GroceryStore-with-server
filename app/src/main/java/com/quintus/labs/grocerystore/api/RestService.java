@@ -4,6 +4,7 @@ package com.quintus.labs.grocerystore.api;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
 import com.quintus.labs.grocerystore.model.Order;
+import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.ProductResult;
@@ -32,6 +33,12 @@ public interface RestService {
     @POST("api/v1/login")
     Call<UserResult> login(@Body User user);
 
+    @POST("api/v1/forgot_password")
+    Call<UserResult> forgotPassword(@Body User user);
+
+    @POST("api/v1/reset_password")
+    Call<UserResult> resetPassword(@Body User user);
+
     @POST("api/v1/allcategory")
     Call<CategoryResult> allCategory(@Body Token token);
 
@@ -55,4 +62,7 @@ public interface RestService {
 
     @GET("api/v1/product/search")
     Call<ProductResult> searchProduct(@Query("s") String search);
+
+    @POST("api/v1/singleOrderDetails")
+    Call<OrdersResult> getOrderItems(@Body OrderItem orderItem);
 }

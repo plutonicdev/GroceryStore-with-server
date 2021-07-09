@@ -2,6 +2,7 @@ package com.quintus.labs.grocerystore.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -39,7 +40,7 @@ public class ProductViewActivity extends BaseActivity {
     private static int cart_count = 0;
     public TextView quantity, inc, dec;
     String _id, _title, _image, _description, _price, _currency, _discount, _attribute;
-    TextView id, title, description, price, currency, discount, attribute;
+    TextView id, title, description, price, org_price, currency, discount, attribute;
     ImageView imageView;
     ProgressBar progressBar;
     LinearLayout addToCart, share;
@@ -78,6 +79,7 @@ public class ProductViewActivity extends BaseActivity {
         description = findViewById(R.id.apv_description);
         currency = findViewById(R.id.apv_currency);
         price = findViewById(R.id.apv_price);
+        org_price = findViewById(R.id.apv_org_price);
         attribute = findViewById(R.id.apv_attribute);
         discount = findViewById(R.id.apv_discount);
         imageView = findViewById(R.id.apv_image);
@@ -92,7 +94,13 @@ public class ProductViewActivity extends BaseActivity {
         cartList = getCartList();
         title.setText(_title);
         description.setText(_description);
-        price.setText(_price);
+        if (_discount != "" && _discount.length() > 0) {
+            price.setText(_discount);
+            org_price.setText(_price);
+            org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            price.setText(_price);
+        }
         currency.setText(_currency);
         attribute.setText(_attribute);
         discount.setText(_discount);

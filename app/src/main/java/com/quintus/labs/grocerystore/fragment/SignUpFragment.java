@@ -26,6 +26,7 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
+import com.quintus.labs.grocerystore.util.NetworkCheck;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
@@ -52,6 +53,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     LocalStorage localStorage;
     Gson gson = new Gson();
     View progress;
+    String firebaseToken;
 
     public SignUpFragment() {
 
@@ -62,6 +64,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.signup_layout, container, false);
         localStorage = new LocalStorage(getContext());
+        firebaseToken = localStorage.getFirebaseToken();
         initViews();
         setListeners();
         return view;
@@ -79,6 +82,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         signUpButton = view.findViewById(R.id.signUpBtn);
         login = view.findViewById(R.id.already_user);
         terms_conditions = view.findViewById(R.id.terms_conditions);
+        NetworkCheck.isNetworkAvailable(getContext());
 
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
@@ -147,26 +151,9 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Accept Term & Conditions");
         } else {
-            user = new User(getFullName, "", getMobileNumber, getPassword);
+            user = new User(getFullName, "", getMobileNumber, getPassword, firebaseToken);
             registerUser(user);
-            /*  gson = new Gson();
-            String userString = gson.toJson(user);
 
-
-            localStorage.createUserLoginSession(userString);
-            progressDialog.setMessage("Registering Data....");
-            progressDialog.show();
-            Handler mHand = new Handler();
-            mHand.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    progressDialog.dismiss();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                    getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                }
-            }, 5000);*/
         }
 
     }
@@ -181,7 +168,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                 if (response != null) {
 
                     UserResult userResult = response.body();
-                    if (userResult.getCode() == 201) {
+                    if (userResult != null && userResult.getCode() == 201) {
                         String userString = gson.toJson(userResult.getUser());
                         localStorage.createUserLoginSession(userString);
                         Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
@@ -189,7 +176,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                         getActivity().finish();
                     } else {
                         new CustomToast().Show_Toast(getActivity(), view,
-                                userResult.getStatus());
+                                "Server Error Please try after sometime");
 
                     }
 

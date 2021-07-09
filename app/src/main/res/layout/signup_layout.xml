@@ -20,7 +20,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="50dp">
+            app:cardCornerRadius="50dp"
+            android:layout_marginTop="100dp">
 
             <ImageView
                 android:layout_width="70dp"
@@ -30,7 +31,7 @@
                 android:src="@drawable/logo" />
         </androidx.cardview.widget.CardView>
 
-        <com.quintus.labs.grocerystore.customfonts.MyTextViewOleoScriptBold
+        <com.quintus.labs.grocerystore.customfonts.TextViewBold
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -59,14 +60,14 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
-                android:textColorHint="@color/yellow"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="@color/yellow" />
+            android:background="@color/colorPrimary" />
 
         <!--    <com.google.android.material.textfield.TextInputLayout-->
         <!--        android:layout_width="match_parent"-->
@@ -86,14 +87,14 @@
         <!--            android:padding="10dp"-->
         <!--            android:singleLine="true"-->
         <!--            android:textColor="@color/text_color"-->
-        <!--            android:textColorHint="@color/yellow"-->
+        <!--            android:textColorHint="@color/colorPrimary"-->
         <!--            android:textSize="16sp" />-->
         <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="@color/yellow" />
+            android:background="@color/colorPrimary" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -115,14 +116,14 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
-                android:textColorHint="@color/yellow"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="@color/yellow" />
+            android:background="@color/colorPrimary" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -143,14 +144,14 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
-                android:textColorHint="@color/yellow"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="@color/yellow" />
+            android:background="@color/colorPrimary" />
 
         <CheckBox
             android:id="@+id/terms_conditions"
@@ -173,7 +174,7 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <com.quintus.labs.grocerystore.customfonts.MyTextView
+        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
             android:id="@+id/already_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,7 +183,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/already_user"
-            android:textColor="@color/yellow"
+            android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 
     </LinearLayout>

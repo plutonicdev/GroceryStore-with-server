@@ -11,40 +11,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bg_3" />
-
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_2" />
-
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_1" />
-
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/graphe" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#D9FFFFFF">
 
@@ -80,12 +46,12 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansBold
+                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name :" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansRegular
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -104,12 +70,12 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansBold
+                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email :" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansRegular
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,12 +94,12 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansBold
+                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mobile :" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansRegular
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/mobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -152,12 +118,12 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansBold
+                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Address :" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextViewSansRegular
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

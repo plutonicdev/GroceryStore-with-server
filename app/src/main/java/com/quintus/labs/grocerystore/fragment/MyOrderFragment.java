@@ -42,12 +42,13 @@ import retrofit2.Response;
 public class MyOrderFragment extends Fragment {
     LocalStorage localStorage;
     LinearLayout linearLayout;
-    private List<Order> orderList = new ArrayList<>();
     Gson gson = new Gson();
+    Order order;
+    private List<Order> orderList = new ArrayList<>();
     private RecyclerView recyclerView;
     private OrderAdapter mAdapter;
-    Order order;
     private List<Order> newOrderList = new ArrayList<>();
+
     public MyOrderFragment() {
         // Required empty public constructor
     }

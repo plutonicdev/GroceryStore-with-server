@@ -60,6 +60,37 @@ public class NotificationHelper {
     /**
      * Create and push the notification
      */
+    public void createNotification(String title, String message) {
+
+        mBuilder = new NotificationCompat.Builder(mContext);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(false)
+                .setPriority(PRIORITY_MAX)
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_MAX;
+            @SuppressLint("WrongConstant")
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            assert mNotificationManager != null;
+            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            mNotificationManager.createNotificationChannel(notificationChannel);
+        }
+        assert mNotificationManager != null;
+        mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+    }
+
+    /**
+     * Create and push the notification
+     */
     public void createNotification(String title, String message, String timeStamp, Intent resultIntent) {
 
         /**Creates an explicit intent for an Activity in your app**/

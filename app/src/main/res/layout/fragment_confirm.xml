@@ -40,7 +40,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_placeholder_select" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adderss"
@@ -60,7 +60,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_credit_card_select" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Payment"
@@ -80,7 +80,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_confirm" />
 
-                    <com.quintus.labs.grocerystore.customfonts.MyTextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Confirm"
@@ -137,7 +137,7 @@
                                 android:layout_weight="4"
                                 android:gravity="end">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Total : "
@@ -152,7 +152,7 @@
                                 android:layout_weight="6"
                                 android:gravity="start">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:id="@+id/total"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
                                 android:layout_weight="4"
                                 android:gravity="end">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Shipping : "
@@ -190,7 +190,7 @@
                                 android:layout_weight="6"
                                 android:gravity="start">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:id="@+id/shipping_amount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                                 android:layout_weight="4"
                                 android:gravity="end">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Total Amount : "
@@ -235,7 +235,7 @@
                                 android:layout_weight="6"
                                 android:gravity="start">
 
-                                <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+                                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:id="@+id/total_amount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
             android:layout_weight="6"
             android:gravity="center">
 
-            <com.quintus.labs.grocerystore.customfonts.MyTextView
+            <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                 android:id="@+id/back"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -288,7 +288,7 @@
             android:gravity="center">
 
 
-            <com.quintus.labs.grocerystore.customfonts.MyTextView
+            <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                 android:id="@+id/place_order"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

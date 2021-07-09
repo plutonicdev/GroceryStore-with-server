@@ -12,6 +12,9 @@ public class OrdersResult {
     @SerializedName("orders")
     List<Order> orderList;
 
+    @SerializedName("orderList")
+    List<OrderItem> orderItemList;
+
     public int getCode() {
         return code;
     }
@@ -34,5 +37,13 @@ public class OrdersResult {
 
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 }

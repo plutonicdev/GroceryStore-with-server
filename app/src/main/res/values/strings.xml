@@ -35,4 +35,9 @@
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
     <string name="action_Cart">Cart</string>
+    <string name="registered_mobile_number">Please Enter Register Mobile Number</string>
+    <string name="reset_code">Reset Code</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="order_item_details">Your Order Details</string>
 </resources>

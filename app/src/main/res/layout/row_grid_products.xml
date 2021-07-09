@@ -40,7 +40,8 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
 
 
             </RelativeLayout>
@@ -134,6 +135,17 @@
                             android:text="6.9"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/original_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5dp"
+                            android:layout_marginRight="@dimen/margin_5dp"
+                            android:text=""
+                            android:textColor="#717171"
+                            android:textSize="14dp"
                             android:textStyle="bold" />
 
 

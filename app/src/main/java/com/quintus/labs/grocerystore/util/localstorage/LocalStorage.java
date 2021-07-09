@@ -12,11 +12,12 @@ import android.content.SharedPreferences.Editor;
  */
 public class LocalStorage {
 
-    private static final String KEY_FIREBASE_TOKEN = "firebaseToken";
     public static final String KEY_USER = "User";
     public static final String KEY_USER_ADDRESS = "user_address";
-
+    private static final String KEY_FIREBASE_TOKEN = "firebaseToken";
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
+    private static final String CART = "CART";
+    private static final String ORDER = "ORDER";
 
 
     private static LocalStorage instance = null;
@@ -54,7 +55,11 @@ public class LocalStorage {
 
     public void logoutUser() {
         editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove(KEY_USER);
+        editor.remove(KEY_USER_ADDRESS);
+        editor.remove(IS_USER_LOGIN);
+        editor.remove(CART);
+        editor.remove(ORDER);
         editor.commit();
     }
 
@@ -82,41 +87,41 @@ public class LocalStorage {
     }
 
     public String getCart() {
-        if (sharedPreferences.contains("CART"))
-            return sharedPreferences.getString("CART", null);
+        if (sharedPreferences.contains(CART))
+            return sharedPreferences.getString(CART, null);
         else return null;
     }
 
 
     public void setCart(String cart) {
         Editor editor = sharedPreferences.edit();
-        editor.putString("CART", cart);
+        editor.putString(CART, cart);
         editor.commit();
     }
 
     public void deleteCart() {
         Editor editor = sharedPreferences.edit();
-        editor.remove("CART");
+        editor.remove(CART);
         editor.commit();
     }
 
 
     public String getOrder() {
-        if (sharedPreferences.contains("ORDER"))
-            return sharedPreferences.getString("ORDER", null);
+        if (sharedPreferences.contains(ORDER))
+            return sharedPreferences.getString(ORDER, null);
         else return null;
     }
 
 
     public void setOrder(String order) {
         Editor editor = sharedPreferences.edit();
-        editor.putString("ORDER", order);
+        editor.putString(ORDER, order);
         editor.commit();
     }
 
     public void deleteOrder() {
         Editor editor = sharedPreferences.edit();
-        editor.remove("ORDER");
+        editor.remove(ORDER);
         editor.commit();
     }
 

@@ -30,7 +30,7 @@
             android:adjustViewBounds="true"
             android:background="@drawable/no_orders" />
 
-        <com.quintus.labs.grocerystore.customfonts.MyTextViewMeriendaRegular
+        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

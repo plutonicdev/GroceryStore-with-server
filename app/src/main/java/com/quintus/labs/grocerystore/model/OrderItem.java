@@ -10,6 +10,8 @@ public class OrderItem {
     String itemImage;
     String itemprice;
     String itemtotal;
+    String token;
+    String order_id;
 
     public OrderItem() {
     }
@@ -94,5 +96,29 @@ public class OrderItem {
 
     public void setItemtotal(String itemtotal) {
         this.itemtotal = itemtotal;
+    }
+
+    public String getItemImage() {
+        return itemImage;
+    }
+
+    public void setItemImage(String itemImage) {
+        this.itemImage = itemImage;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 }
