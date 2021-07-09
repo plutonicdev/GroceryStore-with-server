@@ -24,8 +24,10 @@ import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
+import com.quintus.labs.grocerystore.util.ErrorUtils;
 import com.quintus.labs.grocerystore.util.NetworkCheck;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -52,6 +54,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     User user;
     LocalStorage localStorage;
     Gson gson = new Gson();
+    UserResponse userResponse;
+//    ErrorUtils errorUtils;
     View progress;
     String firebaseToken;
 
@@ -78,7 +82,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         mobileNumber = view.findViewById(R.id.mobileNumber);
 
         password = view.findViewById(R.id.password);
-
+//        errorUtils = new ErrorUtils(getContext());
         signUpButton = view.findViewById(R.id.signUpBtn);
         login = view.findViewById(R.id.already_user);
         terms_conditions = view.findViewById(R.id.terms_conditions);
@@ -160,25 +164,39 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
     private void registerUser(User userString) {
         showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).register(userString);
-        call.enqueue(new Callback<UserResult>() {
+        Call<UserResponse> call = RestClient.getRestService(getContext()).register(userString);
+        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 201) {
-                        String userString = gson.toJson(userResult.getUser());
-                        localStorage.createUserLoginSession(userString);
-                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
+//                    UserResult userResult = response.body();
+//                    if (userResult != null && userResult.getCode() == 201) {
+//                        String userString = gson.toJson(userResult.getUser());
+//                        localStorage.createUserLoginSession(userString);
+//                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(getContext(), MainActivity.class));
+//                        getActivity().finish();
+//                    } else {
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Server Error Please try after sometime");
+//
+//                    }
+                    userResponse = response.body();
+                    if (userResponse !=null && response.code() == 201) {
+                        String userJson = gson.toJson(userResponse);
+                        localStorage.createUserLoginSession(userJson);
+                        Toast.makeText(getContext(), getResources().getString(R.string.registered_successfull), Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getContext(), MainActivity.class));
                         getActivity().finish();
+
                     } else {
                         new CustomToast().Show_Toast(getActivity(), view,
                                 "Server Error Please try after sometime");
+                }
 
-                    }
+
 
                 } else {
                     new CustomToast().Show_Toast(getActivity(), view,
@@ -190,7 +208,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
