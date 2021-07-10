@@ -6,6 +6,8 @@ public class UserResponse {
 
     @SerializedName("name")
     private String name;
+    @SerializedName("otp")
+    private String otp;
     @SerializedName("phone")
     private String phone;
     @SerializedName("email")
@@ -14,6 +16,20 @@ public class UserResponse {
     private String password;
     @SerializedName("fcm_id")
     private String fcmId;
+
+    public UserResponse(String otp, String phone, String password) {
+        this.otp = otp;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
 
     public String getName() {
         return name;

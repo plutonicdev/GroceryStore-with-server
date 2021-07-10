@@ -14,6 +14,7 @@ public class User {
     String name;
     String phone;
     String fcm_id;
+    String otp;
     String lname;
     String email;
     String password;
@@ -34,6 +35,8 @@ public class User {
 
     public User() {
     }
+
+
 
     public User(String name, String phone) {
         this.name = name;
@@ -64,6 +67,14 @@ public class User {
         this.city = city;
         this.zip = zip;
         this.token = token;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public String getFcm_id() {

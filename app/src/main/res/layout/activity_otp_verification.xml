@@ -58,7 +58,7 @@
                 android:background="@drawable/loginbutton_selector"
                 android:elevation="5dp"
                 android:padding="15dp"
-                android:text="@string/save"
+                android:text="@string/submit"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

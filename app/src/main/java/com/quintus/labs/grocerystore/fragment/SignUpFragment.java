@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.activity.OtpVarificationActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
@@ -112,6 +113,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             case R.id.signUpBtn:
                 // Call checkValidation method
                 checkValidation();
+                otpVarification();
                 break;
 
             case R.id.already_user:
@@ -120,6 +122,39 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                 break;
         }
 
+    }
+
+    private void otpVarification() {
+        showProgressDialog();
+        Call<UserResponse> call = RestClient.getRestService(getContext()).otpVarification(user);
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+//                    UserResult userResult = response.body();
+//                    if (userResult != null && userResult.getCode() == 200) {
+//                        String userString = gson.toJson(userResult.getUser());
+//                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
+//                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
+                    if (response.code() == 200) {
+                        Toast.makeText(getContext(), "OTP  Sent to Your Mobile Successfully", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getContext(), OtpVarificationActivity.class));
+                        getActivity().finish();
+                    } else {
+                        new CustomToast().Show_Toast(getActivity(), view,
+                                "Please enter your valid mobile number");
+                    }
+                }
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
     }
 
     // Check Validation Method
@@ -196,8 +231,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                             startActivity(new Intent(getContext(), MainActivity.class));
                             getActivity().finish();
                         } else {
-//                            startActivity(new Intent(getContext(), OtpVerifyActivity.class));
-//                            getActivity().finish();
+                            startActivity(new Intent(getContext(), OtpVarificationActivity.class));
+                            getActivity().finish();
                         }
 
 

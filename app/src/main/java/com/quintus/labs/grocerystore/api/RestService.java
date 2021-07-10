@@ -40,14 +40,21 @@ public interface RestService {
     @POST("users/login/")
     Call<UserResponse> login(@Body User user);
 
-    @POST("api/v1/forgot_password")
-    Call<UserResult> forgotPassword(@Body User user);
+//    @POST("api/v1/forgot_password")
+//    Call<UserResult> forgotPassword(@Body User user);
 
-//    @POST("users/forget_password/")
-//    Call<UserResponse> forgotPassword(@Body User user);
+    @POST("users/forget_password/")
+    Call<UserResponse> forgotPassword(@Body User user);
 
-    @POST("api/v1/reset_password")
-    Call<UserResult> resetPassword(@Body User user);
+//    @POST("api/v1/reset_password")
+//    Call<UserResult> resetPassword(@Body User user);
+
+    @POST("users/confirm_forget_password/")
+    Call<UserResponse> resetPassword(@Body User user);
+
+    @POST("/users/verify_otp/")
+    Call<UserResponse> otpVarification(@Body User user);
+
 
     @POST("api/v1/allcategory")
     Call<CategoryResult> allCategory(@Body Token token);
