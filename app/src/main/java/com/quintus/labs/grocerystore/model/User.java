@@ -9,6 +9,9 @@ package com.quintus.labs.grocerystore.model;
 public class User {
     String id;
     String fname;
+    String name;
+    String phone;
+    String fcm_id;
     String lname;
     String mobile;
     String email;
@@ -22,8 +25,16 @@ public class User {
     String reset_code;
     String firebase_token;
 
+    public User(String fcm_id) {
+        this.fcm_id = fcm_id;
+    }
 
     public User() {
+    }
+
+    public User(String name, String phone) {
+        this.name = name;
+        this.phone = phone;
     }
 
     public User(String fname, String lname, String mobile, String password, String firebase_token) {
@@ -50,6 +61,30 @@ public class User {
         this.city = city;
         this.zip = zip;
         this.token = token;
+    }
+
+    public String getFcm_id() {
+        return fcm_id;
+    }
+
+    public void setFcm_id(String fcm_id) {
+        this.fcm_id = fcm_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getId() {

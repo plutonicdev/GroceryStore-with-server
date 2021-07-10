@@ -10,6 +10,7 @@ import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 
 import retrofit2.Call;
@@ -27,14 +28,23 @@ import retrofit2.http.Query;
 
 public interface RestService {
 
-    @POST("api/v1/register")
-    Call<UserResult> register(@Body User user);
+//    @POST("api/v1/register")
+//    Call<UserResult> register(@Body User user);
 
-    @POST("api/v1/login")
-    Call<UserResult> login(@Body User user);
+    @POST("users/register/")
+    Call<UserResponse> register(@Body User user);
+
+//    @POST("api/v1/login")
+//    Call<UserResult> login(@Body User user);
+
+    @POST("users/login/")
+    Call<UserResponse> login(@Body User user);
 
     @POST("api/v1/forgot_password")
     Call<UserResult> forgotPassword(@Body User user);
+
+//    @POST("users/forget_password/")
+//    Call<UserResponse> forgotPassword(@Body User user);
 
     @POST("api/v1/reset_password")
     Call<UserResult> resetPassword(@Body User user);

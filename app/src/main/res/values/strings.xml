@@ -40,4 +40,10 @@
     <string name="reset_password">Reset Password</string>
     <string name="resend_code">Resend Code</string>
     <string name="order_item_details">Your Order Details</string>
+    <string name="an_otp_code_sent_to_your_phone">An OTP is sent to your phone number, enter here.</string>
+    <string name="enter_otp_code">Enter OTP</string>
+    <string name="save">Save</string>
+    <string name="ResendOTP">Resend OTP</string>
+    <string name="registered_successfull">Registered Successful</string>
+    <string name="login_successfull">Login Successful</string>
 </resources>

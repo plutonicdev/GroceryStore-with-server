@@ -25,7 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
-   public static final String BASE_URL = "https://xpressdm.quintuslabs.in/api/";
+//   public static final String BASE_URL = "http://192.168.1.100/grocerystore/";
+   public static final String BASE_URL = "https://xpressdm.quintuslabs.in/api/docs/";
 
     public static Retrofit RETROFIT = null;
     public static Retrofit RETROFIT1 = null;

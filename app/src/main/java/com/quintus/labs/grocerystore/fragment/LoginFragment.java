@@ -34,8 +34,10 @@ import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
+import com.quintus.labs.grocerystore.util.ErrorUtils;
 import com.quintus.labs.grocerystore.util.NetworkCheck;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -64,6 +66,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
     View progress;
     LocalStorage localStorage;
     String userString;
+    UserResponse userResponse;
+    ErrorUtils errorUtils;
     User user;
     String firebaseToken;
 
@@ -92,7 +96,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
         show_hide_password = view
                 .findViewById(R.id.show_hide_password);
         loginLayout = view.findViewById(R.id.login_layout);
-
+        errorUtils = new ErrorUtils(getContext());
         NetworkCheck.isNetworkAvailable(getContext());
 
         localStorage = new LocalStorage(getContext());
@@ -216,19 +220,26 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
     private void login(User user) {
         showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).login(user);
-        call.enqueue(new Callback<UserResult>() {
+        Call<UserResponse> call = RestClient.getRestService(getContext()).login(user);
+        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
 
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 200) {
-                        String userString = gson.toJson(userResult.getUser());
-                        localStorage.createUserLoginSession(userString);
-                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
+//                    UserResult userResult = response.body();
+//                    if (userResult != null && userResult.getCode() == 200) {
+//                        String userString = gson.toJson(userResult.getUser());
+//                        localStorage.createUserLoginSession(userString);
+//                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(getContext(), MainActivity.class));
+//                        getActivity().finish();
+                    userResponse = response.body();
+                    if (response.code() == 200) {
+                        String userJson = gson.toJson(userResponse);
+                        localStorage.createUserLoginSession(userJson);
+                        Toast.makeText(getContext(), getResources().getString(R.string.login_successfull), Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getContext(), MainActivity.class));
                         getActivity().finish();
                     } else {
@@ -245,7 +256,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
