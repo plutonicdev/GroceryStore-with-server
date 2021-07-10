@@ -13,6 +13,7 @@ import android.content.SharedPreferences.Editor;
 public class LocalStorage {
 
     public static final String KEY_USER = "User";
+    public static final String API_KEY = "api_key";
     public static final String KEY_USER_ADDRESS = "user_address";
     private static final String KEY_FIREBASE_TOKEN = "firebaseToken";
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
@@ -60,6 +61,7 @@ public class LocalStorage {
         editor.remove(IS_USER_LOGIN);
         editor.remove(CART);
         editor.remove(ORDER);
+        editor.remove(API_KEY);
         editor.commit();
     }
 
@@ -72,6 +74,18 @@ public class LocalStorage {
     public boolean isUserLoggedIn() {
         return sharedPreferences.getBoolean(IS_USER_LOGIN, false);
     }
+
+
+    public String getApiKey() {
+        return sharedPreferences.getString(API_KEY, null);
+    }
+
+    public void setApiKey(String apiKey) {
+        editor = sharedPreferences.edit();
+        editor.putString(API_KEY, apiKey);
+        editor.commit();
+    }
+
 
     public String getUserAddress() {
         if (sharedPreferences.contains(KEY_USER_ADDRESS))

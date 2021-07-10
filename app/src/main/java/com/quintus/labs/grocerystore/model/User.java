@@ -1,5 +1,7 @@
 package com.quintus.labs.grocerystore.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Grocery App
  * https://github.com/quintuslabs/GroceryStore
@@ -13,7 +15,6 @@ public class User {
     String phone;
     String fcm_id;
     String lname;
-    String mobile;
     String email;
     String password;
     String area;
@@ -24,6 +25,8 @@ public class User {
     String token;
     String reset_code;
     String firebase_token;
+
+    boolean phone_verified;
 
     public User(String fcm_id) {
         this.fcm_id = fcm_id;
@@ -37,24 +40,24 @@ public class User {
         this.phone = phone;
     }
 
-    public User(String fname, String lname, String mobile, String password, String firebase_token) {
+    public User(String fname, String lname, String phone, String password, String firebase_token) {
         this.fname = fname;
         this.lname = lname;
-        this.mobile = mobile;
+        this.phone = phone;
         this.password = password;
         this.firebase_token = firebase_token;
     }
 
-    public User(String mobile, String password, String firebase_token) {
-        this.mobile = mobile;
+    public User(String phone, String password, String firebase_token) {
+        this.phone = phone;
         this.password = password;
         this.firebase_token = firebase_token;
     }
 
-    public User(String id, String fname, String mobile, String email, String address, String state, String city, String zip, String token) {
+    public User(String id, String fname, String phone, String email, String address, String state, String city, String zip, String token) {
         this.id = id;
         this.fname = fname;
-        this.mobile = mobile;
+        this.phone = phone;
         this.email = email;
         this.address = address;
         this.state = state;
@@ -112,11 +115,11 @@ public class User {
     }
 
     public String getMobile() {
-        return mobile;
+        return phone;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMobile(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -197,5 +200,13 @@ public class User {
 
     public void setFirebase_token(String firebase_token) {
         this.firebase_token = firebase_token;
+    }
+
+    public boolean isPhone_verified() {
+        return phone_verified;
+    }
+
+    public void setPhone_verified(boolean phone_verified) {
+        this.phone_verified = phone_verified;
     }
 }

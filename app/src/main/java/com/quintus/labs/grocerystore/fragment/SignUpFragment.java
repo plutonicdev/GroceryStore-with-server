@@ -188,8 +188,18 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                         String userJson = gson.toJson(userResponse);
                         localStorage.createUserLoginSession(userJson);
                         Toast.makeText(getContext(), getResources().getString(R.string.registered_successfull), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), MainActivity.class));
-                        getActivity().finish();
+
+                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
+                        Log.d("masterToken", masterToken);
+                        localStorage.setApiKey(masterToken);
+                        if (user.isPhone_verified()) {
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                            getActivity().finish();
+                        } else {
+//                            startActivity(new Intent(getContext(), OtpVerifyActivity.class));
+//                            getActivity().finish();
+                        }
+
 
                     } else {
                         new CustomToast().Show_Toast(getActivity(), view,

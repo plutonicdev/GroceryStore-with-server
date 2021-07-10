@@ -239,6 +239,9 @@ public class LoginFragment extends Fragment implements OnClickListener {
                     if (response.code() == 200) {
                         String userJson = gson.toJson(userResponse);
                         localStorage.createUserLoginSession(userJson);
+                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
+                        Log.d("masterToken", masterToken);
+                        localStorage.setApiKey(masterToken);
                         Toast.makeText(getContext(), getResources().getString(R.string.login_successfull), Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getContext(), MainActivity.class));
                         getActivity().finish();
