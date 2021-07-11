@@ -28,6 +28,7 @@ import com.quintus.labs.grocerystore.adapter.NewProductAdapter;
 import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
+import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
 import com.quintus.labs.grocerystore.model.Product;
@@ -96,6 +97,7 @@ public class HomeFragment extends Fragment {
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = new Token(user.getToken());
+        getBannerData();
         getCategoryData();
         getNewProduct();
         getPopularProduct();
@@ -234,7 +236,37 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void getCategoryData() {
+    private void getBannerData() {
+
+        showProgressDialog();
+
+        Call<Banners> call = RestClient.getRestService(getContext()).bannerList();
+        call.enqueue(new Callback<Banners>() {
+            @Override
+            public void onResponse(Call<Banners> call, Response<Banners> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    Banners Banners = response.body();
+                    if (response.code() == 200) {
+
+
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Banners> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
+
+    }
+ private void getCategoryData() {
 
         showProgressDialog();
 

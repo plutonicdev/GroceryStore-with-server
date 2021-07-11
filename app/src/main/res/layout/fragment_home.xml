@@ -58,7 +58,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/category_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
                 </RelativeLayout>
 
 
@@ -84,7 +85,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/new_product_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                     </androidx.recyclerview.widget.RecyclerView>
                     <LinearLayout
@@ -150,13 +152,15 @@
                             android:layout_marginTop="5dp"
                             android:text="Popular Products"
                             android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/popular_product_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
 
