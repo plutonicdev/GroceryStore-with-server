@@ -251,8 +251,9 @@ public class LoginFragment extends Fragment implements OnClickListener {
                     }
 
                 } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please Enter Correct Data");
+//                    new CustomToast().Show_Toast(getActivity(), view,
+//                            "Please Enter Correct Data");
+                    errorUtils.checkUserError(response);
                 }
 
                 hideProgressDialog();

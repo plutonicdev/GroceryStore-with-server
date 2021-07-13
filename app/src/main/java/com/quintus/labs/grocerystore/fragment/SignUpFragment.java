@@ -58,7 +58,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     LocalStorage localStorage;
     Gson gson = new Gson();
     UserResponse userResponse;
-//    ErrorUtils errorUtils;
+   ErrorUtils errorUtils;
     View progress;
     String firebaseToken;
 
@@ -72,6 +72,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         view = inflater.inflate(R.layout.signup_layout, container, false);
         localStorage = new LocalStorage(getContext());
         firebaseToken = localStorage.getFirebaseToken();
+        errorUtils = new ErrorUtils(getContext());
         initViews();
         setListeners();
         return view;
@@ -214,8 +215,9 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
 
                 } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please Enter Correct Data");
+//                    new CustomToast().Show_Toast(getActivity(), view,
+//                            "Please Enter Correct Data");
+                    errorUtils.checkUserError(response);
                 }
 
                 hideProgressDialog();
