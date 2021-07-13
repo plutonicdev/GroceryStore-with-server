@@ -1,6 +1,7 @@
 package com.quintus.labs.grocerystore.api;
 
 
+import com.quintus.labs.grocerystore.model.AdvertisementBanner;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
@@ -13,6 +14,8 @@ import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.VoucherList;
+import com.quintus.labs.grocerystore.model.VoucherValidity;
 
 import java.util.List;
 
@@ -72,135 +75,135 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/categories/?page={page}&page_size={pageSize}")
-    Call<CategoryResult> allCategory(@Body Token token);
+    Call<CategoryResult> allCategory(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("vouchers/list/?page={page}&page_size={pageSize}")
-    Call<CategoryResult> allOffers(@Body Token token);
+    Call<VoucherList> allOffers(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
-    Call<CategoryResult> popularCategory(@Body Token token);
+    Call<CategoryResult> popularCategory(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_products/?page={page}&page_size={pageSize}")
-    Call<ProductResult> popularProducts(@Body Token token);
+    Call<ProductResult> popularProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/recently_added/?page={page}&page_size={pageSize}")
-    Call<ProductResult> newProducts(@Body Token token);
+    Call<ProductResult> newProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/category/${id}/products/?page={page}&page_size={pageSize}")
-    Call<ProductResult> allProducts(@Body Token token);
+    Call<ProductResult> allProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
-    Call<ProductResult> productDetails(@Body Token token);
+    Call<ProductResult> productDetails(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/wishlist/")
-    Call<ProductResult> getFavouriteProducts(@Body Token token);
+    Call<ProductResult> getFavouriteProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/currency_lists/")
-    Call<ProductResult> currencyData(@Body Token token);
+    Call<ProductResult> currencyData(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
-    Call<ProductResult> addressList(@Body Token token);
+    Call<ProductResult> addressList(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/default/")
-    Call<ProductResult> defaultAddress(@Body Token token);
+    Call<ProductResult> defaultAddress(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/address/create/")
-    Call<ProductResult> addAddress(@Body Token token);
+    Call<ProductResult> addAddress(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
-    Call<ProductResult> updateAddress(@Body Token token);
+    Call<ProductResult> updateAddress(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("users/address/{id}/delete/")
-    Call<ProductResult> deleteAddress(@Body Token token);
+    Call<ProductResult> deleteAddress(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/search/?search={text}&page=1&page_size=100")
-    Call<ProductResult> searchProduct(@Body Token token);
+    Call<ProductResult> searchProduct(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("catalog/add_update_wishlist/")
-    Call<ProductResult> addfavouriteProduct(@Body Token token);
+    Call<ProductResult> addfavouriteProduct(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/list/?page={page}&page_size={pageSize}")
-    Call<ProductResult> getOrderDetails(@Body Token token);
+    Call<ProductResult> getOrderDetails(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
-    Call<ProductResult> getSingleOrderDetails(@Body Token token);
+    Call<ProductResult> getSingleOrderDetails(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/countries/")
-    Call<ProductResult> country(@Body Token token);
+    Call<ProductResult> country(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
-    Call<ProductResult> state(@Body Token token);
+    Call<ProductResult> state(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<ProductResult> city(@Body Token token);
+    Call<ProductResult> city(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
-    Call<ProductResult> pin(@Body Token token);
+    Call<ProductResult> pin(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
-    Call<ProductResult> zip(@Body Token token);
+    Call<ProductResult> zip(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("vouchers/voucher_validity/")
-    Call<ProductResult> checkVoucher(@Body Token token);
+    Call<VoucherValidity> checkVoucher(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/initiate/")
-    Call<ProductResult> initatePayment(@Body Token token);
+    Call<ProductResult> initatePayment(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/{id}/status_update/")
-    Call<ProductResult> updatePayment(@Body Token token);
+    Call<ProductResult> updatePayment(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/checkout/")
-    Call<ProductResult> createOrder(@Body Token token);
+    Call<ProductResult> createOrder(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("carts/list/")
-    Call<ProductResult> getCartList(@Body Token token);
+    Call<ProductResult> getCartList(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/create_update/")
-    Call<ProductResult> addToCart(@Body Token token);
+    Call<ProductResult> addToCart(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("carts/remove_product/")
-    Call<ProductResult> removeFromCart(@Body Token token);
+    Call<ProductResult> removeFromCart(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PATCH("baskets/{basketID}/lines/{lineID}/")
-    Call<ProductResult> cartAddRemoveQuantity(@Body Token token);
+    Call<ProductResult> cartAddRemoveQuantity(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("config/promotion_images/?page_size=4&page=1")
-    Call<ProductResult> getAdvertisementBanners(@Body Token token);
+    Call<AdvertisementBanner> getAdvertisementBanners(@Header("token") Token token);
 
 
     /* old apis */
