@@ -22,6 +22,9 @@ public class GetOrderIDRequest {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("subscription_id")
+    private String subscriptionId;
+
     public String getEnv() {
         return env;
     }
@@ -68,5 +71,14 @@ public class GetOrderIDRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public GetOrderIDRequest setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+        return this;
     }
 }
