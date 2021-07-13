@@ -202,6 +202,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                             getActivity().finish();
                         } else {
                             startActivity(new Intent(getContext(), OtpVarificationActivity.class));
+//                            Toast.makeText(getContext(), "Otp sent to your phone number for verification", Toast.LENGTH_LONG).show();
                             getActivity().finish();
                         }
 

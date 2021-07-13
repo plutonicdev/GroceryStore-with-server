@@ -61,12 +61,14 @@ public interface RestService {
     @POST("users/verify_otp/")
     Call<UserResponse> otpVarification(@Body User user);
 
+    @POST("users/verify_resend_otp/")
+    Call<UserResponse> resendOTP(@Body User user);
+
     @GET("config/slider_images/")
     Call<Banners> bannerList();
 
     @GET("catalog/categories/?page={page}&page_size={pageSize}")
-    @POST("/users/verify_resend_otp/")
-    Call<UserResponse> resendOTP(@Body User user);
+
 
     @POST("api/v1/allcategory")
     Call<CategoryResult> allCategory(@Body Token token);
