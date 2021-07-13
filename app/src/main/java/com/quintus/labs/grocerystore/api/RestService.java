@@ -21,6 +21,8 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -33,7 +35,7 @@ import retrofit2.http.Query;
  */
 
 public interface RestService {
-
+    String tenant_id = "1";
 //    @POST("api/v1/register")
 //    Call<UserResult> register(@Body User user);
 
@@ -64,74 +66,141 @@ public interface RestService {
     @POST("users/verify_resend_otp/")
     Call<UserResponse> resendOTP(@Body User user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("config/slider_images/")
     Call<Banners> bannerList();
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/categories/?page={page}&page_size={pageSize}")
-
-
-    @POST("api/v1/allcategory")
     Call<CategoryResult> allCategory(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("vouchers/list/?page={page}&page_size={pageSize}")
     Call<CategoryResult> allOffers(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
     Call<CategoryResult> popularCategory(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_products/?page={page}&page_size={pageSize}")
     Call<ProductResult> popularProducts(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/recently_added/?page={page}&page_size={pageSize}")
     Call<ProductResult> newProducts(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/category/${id}/products/?page={page}&page_size={pageSize}")
     Call<ProductResult> allProducts(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
     Call<ProductResult> productDetails(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/wishlist/")
     Call<ProductResult> getFavouriteProducts(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/currency_lists/")
     Call<ProductResult> currencyData(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
-    Call<ProductResult> addresList(@Body Token token);
+    Call<ProductResult> addressList(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("users/address/default/")
+    Call<ProductResult> defaultAddress(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/address/create/")
     Call<ProductResult> addAddress(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
     Call<ProductResult> updateAddress(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("users/address/{id}/delete/")
     Call<ProductResult> deleteAddress(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/search/?search={text}&page=1&page_size=100")
     Call<ProductResult> searchProduct(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("catalog/add_update_wishlist/")
     Call<ProductResult> addfavouriteProduct(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/list/?page={page}&page_size={pageSize}")
     Call<ProductResult> getOrderDetails(@Body Token token);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
     Call<ProductResult> getSingleOrderDetails(@Body Token token);
 
-  @GET("locations/countries/")
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("locations/countries/")
     Call<ProductResult> country(@Body Token token);
 
-  @GET("locations/country/{id}/states/")
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("locations/country/{id}/states/")
     Call<ProductResult> state(@Body Token token);
 
-  @GET("locations/state/{id}/cities/")
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("locations/state/{id}/cities/")
     Call<ProductResult> city(@Body Token token);
 
 
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("locations/pin/")
+    Call<ProductResult> pin(@Body Token token);
 
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("locations/city/{id}/pin/")
+    Call<ProductResult> zip(@Body Token token);
+
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("vouchers/voucher_validity/")
+    Call<ProductResult> checkVoucher(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("payments/initiate/")
+    Call<ProductResult> initatePayment(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("payments/{id}/status_update/")
+    Call<ProductResult> updatePayment(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("carts/checkout/")
+    Call<ProductResult> createOrder(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("carts/list/")
+    Call<ProductResult> getCartList(@Body Token token);
+
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("carts/create_update/")
+    Call<ProductResult> addToCart(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @DELETE("carts/remove_product/")
+    Call<ProductResult> removeFromCart(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @PATCH("baskets/{basketID}/lines/{lineID}/")
+    Call<ProductResult> cartAddRemoveQuantity(@Body Token token);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @GET("config/promotion_images/?page_size=4&page=1")
+    Call<ProductResult> getAdvertisementBanners(@Body Token token);
 
 
     /* old apis */
