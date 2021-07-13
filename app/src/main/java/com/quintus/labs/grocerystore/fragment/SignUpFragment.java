@@ -49,7 +49,7 @@ import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
  */
 public class SignUpFragment extends Fragment implements OnClickListener {
     private static View view;
-    private static EditText fullName, mobileNumber,
+    private static EditText fullName, mobileNumber,emailId,
             password;
     private static TextView login;
     private static Button signUpButton;
@@ -81,7 +81,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     private void initViews() {
         fullName = view.findViewById(R.id.fullName);
         progress = view.findViewById(R.id.progress_bar);
-//        emailId = view.findViewById(R.id.userEmailId);
+        emailId = view.findViewById(R.id.userEmailId);
         mobileNumber = view.findViewById(R.id.mobileNumber);
 
         password = view.findViewById(R.id.password);
@@ -131,7 +131,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     private void checkValidation() {
         // Get all edittext texts
         String getFullName = fullName.getText().toString();
-//        String getEmailId = emailId.getText().toString();
+        String getEmailId = emailId.getText().toString();
         String getMobileNumber = mobileNumber.getText().toString();
         String getPassword = password.getText().toString();
         // Pattern match for email id
@@ -141,13 +141,13 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         if (getFullName.length() == 0) {
             fullName.setError("Eneter Your Name");
             fullName.requestFocus();
-        }/* else if (getEmailId.length() == 0) {
+        } else if (getEmailId.length() == 0) {
             emailId.setError("Eneter Your Email");
             emailId.requestFocus();
-        } else if (!m.find()) {
-            emailId.setError("Eneter Correct Email");
-            emailId.requestFocus();
-        }*/ else if (getMobileNumber.length() == 0) {
+//        } else if (!m.find()) {
+//            emailId.setError("Eneter Correct Email");
+//            emailId.requestFocus();
+        } else if (getMobileNumber.length() == 0) {
             mobileNumber.setError("Eneter Your Mobile Number");
             mobileNumber.requestFocus();
         } else if (getPassword.length() == 0) {
@@ -160,7 +160,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Accept Term & Conditions");
         } else {
-            user = new User(getFullName, "", getMobileNumber, getPassword, firebaseToken);
+            user = new User(getFullName, getEmailId, getMobileNumber, getPassword, firebaseToken);
             registerUser(user);
 
         }

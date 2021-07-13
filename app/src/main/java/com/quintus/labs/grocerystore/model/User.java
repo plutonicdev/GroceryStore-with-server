@@ -36,16 +36,15 @@ public class User {
     public User() {
     }
 
-
-
-    public User(String name, String phone) {
+     public User(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
 
-    public User(String fname, String lname, String phone, String password, String firebase_token) {
-        this.fname = fname;
-        this.lname = lname;
+    public User(String name, String email, String phone, String password, String firebase_token) {
+        this.name = name;
+        this.email = email;
+        // this.lname = lname;
         this.phone = phone;
         this.password = password;
         this.firebase_token = firebase_token;
