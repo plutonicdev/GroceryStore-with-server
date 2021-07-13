@@ -52,4 +52,14 @@
         <item name="android:windowBackground">@color/white</item>
 
     </style>
+
+    <style name="AppTheme.Green" parent="PayumoneyAppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle.Default</item>
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+    
 </resources>
