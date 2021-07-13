@@ -43,7 +43,7 @@
                     android:digits="0123456789"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:hint="@string/reset_code"
+                    android:hint="@string/enter_otp"
                     android:inputType="phone"
                     android:maxLength="6"
                     android:padding="10dp"
