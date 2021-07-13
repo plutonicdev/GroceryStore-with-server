@@ -39,6 +39,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
+
 /**
  * Grocery App
  * https://github.com/quintuslabs/GroceryStore
@@ -113,7 +115,6 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             case R.id.signUpBtn:
                 // Call checkValidation method
                 checkValidation();
-                otpVarification();
                 break;
 
             case R.id.already_user:
@@ -124,38 +125,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
     }
 
-    private void otpVarification() {
-        showProgressDialog();
-        Call<UserResponse> call = RestClient.getRestService(getContext()).otpVarification(user);
-        call.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-//                    UserResult userResult = response.body();
-//                    if (userResult != null && userResult.getCode() == 200) {
-//                        String userString = gson.toJson(userResult.getUser());
-//                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
-//                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
-                    if (response.code() == 200) {
-                        Toast.makeText(getContext(), "OTP  Sent to Your Mobile Successfully", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), OtpVarificationActivity.class));
-                        getActivity().finish();
-                    } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Please enter your valid mobile number");
-                    }
-                }
-                hideProgressDialog();
-            }
 
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.d("Error==> ", t.getMessage());
-                hideProgressDialog();
-            }
-        });
-    }
 
     // Check Validation Method
     private void checkValidation() {

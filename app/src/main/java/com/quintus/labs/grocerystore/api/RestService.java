@@ -52,9 +52,12 @@ public interface RestService {
     @POST("users/confirm_forget_password/")
     Call<UserResponse> resetPassword(@Body User user);
 
-    @POST("/users/verify_otp/")
+    @POST("users/verify_otp/")
     Call<UserResponse> otpVarification(@Body User user);
 
+
+    @POST("/users/verify_resend_otp/")
+    Call<UserResponse> resendOTP(@Body User user);
 
     @POST("api/v1/allcategory")
     Call<CategoryResult> allCategory(@Body Token token);

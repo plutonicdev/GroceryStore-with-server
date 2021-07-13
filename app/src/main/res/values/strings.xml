@@ -46,4 +46,7 @@
     <string name="ResendOTP">Resend OTP</string>
     <string name="registered_successfull">Registered Successful</string>
     <string name="login_successfull">Login Successful</string>
+    <string name="please_try_after_sometime">Please try after sometime</string>
+    <string name="enter_otp">Enter Otp</string>
+    <string name="enter_valid_otp">Enter Valid Otp</string>
 </resources>

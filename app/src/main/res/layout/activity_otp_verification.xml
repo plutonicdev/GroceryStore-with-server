@@ -31,32 +31,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                app:errorEnabled="true"
                 app:hintEnabled="false">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/otpCode"
-                    android:layout_width="match_parent"
+
+                <EditText
+                    android:id="@+id/otp_text"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/otp_bg"
-                    android:gravity="center"
-                    android:hint="@string/enter_otp_code"
-                    android:inputType="textPassword"
-                    android:padding="15dp"
-                    android:textSize="18sp" />
-
-
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:digits="0123456789"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/reset_code"
+                    android:inputType="phone"
+                    android:maxLength="6"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/colorPrimary"
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                android:background="@color/colorPrimary" />
 
 
             <Button
-                android:id="@+id/reset"
+                android:id="@+id/submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/loginbutton_selector"
                 android:elevation="5dp"
+                android:onClick="onVerifyMobileOtpClicked"
                 android:padding="15dp"
                 android:text="@string/submit"
                 android:textColor="@color/white"
@@ -67,10 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="end"
+                android:onClick="onResendOTPClicked"
                 android:padding="10dp"
                 android:text="@string/ResendOTP"
                 android:textSize="18dp" />
-
 
 
         </LinearLayout>

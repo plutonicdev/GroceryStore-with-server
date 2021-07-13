@@ -162,25 +162,33 @@ public class ForgotPassword_Fragment extends Fragment implements
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-//                    UserResult userResult = response.body();
-                    userResponse = response.body();
-                    if (userResponse != null && response.code() == 200) {
-                        new LoginRegisterActivity().replaceLoginFragment();
-                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
-                        Log.d("masterToken", masterToken);
-                        localStorage.setApiKey(masterToken);
-                    } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Please try again");
-                    }
+                if (response.code() == 200) {
+                    startActivity(new Intent(getContext(), LoginFragment.class));
+                    Toast.makeText(getContext(), "Password Reset Successfully", Toast.LENGTH_LONG).show();
                 } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please enter your valid Code");
+                    Toast.makeText(getContext(), "Please Enter Correct OTP", Toast.LENGTH_LONG).show();
                 }
-
                 hideProgressDialog();
             }
+//                if (response != null) {
+//                    UserResult userResult = response.body();
+//                    userResponse = response.body();
+//                    if (userResponse != null && response.code() == 200) {
+//                        new LoginRegisterActivity().replaceLoginFragment();
+//                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
+//                        Log.d("masterToken", masterToken);
+//                        localStorage.setApiKey(masterToken);
+//                    } else {
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Please try again");
+//                    }
+//                } else {
+//                    new CustomToast().Show_Toast(getActivity(), view,
+//                            "Please enter your valid Code");
+//                }
+//
+//                hideProgressDialog();
+//            }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
