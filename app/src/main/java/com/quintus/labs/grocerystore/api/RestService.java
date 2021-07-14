@@ -9,6 +9,7 @@ import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
+import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -83,11 +84,11 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
-    Call<CategoryResult> popularCategory(@Header("token") Token token);
+    Call<Category> popularCategory(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_products/?page={page}&page_size={pageSize}")
-    Call<ProductResult> popularProducts(@Header("token") Token token);
+    Call<PopularProducts> popularProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/recently_added/?page={page}&page_size={pageSize}")
