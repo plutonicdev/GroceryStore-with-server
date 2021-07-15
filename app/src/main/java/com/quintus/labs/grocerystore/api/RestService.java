@@ -1,6 +1,7 @@
 package com.quintus.labs.grocerystore.api;
 
 
+import com.quintus.labs.grocerystore.model.AddAddressListResponse;
 import com.quintus.labs.grocerystore.model.AdvertisementBanner;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
@@ -218,8 +219,15 @@ public interface RestService {
     @POST("api/v1/orderDetails")
     Call<OrdersResult> orderDetails(@Body Order order);
 
-    @POST("api/v1/updateUser")
-    Call<UserResult> updateUser(@Body User user);
+//    @POST("api/v1/updateUser")
+//    Call<UserResult> updateUser(@Body User user);
+
+    @POST("users/address/create/")
+    Call<AddAddressListResponse> updateUser(@Body User user);
+
+    @GET("/users/address/list/")
+    Call<AddAddressListResponse> getAddressList(@Body User user);
+
 
     @GET("api/v1/product/search")
     Call<ProductResult> searchProduct(@Query("s") String search);

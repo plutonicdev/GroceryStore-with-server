@@ -327,7 +327,51 @@
                             android:layout_height="1dp"
                             android:background="@color/secondary_text" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:text="Country"
+                                android:textSize="14dp" />
+
+                            <Spinner
+                                android:id="@+id/countrySpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:ellipsize="marquee"
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:spinnerMode="dialog" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/margin_4dp"
+                                android:background="@color/secondary_text" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@color/secondary_text" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -358,6 +402,84 @@
                                 android:gravity="center"
                                 android:singleLine="true"
                                 android:spinnerMode="dialog" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/margin_4dp"
+                                android:background="@color/secondary_text" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@color/secondary_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:text="Address type"
+                                android:textSize="14dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+
+                                <RadioGroup
+                                    android:id="@+id/radioGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:id="@+id/homeType"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/home"
+                                        android:textSize="13sp"/>
+
+                                    <RadioButton
+                                        android:id="@+id/workType"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/work"
+                                        android:textSize="13sp"/>
+
+                                </RadioGroup>
+
+
+                            </LinearLayout>
+
+
+                            <!--                            <Spinner-->
+<!--                                android:id="@+id/addresstypeSpinner"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginLeft="15dp"-->
+<!--                                android:layout_marginRight="15dp"-->
+<!--                                android:layout_marginBottom="10dp"-->
+<!--                                android:ellipsize="marquee"-->
+<!--                                android:gravity="center"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:spinnerMode="dialog" />-->
 
                             <View
                                 android:layout_width="match_parent"

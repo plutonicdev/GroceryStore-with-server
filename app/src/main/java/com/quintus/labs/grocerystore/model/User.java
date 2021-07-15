@@ -20,6 +20,8 @@ public class User {
     String password;
     String area;
     String address;
+    String address_type;
+    String country;
     String state;
     String city;
     String zip;
@@ -36,7 +38,21 @@ public class User {
     public User() {
     }
 
-     public User(String name, String phone) {
+    public User(String id,String name, String phone, String email, String address, String address_type, String country, String state, String city, String zip, String token) {
+        this.id= id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.address_type = address_type;
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.zip = zip;
+        this.token = token;
+    }
+
+    public User(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -66,6 +82,22 @@ public class User {
         this.city = city;
         this.zip = zip;
         this.token = token;
+    }
+
+    public String getAddress_type() {
+        return address_type;
+    }
+
+    public void setAddress_type(String address_type) {
+        this.address_type = address_type;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getOtp() {

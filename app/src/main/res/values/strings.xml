@@ -49,4 +49,7 @@
     <string name="please_try_after_sometime">Please try after sometime</string>
     <string name="enter_otp">Enter Otp</string>
     <string name="enter_valid_otp">Enter Valid Otp</string>
+    <string name="home">Home</string>
+    <string name="work">Work</string>
+    <string name="address">Address</string>
 </resources>
