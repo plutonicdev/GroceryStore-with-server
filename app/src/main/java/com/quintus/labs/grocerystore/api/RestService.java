@@ -6,11 +6,13 @@ import com.quintus.labs.grocerystore.model.AdvertisementBanner;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.Currency;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.PopularProducts;
+import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -93,15 +95,15 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/recently_added/?page={page}&page_size={pageSize}")
-    Call<ProductResult> newProducts(@Header("token") Token token);
+    Call<PopularProducts> newProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/category/${id}/products/?page={page}&page_size={pageSize}")
-    Call<ProductResult> allProducts(@Header("token") Token token);
+    @GET("catalog/category/{id}/products/?page={page}&page_size={pageSize}")
+    Call<PopularProducts> allProducts(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
-    Call<ProductResult> productDetails(@Header("token") Token token);
+    Call<ProductDetails> productDetails(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/wishlist/")
@@ -109,7 +111,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/currency_lists/")
-    Call<ProductResult> currencyData(@Header("token") Token token);
+    Call<Currency> currencyData(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
@@ -204,7 +206,7 @@ public interface RestService {
     Call<ProductResult> cartAddRemoveQuantity(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("config/promotion_images/?page_size=4&page=1")
+    @GET("config/promotion_images/?page_size=10&page=1")
     Call<AdvertisementBanner> getAdvertisementBanners(@Header("token") Token token);
 
 
