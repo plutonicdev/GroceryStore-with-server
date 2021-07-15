@@ -4,54 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CategoryResult {
-//    @SerializedName("categories")
-//    List<Category> categoryList;
-//    @SerializedName("code")
-//    int code;
-//    @SerializedName("status")
-//    String status;
-//
-//    public List<Category> getCategoryList() {
-//        return categoryList;
-//    }
-//
-//    public void setCategoryList(List<Category> categoryList) {
-//        this.categoryList = categoryList;
-//    }
-//
-//    public int getCode() {
-//        return code;
-//    }
-//
-//    public void setCode(int code) {
-//        this.code = code;
-//    }
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
+public class PopularProducts {
 
-   
+  
     @SerializedName("total_pages")
-   
+    
     private Integer totalPages;
     @SerializedName("total_items")
-   
+    
     private Integer totalItems;
     @SerializedName("page_size")
-   
+    
     private Object pageSize;
     @SerializedName("results")
-   
-    private List<Category> results = null;
+    
+    private List<PopularProductsResult> results = null;
     @SerializedName("extra_data")
-   
-
+    
 
     public Integer getTotalPages() {
         return totalPages;
@@ -77,14 +46,13 @@ public class CategoryResult {
         this.pageSize = pageSize;
     }
 
-    public List<Category> getResults() {
+    public List<PopularProductsResult> getResults() {
         return results;
     }
 
-    public void setResults(List<Category> results) {
+    public void setResults(List<PopularProductsResult> results) {
         this.results = results;
     }
-
 
 
 }
