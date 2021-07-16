@@ -78,31 +78,31 @@ public class CategoryFragment extends Fragment {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
-        call.enqueue(new Callback<CategoryResult>() {
-            @Override
-            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    CategoryResult categoryResult = response.body();
-                    if (categoryResult.getCode() == 200) {
-
-                        categoryList = categoryResult.getCategoryList();
-                        setupCategoryRecycleView();
-
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResult> call, Throwable t) {
-                Log.d("Error==>", t.getMessage());
-            }
-        });
+//        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
+//        call.enqueue(new Callback<CategoryResult>() {
+//            @Override
+//            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    CategoryResult categoryResult = response.body();
+//                    if (categoryResult.getCode() == 200) {
+//
+//                        categoryList = categoryResult.getCategoryList();
+//                        setupCategoryRecycleView();
+//
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CategoryResult> call, Throwable t) {
+//                Log.d("Error==>", t.getMessage());
+//            }
+//        });
 
     }
 

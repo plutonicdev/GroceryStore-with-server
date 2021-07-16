@@ -10,6 +10,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.model.Banners;
 
 /**
  * Grocery App
@@ -30,6 +31,9 @@ public class HomeSliderAdapter extends PagerAdapter {
     public HomeSliderAdapter(Context context, Integer[] images) {
         this.context = context;
         this.images = images;
+    }
+
+    public HomeSliderAdapter(Banners bannersList, Context context) {
     }
 
     @Override

@@ -168,41 +168,41 @@ public class AddressFragment extends Fragment {
 
     private void saveUserAddress(final User userAddress) {
         showProgressDialog();
-        Call<AddAddressListResponse> call = RestClient.getRestService(getContext()).updateUser(userAddress);
-        call.enqueue(new Callback<AddAddressListResponse>() {
-            @Override
-            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-                    if (response.code() == 200) {
-                        user.setAddress(userAddress.getAddress());
-                        user.setState(userAddress.getState());
-                        user.setCountry(userAddress.getCountry());
-                        user.setCity(userAddress.getCity());
-                        user.setAddress_type(userAddress.getAddress_type());
-                        user.setZip(userAddress.getZip());
-                        user.setZip(userAddress.getZip());
-                        userString = gson.toJson(user);
-                        localStorage.createUserLoginSession(userString);
-
-                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-                        ft.replace(R.id.content_frame, new PaymentFragment());
-                        ft.commit();
-                    } else {
-                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
-
-            }
-        });
+//        Call<AddAddressListResponse> call = RestClient.getRestService(getContext()).updateUser(userAddress);
+//        call.enqueue(new Callback<AddAddressListResponse>() {
+//            @Override
+//            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//                    if (response.code() == 200) {
+//                        user.setAddress(userAddress.getAddress());
+//                        user.setState(userAddress.getState());
+//                        user.setCountry(userAddress.getCountry());
+//                        user.setCity(userAddress.getCity());
+//                        user.setAddress_type(userAddress.getAddress_type());
+//                        user.setZip(userAddress.getZip());
+//                        user.setZip(userAddress.getZip());
+//                        userString = gson.toJson(user);
+//                        localStorage.createUserLoginSession(userString);
+//
+//                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+//                        ft.replace(R.id.content_frame, new PaymentFragment());
+//                        ft.commit();
+//                    } else {
+//                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 

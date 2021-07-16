@@ -1,5 +1,6 @@
 package com.quintus.labs.grocerystore.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -75,6 +76,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
@@ -84,27 +86,27 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         cartList = ((BaseActivity) context).getCartList();
 
         holder.title.setText(product.getName());
-        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-            holder.price.setText(product.getDiscount());
-            holder.org_price.setText(product.getPrice());
+        if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
+            holder.price.setText(product.getCurrency().getSymbol() +(" ")+product.getPrice());
+            holder.org_price.setText(product.getMrp());
             holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         } else {
-            holder.price.setText(product.getPrice());
+            holder.price.setText(product.getCurrency().getSymbol() +(" ")+product.getPrice());
             holder.org_price.setVisibility(View.GONE);
         }
      //   holder.attribute.setText(product.getAttribute());
-//        Picasso.get().load(Utils.ProductImage + product.getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
-//            @Override
-//            public void onSuccess() {
-//                holder.progressBar.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onError(Exception e) {
-//                Log.d("Error : ", e.getMessage());
-//            }
-//        });
+        Picasso.get().load( product.getImages().get(0).getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.d("Error : ", e.getMessage());
+            }
+        });
 
 
         if (!cartList.isEmpty()) {
@@ -129,7 +131,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                 } else {
                     _price = product.getPrice();
                 }
-             //   holder.currency.setText(product.getCurrency());
+                holder.currency.setText(product.getCurrency().getSymbol());
                 _quantity = holder.quantity.getText().toString();
               //  _attribute = product.getAttribute();
                 _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));

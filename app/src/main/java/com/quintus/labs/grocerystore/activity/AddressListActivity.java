@@ -57,43 +57,43 @@ public class AddressListActivity extends AppCompatActivity {
 
     public void  AddressDataList(){
 
-        Call<AddAddressListResponse> call = RestClient.getRestService(getApplicationContext()).getAddressList(user);
-        call.enqueue(new Callback<AddAddressListResponse>() {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
-                AddAddressListResponse addressListResponse = response.body();
-                if (addressListResponse != null) {
-//                    Log.d(TAG, "onResponse: " + response.body());
-                    if (response.code() == 200) {
-//                        if (addressListResponse.getAddressListData().getAddressCount() > 0) {
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
-//                            address = addressListResponse.getAddressListData().getAddresses();
+//        Call<AddAddressListResponse> call = RestClient.getRestService(getApplicationContext()).getAddressList(user);
+//        call.enqueue(new Callback<AddAddressListResponse>() {
+//            @SuppressLint("LongLogTag")
+//            @Override
+//            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
+//                AddAddressListResponse addressListResponse = response.body();
+//                if (addressListResponse != null) {
+////                    Log.d(TAG, "onResponse: " + response.body());
+//                    if (response.code() == 200) {
+////                        if (addressListResponse.getAddressListData().getAddressCount() > 0) {
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////                            address = addressListResponse.getAddressListData().getAddresses();
+////
+////                            showAddressData();
+////                        }
+//                    }
 //
-//                            showAddressData();
-//                        }
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.label_something_went_wrong), Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-
-
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_try_after_sometime), Toast.LENGTH_LONG).show();
-            }
-        });
+//                } else {
+//                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.label_something_went_wrong), Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//
+//
+//
+//            @SuppressLint("LongLogTag")
+//            @Override
+//            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_try_after_sometime), Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     private void showAddressData() {

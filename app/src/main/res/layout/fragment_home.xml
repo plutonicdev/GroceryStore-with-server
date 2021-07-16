@@ -20,7 +20,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"></androidx.viewpager.widget.ViewPager>
+                        android:layout_alignParentTop="true" />
 
                     <LinearLayout
                         android:id="@+id/SliderDots"
@@ -45,7 +45,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal" />
                 </RelativeLayout>
 
 
@@ -59,7 +59,7 @@
                         android:id="@+id/category_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+                        />
                 </RelativeLayout>
 
 
@@ -85,10 +85,10 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/new_product_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:layout_height="wrap_content">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
@@ -152,15 +152,13 @@
                             android:layout_marginTop="5dp"
                             android:text="Popular Products"
                             android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/popular_product_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

@@ -83,7 +83,7 @@ public class ProductActivity extends BaseActivity {
         token = new Token(user.getToken());
         Intent intent = getIntent();
         categoryName = intent.getStringExtra("category");
-        category = new Category(categoryName, user.getToken());
+       // category = new Category(categoryName, user.getToken());
 
 
         cart_count = cartCount();
@@ -97,33 +97,33 @@ public class ProductActivity extends BaseActivity {
 
     private void getCategoryProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setUpRecyclerView();
-
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-                hideProgressDialog();
-
-            }
-        });
+//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        productList = productResult.getProductList();
+//                        setUpRecyclerView();
+//
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//                hideProgressDialog();
+//
+//            }
+//        });
 
     }
 

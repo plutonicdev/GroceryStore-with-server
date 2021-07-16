@@ -18,6 +18,8 @@ import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
+import com.quintus.labs.grocerystore.model.PopularProducts;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
@@ -48,8 +50,10 @@ public class PopularProductFragment extends Fragment {
     Gson gson = new Gson();
     User user;
     Token token;
-    List<Product> productList = new ArrayList<>();
+    List<PopularProductsResult> productList = new ArrayList<>();
     private PopularProductAdapter pAdapter;
+    int page=1;
+    int page_size=10;
 
 
     public PopularProductFragment() {
@@ -85,17 +89,17 @@ public class PopularProductFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token,page,page_size);
+        call.enqueue(new Callback<PopularProducts>() {
             @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
 
-                        productList = productResult.getProductList();
+                        productList = productResult.getResults();
                         setupPopularProductRecycleView();
 
                     }
@@ -106,7 +110,7 @@ public class PopularProductFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
                 hideProgressDialog();
             }
         });

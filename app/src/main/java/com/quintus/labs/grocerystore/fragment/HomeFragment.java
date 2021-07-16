@@ -73,12 +73,15 @@ public class HomeFragment extends Fragment {
     private List<Category> categoryList = new ArrayList<>();
     private List<PopularProductsResult> productList = new ArrayList<>();
     private List<PopularProductsResult> popularProductList = new ArrayList<>();
+    private List<Banners> bannersList = new ArrayList<>();
     private RecyclerView recyclerView, nRecyclerView, pRecyclerView;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
     private PopularProductAdapter pAdapter;
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
-
+    int page=1;
+    int page_size=10;
+    HomeSliderAdapter viewPagerAdapter;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -109,9 +112,9 @@ public class HomeFragment extends Fragment {
 
         sliderDotspanel = view.findViewById(R.id.SliderDots);
 
-        HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
-
-        viewPager.setAdapter(viewPagerAdapter);
+//        HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
+//
+//        viewPager.setAdapter(viewPagerAdapter);
 
         dotscount = viewPagerAdapter.getCount();
         dots = new ImageView[dotscount];
@@ -160,7 +163,7 @@ public class HomeFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token,page,page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -200,7 +203,7 @@ public class HomeFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token,page,page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -249,11 +252,9 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<Banners> call, Response<Banners> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
-
-                    Banners Banners = response.body();
                     if (response.code() == 200) {
-
-
+//                        bannersList = response.body();
+//                        setupBannersRecycleView();
 
                     }
 
@@ -273,31 +274,31 @@ public class HomeFragment extends Fragment {
 
         showProgressDialog();
 
-//        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
-//        call.enqueue(new Callback<CategoryResult>() {
-//            @Override
-//            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    CategoryResult categoryResult = response.body();
-//                    if (categoryResult.getCode() == 200) {
-//
-//                        categoryList = categoryResult.getCategoryList();
-//                        setupCategoryRecycleView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CategoryResult> call, Throwable t) {
-//                Log.d("Error==>", t.getMessage());
-//            }
-//        });
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token,page,page_size);
+        call.enqueue(new Callback<CategoryResult>() {
+            @Override
+            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CategoryResult categoryResult = response.body();
+                    if (response.code() == 200) {
+
+                        categoryList = categoryResult.getResults();
+                        setupCategoryRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResult> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
 
     }
 
@@ -307,6 +308,17 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+
+    }
+
+    private void setupBannersRecycleView() {
+     //   viewPagerAdapter = new HomeSliderAdapter(bannersList, getContext());
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(mAdapter);
+    //    viewPager.setAdapter(viewPagerAdapter);
 
 
     }

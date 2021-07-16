@@ -72,29 +72,29 @@ public class MyOrderFragment extends Fragment {
 
     private void fetchOrderDetails(Order order) {
 
-        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
-        call.enqueue(new Callback<OrdersResult>() {
-            @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    OrdersResult ordersResult = response.body();
-                    if (ordersResult.getCode() == 200) {
-
-                        orderList = ordersResult.getOrderList();
-                        setupOrderRecycleView();
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
-
-            }
-        });
+//        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
+//        call.enqueue(new Callback<OrdersResult>() {
+//            @Override
+//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    OrdersResult ordersResult = response.body();
+//                    if (ordersResult.getCode() == 200) {
+//
+//                        orderList = ordersResult.getOrderList();
+//                        setupOrderRecycleView();
+//
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrdersResult> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 
