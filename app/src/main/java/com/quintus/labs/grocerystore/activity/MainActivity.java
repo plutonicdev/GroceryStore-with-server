@@ -159,33 +159,33 @@ public class MainActivity extends BaseActivity
     }
 
     private void getSearchProduct(String query) {
-        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setUpRecyclerView();
-
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-
-
-            }
-        });
+//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        productList = productResult.getProductList();
+//                        setUpRecyclerView();
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//
+//
+//            }
+//        });
 
     }
 

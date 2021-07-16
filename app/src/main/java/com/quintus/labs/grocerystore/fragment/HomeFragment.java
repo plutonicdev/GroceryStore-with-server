@@ -31,8 +31,9 @@ import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -70,8 +71,8 @@ public class HomeFragment extends Fragment {
     private int dotscount;
     private ImageView[] dots;
     private List<Category> categoryList = new ArrayList<>();
-    private List<Product> productList = new ArrayList<>();
-    private List<Product> popularProductList = new ArrayList<>();
+    private List<PopularProductsResult> productList = new ArrayList<>();
+    private List<PopularProductsResult> popularProductList = new ArrayList<>();
     private RecyclerView recyclerView, nRecyclerView, pRecyclerView;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
@@ -159,17 +160,18 @@ public class HomeFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token);
+        call.enqueue(new Callback<PopularProducts>() {
             @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
 
-                        popularProductList = productResult.getProductList();
+                        assert productResult != null;
+                        popularProductList = productResult.getResults();
                         setupPopularProductRecycleView();
 
                     }
@@ -180,7 +182,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
 
             }
         });
@@ -198,17 +200,18 @@ public class HomeFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token);
+        call.enqueue(new Callback<PopularProducts>() {
             @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
 
-                        productList = productResult.getProductList();
+                        assert productResult != null;
+                        productList = productResult.getResults();
                         setupProductRecycleView();
 
                     }
@@ -219,7 +222,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
                 Log.d("Error", t.getMessage());
                 hideProgressDialog();
 
@@ -270,31 +273,31 @@ public class HomeFragment extends Fragment {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
-        call.enqueue(new Callback<CategoryResult>() {
-            @Override
-            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    CategoryResult categoryResult = response.body();
-                    if (categoryResult.getCode() == 200) {
-
-                        categoryList = categoryResult.getCategoryList();
-                        setupCategoryRecycleView();
-
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResult> call, Throwable t) {
-                Log.d("Error==>", t.getMessage());
-            }
-        });
+//        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
+//        call.enqueue(new Callback<CategoryResult>() {
+//            @Override
+//            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    CategoryResult categoryResult = response.body();
+//                    if (categoryResult.getCode() == 200) {
+//
+//                        categoryList = categoryResult.getCategoryList();
+//                        setupCategoryRecycleView();
+//
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CategoryResult> call, Throwable t) {
+//                Log.d("Error==>", t.getMessage());
+//            }
+//        });
 
     }
 
