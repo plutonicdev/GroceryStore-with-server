@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
     int page=1;
     int page_size=10;
-    HomeSliderAdapter viewPagerAdapter;
+   // HomeSliderAdapter viewPagerAdapter;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -112,9 +112,9 @@ public class HomeFragment extends Fragment {
 
         sliderDotspanel = view.findViewById(R.id.SliderDots);
 
-//        HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
-//
-//        viewPager.setAdapter(viewPagerAdapter);
+       HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
+
+       viewPager.setAdapter(viewPagerAdapter);
 
         dotscount = viewPagerAdapter.getCount();
         dots = new ImageView[dotscount];
