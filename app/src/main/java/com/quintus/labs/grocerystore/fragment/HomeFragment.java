@@ -22,12 +22,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.adapter.AdvertisementBannerAdapter;
 import com.quintus.labs.grocerystore.adapter.CategoryAdapter;
 import com.quintus.labs.grocerystore.adapter.HomeSliderAdapter;
 import com.quintus.labs.grocerystore.adapter.NewProductAdapter;
 import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
+import com.quintus.labs.grocerystore.model.AdvertisementBanner;
+import com.quintus.labs.grocerystore.model.AdvertisementBannerResult;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
@@ -71,13 +74,15 @@ public class HomeFragment extends Fragment {
     private int dotscount;
     private ImageView[] dots;
     private List<Category> categoryList = new ArrayList<>();
+    private List<AdvertisementBannerResult> advertisementBannerList = new ArrayList<>();
     private List<PopularProductsResult> productList = new ArrayList<>();
     private List<PopularProductsResult> popularProductList = new ArrayList<>();
     private List<Banners> bannersList = new ArrayList<>();
-    private RecyclerView recyclerView, nRecyclerView, pRecyclerView;
+    private RecyclerView recyclerView, nRecyclerView, pRecyclerView,adv_banner_rv;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
     private PopularProductAdapter pAdapter;
+    private AdvertisementBannerAdapter advBannerAdapter;
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
     int page=1;
     int page_size=10;
@@ -95,6 +100,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.category_rv);
         pRecyclerView = view.findViewById(R.id.popular_product_rv);
+        adv_banner_rv = view.findViewById(R.id.adv_banner_rv);
         nRecyclerView = view.findViewById(R.id.new_product_rv);
         progress = view.findViewById(R.id.progress_bar);
 
@@ -102,9 +108,10 @@ public class HomeFragment extends Fragment {
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = new Token(user.getToken());
         getBannerData();
-//        getCategoryData();
-//        getNewProduct();
-//        getPopularProduct();
+        getCategoryData();
+        getNewProduct();
+        getPopularProduct();
+        getOffersData();
 
 
         timer = new Timer();
@@ -308,6 +315,48 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+
+    }
+private void getOffersData() {
+
+        showProgressDialog();
+
+        Call<AdvertisementBanner> call = RestClient.getRestService(getContext()).getAdvertisementBanners(token,page,page_size);
+        call.enqueue(new Callback<AdvertisementBanner>() {
+            @Override
+            public void onResponse(Call<AdvertisementBanner> call, Response<AdvertisementBanner> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    AdvertisementBanner advertisementBanner = response.body();
+                    if (response.code() == 200) {
+
+                        assert advertisementBanner != null;
+                        advertisementBannerList = advertisementBanner.getResults();
+                        setupOffersRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<AdvertisementBanner> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
+
+    }
+
+    private void setupOffersRecycleView() {
+        advBannerAdapter = new AdvertisementBannerAdapter(advertisementBannerList, getContext(), "Home");
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        adv_banner_rv.setLayoutManager(mLayoutManager);
+        adv_banner_rv.setItemAnimator(new DefaultItemAnimator());
+        adv_banner_rv.setAdapter(advBannerAdapter);
 
 
     }
