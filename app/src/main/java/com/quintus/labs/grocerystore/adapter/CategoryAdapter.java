@@ -66,29 +66,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
         final Category category = categoryList.get(position);
-        holder.title.setText(category.getCategry());
-        Log.d("Category Image ==>", category.getCateimg());
+//        holder.title.setText(category.getCategry());
+//        Log.d("Category Image ==>", category.getCateimg());
         if (Tag.equalsIgnoreCase("Category")) {
-            Picasso.get()
-                    .load(Utils.CategoryImage + category.getCateimg())
-                    .into(holder.imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.progressBar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.d("Error : ", e.getMessage());
-                        }
-                    });
+//            Picasso.get()
+//                    .load(Utils.CategoryImage + category.getCateimg())
+//                    .into(holder.imageView, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            holder.progressBar.setVisibility(View.GONE);
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            Log.d("Error : ", e.getMessage());
+//                        }
+//                    });
         }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("category", category.getCategry());
+//                intent.putExtra("category", category.getCategry());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }
@@ -98,7 +98,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("category", category.getCategry());
+//                intent.putExtra("category", category.getCategry());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }

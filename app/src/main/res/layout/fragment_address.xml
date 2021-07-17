@@ -268,11 +268,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
-                                    android:text="State"
+                                    android:text="Country"
                                     android:textSize="14dp" />
 
                                 <Spinner
-                                    android:id="@+id/stateSpinner"
+                                    android:id="@+id/countrySpinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
@@ -343,11 +343,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
-                                android:text="Country"
+                                android:text="State"
                                 android:textSize="14dp" />
 
                             <Spinner
-                                android:id="@+id/countrySpinner"
+                                android:id="@+id/stateSpinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"

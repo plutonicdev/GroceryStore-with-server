@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.SearchAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.fragment.AddressFragment;
 import com.quintus.labs.grocerystore.fragment.CategoryFragment;
 import com.quintus.labs.grocerystore.fragment.HomeFragment;
 import com.quintus.labs.grocerystore.fragment.MyOrderFragment;
@@ -60,7 +61,7 @@ import retrofit2.Response;
  * Created on 18-Feb-2019.
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
-public class MainActivity extends BaseActivity
+public class  MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int cart_count = 0;
     User user;
@@ -146,7 +147,7 @@ public class MainActivity extends BaseActivity
                         recyclerView.setVisibility(View.GONE);
                         productList = new ArrayList<>();
                     } else {
-                        getSearchProduct(s);
+//                        getSearchProduct(s);
                     }
 
                     return true;
@@ -157,37 +158,37 @@ public class MainActivity extends BaseActivity
 
         return true;
     }
-
-    private void getSearchProduct(String query) {
-        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setUpRecyclerView();
-
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-
-
-            }
-        });
-
-    }
+//
+//    private void getSearchProduct(String query) {
+//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        productList = productResult.getProductList();
+//                        setUpRecyclerView();
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//
+//
+//            }
+//        });
+//
+//    }
 
     private void setUpRecyclerView() {
         if (productList.size() > 0) {
@@ -286,6 +287,9 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_profile:
                 fragment = new ProfileFragment();
+                break;
+            case R.id.nav_address:
+                fragment = new AddressFragment();
                 break;
             case R.id.nav_category:
                 fragment = new CategoryFragment();

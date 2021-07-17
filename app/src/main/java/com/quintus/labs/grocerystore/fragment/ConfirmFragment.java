@@ -120,7 +120,7 @@ public class ConfirmFragment extends Fragment {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeUserOrder();
+//                placeUserOrder();
             }
         });
 
@@ -128,35 +128,35 @@ public class ConfirmFragment extends Fragment {
         return view;
     }
 
-    private void placeUserOrder() {
-        progressDialog.setMessage("Confirming Order...");
-        progressDialog.show();
-        Log.d("Confirm Order==>", gson.toJson(confirmOrder));
-        Call<OrdersResult> call = RestClient.getRestService(getContext()).confirmPlaceOrder(confirmOrder);
-        call.enqueue(new Callback<OrdersResult>() {
-            @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                Log.d("respose==>", response.body().getCode() + "");
-
-                OrdersResult ordersResult = response.body();
-
-                if (ordersResult.getCode() == 200) {
-                    localStorage.deleteCart();
-                    showCustomDialog();
-                }
-
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
-                Log.d("Error respose==>", t.getMessage() + "");
-                progressDialog.dismiss();
-            }
-        });
-
-
-    }
+//    private void placeUserOrder() {
+//        progressDialog.setMessage("Confirming Order...");
+//        progressDialog.show();
+//        Log.d("Confirm Order==>", gson.toJson(confirmOrder));
+//        Call<OrdersResult> call = RestClient.getRestService(getContext()).confirmPlaceOrder(confirmOrder);
+//        call.enqueue(new Callback<OrdersResult>() {
+//            @Override
+//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
+//                Log.d("respose==>", response.body().getCode() + "");
+//
+//                OrdersResult ordersResult = response.body();
+//
+//                if (ordersResult.getCode() == 200) {
+//                    localStorage.deleteCart();
+//                    showCustomDialog();
+//                }
+//
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrdersResult> call, Throwable t) {
+//                Log.d("Error respose==>", t.getMessage() + "");
+//                progressDialog.dismiss();
+//            }
+//        });
+//
+//
+//    }
 
 
     private void showCustomDialog() {

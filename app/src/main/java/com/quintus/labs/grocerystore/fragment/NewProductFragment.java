@@ -69,42 +69,42 @@ public class NewProductFragment extends Fragment {
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = new Token(user.getToken());
 
-        getNewProduct();
+//        getNewProduct();
 
         return view;
     }
 
-
-    private void getNewProduct() {
-        showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setupProductRecycleView();
-
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-                hideProgressDialog();
-
-            }
-        });
-    }
+//
+//    private void getNewProduct() {
+//        showProgressDialog();
+//        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        productList = productResult.getProductList();
+//                        setupProductRecycleView();
+//
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//                hideProgressDialog();
+//
+//            }
+//        });
+//    }
 
     private void setupProductRecycleView() {
         pAdapter = new NewProductAdapter(productList, getContext(), "new");

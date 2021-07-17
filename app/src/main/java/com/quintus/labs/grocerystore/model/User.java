@@ -37,9 +37,7 @@ public class User {
 
     public User() {
     }
-
-    public User(String id,String name, String phone, String email, String address, String address_type, String country, String state, String city, String zip, String token) {
-        this.id= id;
+    public User(String name, String phone, String email, String address, String address_type, String country, String state, String city, String zip) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -49,7 +47,6 @@ public class User {
         this.state = state;
         this.city = city;
         this.zip = zip;
-        this.token = token;
     }
 
     public User(String name, String phone) {
@@ -72,17 +69,7 @@ public class User {
         this.firebase_token = firebase_token;
     }
 
-    public User(String id, String fname, String phone, String email, String address, String state, String city, String zip, String token) {
-        this.id = id;
-        this.fname = fname;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.state = state;
-        this.city = city;
-        this.zip = zip;
-        this.token = token;
-    }
+
 
     public String getAddress_type() {
         return address_type;

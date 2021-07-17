@@ -65,38 +65,38 @@ public class MyOrderFragment extends Fragment {
 
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
         order = new Order(user.getId(), user.getToken());
-        fetchOrderDetails(order);
+//        fetchOrderDetails(order);
 
         return view;
     }
 
-    private void fetchOrderDetails(Order order) {
-
-        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
-        call.enqueue(new Callback<OrdersResult>() {
-            @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    OrdersResult ordersResult = response.body();
-                    if (ordersResult.getCode() == 200) {
-
-                        orderList = ordersResult.getOrderList();
-                        setupOrderRecycleView();
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
-
-            }
-        });
-
-    }
+//    private void fetchOrderDetails(Order order) {
+//
+//        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
+//        call.enqueue(new Callback<OrdersResult>() {
+//            @Override
+//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    OrdersResult ordersResult = response.body();
+//                    if (ordersResult.getCode() == 200) {
+//
+//                        orderList = ordersResult.getOrderList();
+//                        setupOrderRecycleView();
+//
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrdersResult> call, Throwable t) {
+//
+//            }
+//        });
+//
+//    }
 
     private void setupOrderRecycleView() {
         if (orderList.isEmpty()) {

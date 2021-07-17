@@ -1,19 +1,24 @@
 package com.quintus.labs.grocerystore.api;
 
 
+import com.quintus.labs.grocerystore.model.AddAddress;
 import com.quintus.labs.grocerystore.model.AddAddressListResponse;
 import com.quintus.labs.grocerystore.model.AdvertisementBanner;
 import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.City;
+import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.Currency;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
+import com.quintus.labs.grocerystore.model.Pin;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.State;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
@@ -115,7 +120,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
-    Call<ProductResult> addressList(@Header("token") Token token);
+    Call<AddAddressListResponse> getAddressList(@Header("token") User user);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/default/")
@@ -123,7 +128,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/address/create/")
-    Call<ProductResult> addAddress(@Header("token") Token token);
+    Call<AddAddress> addAddress(@Header("token") User user);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
@@ -151,20 +156,20 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/countries/")
-    Call<ProductResult> country(@Header("token") Token token);
+    Call<Country> country(@Header("token") User user);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
-    Call<ProductResult> state(@Header("token") Token token);
+    Call<State> state(@Header("token") User user);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<ProductResult> city(@Header("token") Token token);
+    Call<City> city(@Header("token") User user);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
-    Call<ProductResult> pin(@Header("token") Token token);
+    Call<Pin> pin(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
@@ -227,8 +232,8 @@ public interface RestService {
 //
 //    @POST("users/address/create/")
 //    Call<AddAddressListResponse> updateUser(@Body User user);
-//
-//    @GET("/users/address/list/")
+
+//    @GET("users/address/list/")
 //    Call<AddAddressListResponse> getAddressList(@Body User user);
 
 

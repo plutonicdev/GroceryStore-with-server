@@ -86,12 +86,12 @@ public class CategoryFragment extends Fragment {
                 if (response != null) {
 
                     CategoryResult categoryResult = response.body();
-                    if (categoryResult.getCode() == 200) {
-
-                        categoryList = categoryResult.getCategoryList();
-                        setupCategoryRecycleView();
-
-                    }
+//                    if (categoryResult.getCode() == 200) {
+//
+//                        categoryList = categoryResult.getCategoryList();
+//                        setupCategoryRecycleView();
+//
+//                    }
 
                 }
 

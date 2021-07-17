@@ -52,4 +52,8 @@
     <string name="home">Home</string>
     <string name="work">Work</string>
     <string name="address">Address</string>
+    <string name="please_select_country">Please select Country</string>
+    <string name="please_select_state">Please select State</string>
+    <string name="please_select_city">Please select City</string>
+    <string name="please_select_address_type">Please select Address Type</string>
 </resources>

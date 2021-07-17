@@ -2,10 +2,7 @@ package com.quintus.labs.grocerystore.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class AddAddressListResponse {
-
+public class AddAddress {
     @SerializedName("name")
     private String name;
     @SerializedName("phone")
@@ -23,7 +20,6 @@ public class AddAddressListResponse {
     @SerializedName("address_type")
     private String addressType;
     @SerializedName("country")
-//    List<Country> countryList;
     private Integer country;
     @SerializedName("city")
     private Integer city;
@@ -34,13 +30,7 @@ public class AddAddressListResponse {
     @SerializedName("is_default")
     private Boolean isDefault;
 
-    List<Country> countryList;
-    List<State> stateList;
-    List<City> cityList;
-    List<Pin> pinList;
-
-
-    public AddAddressListResponse(String name, String phone, String email, String address, String addressType, Integer country, Integer city, Integer pin, Integer state, Boolean isDefault) {
+    public AddAddress(String name, String phone, String email, String address, String addressType, Integer country, Integer city, Integer pin, Integer state) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -50,39 +40,6 @@ public class AddAddressListResponse {
         this.city = city;
         this.pin = pin;
         this.state = state;
-        this.isDefault = isDefault;
-    }
-
-    public List<Country> getCountryList() {
-        return countryList;
-    }
-
-    public void setCountryList(List<Country> countryList) {
-        this.countryList = countryList;
-    }
-
-    public List<State> getStateList() {
-        return stateList;
-    }
-
-    public void setStateList(List<State> stateList) {
-        this.stateList = stateList;
-    }
-
-    public List<City> getCityList() {
-        return cityList;
-    }
-
-    public void setCityList(List<City> cityList) {
-        this.cityList = cityList;
-    }
-
-    public List<Pin> getPinList() {
-        return pinList;
-    }
-
-    public void setPinList(List<Pin> pinList) {
-        this.pinList = pinList;
     }
 
     public String getName() {
@@ -149,13 +106,13 @@ public class AddAddressListResponse {
         this.addressType = addressType;
     }
 
-        public Integer getCountry() {
-            return country;
-        }
+    public Integer getCountry() {
+        return country;
+    }
 
-        public void setCountry(Integer country) {
-            this.country = country;
-        }
+    public void setCountry(Integer country) {
+        this.country = country;
+    }
 
     public Integer getCity() {
         return city;
@@ -190,3 +147,4 @@ public class AddAddressListResponse {
     }
 
 }
+

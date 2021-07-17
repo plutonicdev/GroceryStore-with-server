@@ -70,7 +70,7 @@ public class PopularProductFragment extends Fragment {
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = new Token(user.getToken());
-        getPopularProduct();
+//        getPopularProduct();
 
 
         return view;
@@ -83,34 +83,34 @@ public class PopularProductFragment extends Fragment {
         getActivity().setTitle("Popular");
     }
 
-    private void getPopularProduct() {
-        showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setupPopularProductRecycleView();
-
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                hideProgressDialog();
-            }
-        });
-    }
+//    private void getPopularProduct() {
+//        showProgressDialog();
+//        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        productList = productResult.getProductList();
+//                        setupPopularProductRecycleView();
+//
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                hideProgressDialog();
+//            }
+//        });
+//    }
 
     private void setupPopularProductRecycleView() {
 
