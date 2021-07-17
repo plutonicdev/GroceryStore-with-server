@@ -8,7 +8,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2">
+    android:background="#FFFFFF">
 
     <ScrollView
 
@@ -32,8 +32,8 @@
 
                     <ImageView
                         android:id="@+id/apv_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
                         android:layout_centerInParent="true"
                         android:adjustViewBounds="true" />
 
@@ -184,43 +184,6 @@
                     android:padding="16dp" />
 
 
-                <!--*********weight**********-->
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="horizontal">
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
-                        android:id="@+id/weight1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Weight"
-                        android:textColor="@color/colorSub" />
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
-                        android:id="@+id/apv_attribute"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="143 grams"
-                        android:textColor="@color/colorTex" />
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/colordevider"
-                    android:padding="16dp" />
-
-
                 <!--*********discription**********-->
 
                 <LinearLayout
@@ -233,11 +196,9 @@
                     android:orientation="horizontal">
 
                     <com.quintus.labs.grocerystore.customfonts.TextViewRegular
-                        android:id="@+id/disc1"
-
+                        android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/arrow2"
                         android:text="Item discription"
                         android:textColor="@color/colorSub"
 
@@ -252,32 +213,6 @@
                     android:background="@color/colordevider"
                     android:padding="16dp" />
 
-
-                <!--*********Est. delivery**********-->
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="horizontal">
-
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
-                        android:id="@+id/apv_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTex" />
-
-                </LinearLayout>
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colordevider"
-                    android:padding="16dp" />
 
 
                 <!--*********Returns**********-->
@@ -341,7 +276,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:drawableRight="@drawable/arrow2"
                         android:text="Money Back Guarantee"
                         android:textColor="@color/colorTex"
 
@@ -361,6 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginBottom="50dp"
                     android:weightSum="2">
 
                     <RelativeLayout
@@ -431,26 +366,27 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:orientation="horizontal"
                         android:visibility="visible">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:gravity="bottom"
-                            android:src="@drawable/icon1" />
+                            android:src="@drawable/icon1"
+                            android:tint="@color/colorPrimary"/>
 
                         <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                             android:id="@+id/addtocart"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="Add to cart"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="12dp" />
+                            android:textSize="16dp"
+                            android:layout_marginLeft="@dimen/margin_10dp"/>
 
                     </LinearLayout>
 
@@ -463,36 +399,36 @@
                         android:background="@color/colordevider"
 
                         />
-
                     <LinearLayout
                         android:id="@+id/apv_share"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:gravity="bottom"
                             android:src="@drawable/icon2"
-
                             />
 
                         <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                             android:id="@+id/share"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Share"
+                            android:text="Add to cart"
                             android:textColor="#4c71f5"
-                            android:textSize="12dp" />
+                            android:textSize="16dp"
+                            android:layout_marginLeft="@dimen/margin_10dp"/>
 
                     </LinearLayout>
+
 
                     <View
 
