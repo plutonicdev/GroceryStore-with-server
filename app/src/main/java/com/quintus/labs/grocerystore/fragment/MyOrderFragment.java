@@ -70,8 +70,8 @@ public class MyOrderFragment extends Fragment {
         return view;
     }
 
-//    private void fetchOrderDetails(Order order) {
-//
+    private void fetchOrderDetails(Order order) {
+
 //        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
 //        call.enqueue(new Callback<OrdersResult>() {
 //            @Override
@@ -95,8 +95,8 @@ public class MyOrderFragment extends Fragment {
 //
 //            }
 //        });
-//
-//    }
+
+    }
 
     private void setupOrderRecycleView() {
         if (orderList.isEmpty()) {

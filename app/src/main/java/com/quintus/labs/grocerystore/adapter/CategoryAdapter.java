@@ -50,13 +50,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView;
-        if (Tag.equalsIgnoreCase("Home")) {
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.row_home_category, parent, false);
-        } else {
+//        if (Tag.equalsIgnoreCase("Home")) {
+//            itemView = LayoutInflater.from(parent.getContext())
+//                    .inflate(R.layout.row_home_category, parent, false);
+//        } else {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_category, parent, false);
-        }
+      //  }
 
 
         return new MyViewHolder(itemView);
@@ -66,55 +66,55 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
         final Category category = categoryList.get(position);
-//        holder.title.setText(category.getCategry());
+        holder.title.setText(category.getName());
 //        Log.d("Category Image ==>", category.getCateimg());
-        if (Tag.equalsIgnoreCase("Category")) {
-//            Picasso.get()
-//                    .load(Utils.CategoryImage + category.getCateimg())
-//                    .into(holder.imageView, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            holder.progressBar.setVisibility(View.GONE);
-//                        }
+//        if (Tag.equalsIgnoreCase("Category")) {
+            Picasso.get()
+                    .load( category.getImage())
+                    .into(holder.imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("Error : ", e.getMessage());
+                        }
+                    });
+  //      }
 //
-//                        @Override
-//                        public void onError(Exception e) {
-//                            Log.d("Error : ", e.getMessage());
-//                        }
-//                    });
-        }
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProductActivity.class);
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, ProductActivity.class);
 //                intent.putExtra("category", category.getCategry());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intent);
-            }
-        });
-
-        holder.title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProductActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                context.startActivity(intent);
+//            }
+//        });
+//
+//        holder.title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, ProductActivity.class);
 //                intent.putExtra("category", category.getCategry());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intent);
-            }
-        });
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
 
     @Override
     public int getItemCount() {
-        if (Tag.equalsIgnoreCase("Home") && categoryList.size() < 6 && categoryList.size() > 3) {
-            return 3;
-        } else if (Tag.equalsIgnoreCase("Home") && categoryList.size() >= 6) {
-            return 6;
-        } else {
+//        if (Tag.equalsIgnoreCase("Home") && categoryList.size() < 6 && categoryList.size() > 3) {
+//            return 3;
+//        } else if (Tag.equalsIgnoreCase("Home") && categoryList.size() >= 6) {
+//            return 6;
+//        } else {
             return categoryList.size();
-        }
+       // }
 
     }
 

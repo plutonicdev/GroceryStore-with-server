@@ -52,6 +52,9 @@
     <string name="home">Home</string>
     <string name="work">Work</string>
     <string name="address">Address</string>
+    <string name="otp"><![CDATA[<font color="#a3a3a3">We will send you an</font> <font color="#000000">One Time Password</font> <font color="#a3a3a3">on this mobile number</font>]]></string>
+    <string name="otp1"><![CDATA[<font color="#a3a3a3">Enter OTP send to </font> <font color="#000000">+91-9876-564-656</font>]]></string>
+
     <string name="please_select_country">Please select Country</string>
     <string name="please_select_state">Please select State</string>
     <string name="please_select_city">Please select City</string>

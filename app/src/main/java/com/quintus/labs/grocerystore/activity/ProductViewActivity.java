@@ -21,14 +21,22 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.ProductDetails;
+import com.quintus.labs.grocerystore.model.Token;
+import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -48,7 +56,9 @@ public class ProductViewActivity extends BaseActivity {
     List<Cart> cartList = new ArrayList<>();
     int cartId;
     Cart cart;
-
+    ProductDetails productDetails;
+    Token token;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +66,12 @@ public class ProductViewActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
-        _id = intent.getStringExtra("id");
-        _title = intent.getStringExtra("title");
-        _image = intent.getStringExtra("image");
-        _description = intent.getStringExtra("description");
-        _price = intent.getStringExtra("price");
-        _currency = intent.getStringExtra("currency");
-        _discount = intent.getStringExtra("discount");
-        _attribute = intent.getStringExtra("attribute");
+          _id = intent.getStringExtra("id");
+        localStorage = new LocalStorage(getApplicationContext());
+        user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        token = new Token(user.getToken());
+
+        getProductDetails();
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         changeActionBarTitle(getSupportActionBar());
@@ -76,11 +84,10 @@ public class ProductViewActivity extends BaseActivity {
         cart_count = cartCount();
 
         title = findViewById(R.id.apv_title);
-        description = findViewById(R.id.apv_description);
+        description = findViewById(R.id.description);
         currency = findViewById(R.id.apv_currency);
         price = findViewById(R.id.apv_price);
         org_price = findViewById(R.id.apv_org_price);
-        attribute = findViewById(R.id.apv_attribute);
         discount = findViewById(R.id.apv_discount);
         imageView = findViewById(R.id.apv_image);
         progressBar = findViewById(R.id.progressbar);
@@ -92,49 +99,8 @@ public class ProductViewActivity extends BaseActivity {
         dec = findViewById(R.id.quantity_minus);
 
         cartList = getCartList();
-        title.setText(_title);
-        description.setText(_description);
-        if (_discount != "" && _discount.length() > 0) {
-            price.setText(_discount);
-            org_price.setText(_price);
-            org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        } else {
-            price.setText(_price);
-        }
-        currency.setText(_currency);
-        attribute.setText(_attribute);
-        discount.setText(_discount);
-        Log.d(TAG, "Discount : " + _discount);
 
 
-        if (_price != null && _price.length() != 0 && _price != "" && _discount != null && _discount.length() != 0 && _discount != "") {
-            double M = Double.parseDouble(_price);
-            double S = Double.parseDouble(_discount);
-            double discount_m = M - S;
-            int disPercent = (int) Math.round((discount_m / M) * 100);
-
-            if (disPercent > 1) {
-                discount.setText(disPercent + "% OFF");
-            } else {
-                discount.setVisibility(View.GONE);
-            }
-
-        } else {
-            discount.setVisibility(View.GONE);
-        }
-        if (_image != null) {
-            Picasso.get().load(Utils.ProductImage + _image).error(R.drawable.no_image).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            });
-        }
 
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
@@ -227,6 +193,49 @@ public class ProductViewActivity extends BaseActivity {
         });
 
 
+    }
+
+    private void getProductDetails() {
+
+        Call<ProductDetails>call = RestClient.getRestService(getApplicationContext()).productDetails(token,_id);
+        call.enqueue(new retrofit2.Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                if(response.code()==200){
+                    productDetails = response.body();
+                    title.setText(productDetails.getName());
+                    description.setText(productDetails.getDescription());
+                    org_price.setText(productDetails.getMrp());
+                    price.setText(productDetails.getPrice());
+                    currency.setText(productDetails.getCurrency().getSymbol());
+                    if(Double.parseDouble(productDetails.getDiscount())>0){
+                        discount.setText(productDetails.getDiscount());
+                        discount.setVisibility(View.VISIBLE);
+                    }else{
+                        discount.setVisibility(View.GONE);
+                    }
+
+                    if(productDetails.getImages().get(0).getImage()!=null){
+                        Picasso.get().load(productDetails.getImages().get(0).getImage()).error(R.drawable.no_image).into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+            }
+        });
     }
 
     private void changeActionBarTitle(ActionBar actionBar) {

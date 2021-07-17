@@ -37,6 +37,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -83,32 +84,32 @@ public interface RestService {
     Call<Banners> bannerList();
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/categories/?page={page}&page_size={pageSize}")
-    Call<CategoryResult> allCategory(@Header("token") Token token);
+    @GET("catalog/categories/")
+    Call<CategoryResult> allCategory(@Header("token") Token token, @Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("vouchers/list/?page={page}&page_size={pageSize}")
-    Call<VoucherList> allOffers(@Header("token") Token token);
+    @GET("vouchers/list/")
+    Call<VoucherList> allOffers(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
     Call<Category> popularCategory(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/popular_products/?page={page}&page_size={pageSize}")
-    Call<PopularProducts> popularProducts(@Header("token") Token token);
+    @GET("catalog/popular_products/")
+    Call<PopularProducts> popularProducts(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/product/recently_added/?page={page}&page_size={pageSize}")
-    Call<PopularProducts> newProducts(@Header("token") Token token);
+    @GET("catalog/product/recently_added/")
+    Call<PopularProducts> newProducts(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/category/{id}/products/?page={page}&page_size={pageSize}")
-    Call<PopularProducts> allProducts(@Header("token") Token token);
+    @GET("catalog/category/{id}/products/")
+    Call<PopularProducts> allProducts(@Header("token") Token token, @Path("id") String id, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
-    Call<ProductDetails> productDetails(@Header("token") Token token);
+    Call<ProductDetails> productDetails(@Header("token") Token token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/wishlist/")
@@ -132,27 +133,27 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
-    Call<ProductResult> updateAddress(@Header("token") Token token);
+    Call<ProductResult> updateAddress(@Header("token") Token token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("users/address/{id}/delete/")
-    Call<ProductResult> deleteAddress(@Header("token") Token token);
+    Call<ProductResult> deleteAddress(@Header("token") Token token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("catalog/search/?search={text}&page=1&page_size=100")
-    Call<ProductResult> searchProduct(@Header("token") Token token);
+    @GET("catalog/search/")
+    Call<ProductResult> searchProduct(@Header("token") Token token,@Query("search") String search,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("catalog/add_update_wishlist/")
     Call<ProductResult> addfavouriteProduct(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("orders/list/?page={page}&page_size={pageSize}")
-    Call<ProductResult> getOrderDetails(@Header("token") Token token);
+    @GET("orders/list/")
+    Call<ProductResult> getOrderDetails(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
-    Call<ProductResult> getSingleOrderDetails(@Header("token") Token token);
+    Call<ProductResult> getSingleOrderDetails(@Header("token") Token token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/countries/")
@@ -174,7 +175,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
-    Call<ProductResult> zip(@Header("token") Token token);
+    Call<ProductResult> zip(@Header("token") Token token,@Path("id") String id);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
@@ -187,7 +188,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/{id}/status_update/")
-    Call<ProductResult> updatePayment(@Header("token") Token token);
+    Call<ProductResult> updatePayment(@Header("token") Token token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/checkout/")
@@ -208,11 +209,11 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PATCH("baskets/{basketID}/lines/{lineID}/")
-    Call<ProductResult> cartAddRemoveQuantity(@Header("token") Token token);
+    Call<ProductResult> cartAddRemoveQuantity(@Header("token") Token token,@Path("basketID") String basketID,@Path("lineID") String lineID);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @GET("config/promotion_images/?page_size=10&page=1")
-    Call<AdvertisementBanner> getAdvertisementBanners(@Header("token") Token token);
+    @GET("config/promotion_images/")
+    Call<AdvertisementBanner> getAdvertisementBanners(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
 
 
     /* old apis */

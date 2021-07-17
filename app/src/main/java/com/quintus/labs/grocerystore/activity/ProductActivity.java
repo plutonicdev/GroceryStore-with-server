@@ -83,7 +83,11 @@ public class ProductActivity extends BaseActivity {
         token = new Token(user.getToken());
         Intent intent = getIntent();
         categoryName = intent.getStringExtra("category");
+<<<<<<< HEAD
 //        category = new Category(categoryName, user.getToken());
+=======
+       // category = new Category(categoryName, user.getToken());
+>>>>>>> origin/1.1
 
 
         cart_count = cartCount();
@@ -95,8 +99,13 @@ public class ProductActivity extends BaseActivity {
 
     }
 
+<<<<<<< HEAD
 //    private void getCategoryProduct() {
 //        showProgressDialog();
+=======
+    private void getCategoryProduct() {
+        showProgressDialog();
+>>>>>>> origin/1.1
 //        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
 //        call.enqueue(new Callback<ProductResult>() {
 //            @Override
@@ -124,8 +133,13 @@ public class ProductActivity extends BaseActivity {
 //
 //            }
 //        });
+<<<<<<< HEAD
 //
 //    }
+=======
+
+    }
+>>>>>>> origin/1.1
 
     private void hideProgressDialog() {
         progress.setVisibility(View.GONE);

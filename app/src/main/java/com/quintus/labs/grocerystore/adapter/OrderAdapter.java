@@ -106,7 +106,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
         recyclerView = dialog.findViewById(R.id.order_list);
-//
+
 //        Call<OrdersResult> call = RestClient.getRestService(context).getOrderItems(orderItem);
 //        call.enqueue(new Callback<OrdersResult>() {
 //            @Override

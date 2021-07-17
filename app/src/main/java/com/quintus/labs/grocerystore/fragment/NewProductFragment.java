@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.NewProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.model.PopularProducts;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
@@ -48,8 +50,10 @@ public class NewProductFragment extends Fragment {
     Gson gson = new Gson();
     User user;
     Token token;
-    List<Product> productList = new ArrayList<>();
+    List<PopularProductsResult> productList = new ArrayList<>();
     private NewProductAdapter pAdapter;
+    int page=1;
+    int page_size=20;
 
     public NewProductFragment() {
         // Required empty public constructor
@@ -69,42 +73,42 @@ public class NewProductFragment extends Fragment {
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = new Token(user.getToken());
 
-//        getNewProduct();
+        getNewProduct();
 
         return view;
     }
 
-//
-//    private void getNewProduct() {
-//        showProgressDialog();
-//        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
-//        call.enqueue(new Callback<ProductResult>() {
-//            @Override
-//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    ProductResult productResult = response.body();
-//                    if (productResult.getCode() == 200) {
-//
-//                        productList = productResult.getProductList();
-//                        setupProductRecycleView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductResult> call, Throwable t) {
-//                Log.d("Error", t.getMessage());
-//                hideProgressDialog();
-//
-//            }
-//        });
-//    }
+
+    private void getNewProduct() {
+        showProgressDialog();
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token,page,page_size);
+        call.enqueue(new Callback<PopularProducts>() {
+            @Override
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
+
+                        productList = productResult.getResults();
+                        setupProductRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
+    }
 
     private void setupProductRecycleView() {
         pAdapter = new NewProductAdapter(productList, getContext(), "new");

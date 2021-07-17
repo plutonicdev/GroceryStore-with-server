@@ -120,7 +120,7 @@ public class ConfirmFragment extends Fragment {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                placeUserOrder();
+                placeUserOrder();
             }
         });
 
@@ -128,10 +128,10 @@ public class ConfirmFragment extends Fragment {
         return view;
     }
 
-//    private void placeUserOrder() {
-//        progressDialog.setMessage("Confirming Order...");
-//        progressDialog.show();
-//        Log.d("Confirm Order==>", gson.toJson(confirmOrder));
+    private void placeUserOrder() {
+        progressDialog.setMessage("Confirming Order...");
+        progressDialog.show();
+        Log.d("Confirm Order==>", gson.toJson(confirmOrder));
 //        Call<OrdersResult> call = RestClient.getRestService(getContext()).confirmPlaceOrder(confirmOrder);
 //        call.enqueue(new Callback<OrdersResult>() {
 //            @Override
@@ -155,8 +155,8 @@ public class ConfirmFragment extends Fragment {
 //            }
 //        });
 //
-//
-//    }
+
+    }
 
 
     private void showCustomDialog() {

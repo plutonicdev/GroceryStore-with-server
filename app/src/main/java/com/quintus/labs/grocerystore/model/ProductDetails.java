@@ -6,148 +6,147 @@ import java.util.List;
 
 public class ProductDetails {
     @SerializedName("id")
-   
     private Integer id;
+
     @SerializedName("images")
-   
     private List<ImageData> images = null;
+
     @SerializedName("variations")
-   
     private Object variations;
+
     @SerializedName("currency")
-   
     private Currency currency;
+
     @SerializedName("discount_percentage")
-   
     private Double discountPercentage;
+
     @SerializedName("user_is_favorite")
-   
     private Boolean userIsFavorite;
+
     @SerializedName("review")
-   
     private Review review;
+
     @SerializedName("product_avl_msg")
-   
     private ProductAvlMsg productAvlMsg;
+
     @SerializedName("created_date")
-   
     private String createdDate;
+
     @SerializedName("updated_date")
-   
     private String updatedDate;
+
     @SerializedName("created_by")
-   
     private Integer createdBy;
+
     @SerializedName("updated_by")
-   
     private Integer updatedBy;
+
     @SerializedName("out_of_stock_limit")
-   
     private Integer outOfStockLimit;
+
     @SerializedName("min_order_limit")
-   
     private Integer minOrderLimit;
+
     @SerializedName("max_order_limit")
-   
     private Integer maxOrderLimit;
+
     @SerializedName("mrp")
-   
     private String mrp;
+
     @SerializedName("price")
-   
     private String price;
+
     @SerializedName("available_quantity")
-   
     private Integer availableQuantity;
+
     @SerializedName("status")
-   
     private Boolean status;
+
     @SerializedName("code")
-   
     private Integer code;
+
     @SerializedName("name")
-   
     private String name;
+
     @SerializedName("slug")
-   
     private String slug;
+
     @SerializedName("description")
-   
     private String description;
+
     @SerializedName("charge_taxes")
-   
     private Boolean chargeTaxes;
+
     @SerializedName("published")
-   
     private Boolean published;
+
     @SerializedName("is_favorite")
-   
     private Boolean isFavorite;
+
     @SerializedName("model")
-   
     private String model;
+
     @SerializedName("type")
-   
     private String type;
+
     @SerializedName("tax_percentage")
-   
     private Double taxPercentage;
+
     @SerializedName("show_delivery")
-   
     private Boolean showDelivery;
+
     @SerializedName("delivery_charge")
-   
     private String deliveryCharge;
+
     @SerializedName("is_public")
-   
     private Boolean isPublic;
+
     @SerializedName("has_variation")
-   
     private Boolean hasVariation;
+
     @SerializedName("moq_bulk")
-   
     private Integer moqBulk;
+
     @SerializedName("discount_type")
-   
     private String discountType;
+
     @SerializedName("discount_amount")
-   
     private String discountAmount;
+
     @SerializedName("discount")
-   
     private String discount;
+
     @SerializedName("weight")
-   
     private String weight;
+
     @SerializedName("height")
-   
     private String height;
+
     @SerializedName("width")
-   
     private String width;
+
     @SerializedName("length")
-   
     private String length;
+
     @SerializedName("store")
-   
     private Integer store;
+
     @SerializedName("category")
-   
     private Integer category;
+
     @SerializedName("brand")
-   
     private Integer brand;
+
     @SerializedName("weight_uom")
-   
     private Integer weightUom;
+
     @SerializedName("height_uom")
-   
     private Object heightUom;
+
     @SerializedName("width_uom")
-   
     private Object widthUom;
+
     @SerializedName("length_uom")
-   
     private Object lengthUom;
 
     public Integer getId() {

@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:cardCornerRadius="15dp"
@@ -32,10 +32,10 @@
 
                 <ImageView
                     android:id="@+id/product_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
-                    android:scaleType="fitXY" />
+                    android:adjustViewBounds="true"/>
 
                 <ProgressBar
                     android:id="@+id/progressbar"
@@ -46,7 +46,7 @@
             </RelativeLayout>
 
 
-            <TextView
+            <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                 android:id="@+id/product_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,25 +66,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/product_attribute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="1 Bunch"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone"/>
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:text="-"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:visibility="gone"/>
 
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/product_currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +97,7 @@
                     android:text="Rs."
                     android:textSize="16dp" />
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,7 +108,7 @@
                     android:text="12"
                     android:textSize="16dp" />
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/original_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                     android:id="@+id/shop_now"
                     style="@android:style/MediaButton"
                     android:layout_width="wrap_content"
@@ -147,7 +149,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/quantity_minus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -161,7 +163,7 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -175,7 +177,7 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:id="@+id/quantity_plus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
