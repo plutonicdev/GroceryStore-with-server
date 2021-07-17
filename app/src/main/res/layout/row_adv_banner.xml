@@ -15,8 +15,7 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/offer2"
-            android:adjustViewBounds="true"
+                       android:adjustViewBounds="true"
             android:scaleType="fitXY"/>
 
     </androidx.cardview.widget.CardView>

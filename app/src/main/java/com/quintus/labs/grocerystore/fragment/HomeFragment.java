@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = new Token(localStorage.getApiKey());
         getBannerData();
         getCategoryData();
         getNewProduct();

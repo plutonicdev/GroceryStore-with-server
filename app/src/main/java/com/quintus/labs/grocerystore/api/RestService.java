@@ -155,17 +155,17 @@ public interface RestService {
     @GET("orders/{id}/details/")
     Call<ProductResult> getSingleOrderDetails(@Header("token") Token token,@Path("id") String id);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
+
     @GET("locations/countries/")
-    Call<Country> country(@Header("token") User user);
+    Call<List<Country>> getcountry();
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
-    Call<State> state(@Header("token") User user);
+    Call<State> state(@Header("token") Token token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<City> city(@Header("token") User user);
+    Call<City> city(@Header("token") Token token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)

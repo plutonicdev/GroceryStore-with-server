@@ -31,7 +31,9 @@ import com.quintus.labs.grocerystore.model.AddAddress;
 import com.quintus.labs.grocerystore.model.AddAddressListResponse;
 import com.quintus.labs.grocerystore.model.City;
 import com.quintus.labs.grocerystore.model.Country;
+
 import com.quintus.labs.grocerystore.model.Pin;
+import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.State;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -66,7 +68,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     ArrayList countryArray = new ArrayList();
     ArrayList stateArray = new ArrayList();
     ArrayList cityArray = new ArrayList();
-//    List<Country> countryList = new ArrayList<>();
+    List<Country> countryList = null;
 //    List<State> stateList = new ArrayList<>();
 //    List<City> cityList = new ArrayList<>();
     String _city, _name, _email, _phone, _address, _state, _zip, _address_type, _country, userString;
@@ -85,7 +87,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
     private void getCity() {
-        Call<City> call = RestClient.getRestService(getContext()).city(user);
+        Call<City> call = RestClient.getRestService(getContext()).city(token);
         call.enqueue((new Callback<City>() {
             @Override
             public void onResponse(Call<City> call, Response<City> response) {
@@ -109,7 +111,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
     private void getState() {
-        Call<State> call = RestClient.getRestService(getContext()).state(user);
+        Call<State> call = RestClient.getRestService(getContext()).state(token);
         call.enqueue((new Callback<State>() {
             @Override
             public void onResponse(Call<State> call, Response<State> response) {
@@ -132,35 +134,35 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         }));
     }
 
-    private void getCountry() {
-        Call<Country> call = RestClient.getRestService(getContext()).country(user);
-        call.enqueue((new Callback<Country>() {
-            @Override
-            public void onResponse(Call<Country> call, Response<Country> response) {
-                Country countryResponse = response.body();
-                if (countryResponse != null) {
-                    if (response.code() == 200) {
-                        countryResponse.getId();
-                        countrySpinner.getAdapter();
-//                        if (response.body() != null) {
-//                    Country country = response.body();
+//    private void getCountry() {
+//        Call<List<Country>> call = RestClient.getRestService(getContext()).country(token);
+//        call.enqueue((new Callback<List<Country>>() {
+//            @Override
+//            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+//                List<Country> countryResponse = response.body();
+//                if (countryResponse != null) {
 //                    if (response.code() == 200) {
-//                        country.getCountry();
-//                        countrySpinner.getAdapter();
-//                        countryList = countryResponse.getCountryList();
-
-                    }
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Country> call, Throwable t) {
-
-            }
-        }));
-    }
+//                        countryList = countryResponse;
+//                       // countrySpinner.getAdapter();
+////                        if (response.body() != null) {
+////                    List<Country> country = response.body();
+////                    if (response.code() == 200) {
+////                        country.();
+////                        countrySpinner.getAdapter();
+////                        countryList = countryResponse.getCountryList();
+//
+//                    }
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Country>> call, Throwable t) {
+//
+//            }
+//        }));
+//    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -180,17 +182,21 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         localStorage = new LocalStorage(getContext());
         gson = new Gson();
         userString = localStorage.getUserLogin();
-        user = gson.fromJson(userString, User.class);
+
+        user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        token = new Token(localStorage.getApiKey());
         progress = v.findViewById(R.id.progress_bar);
 
-        countryArray.add(0, "select Country");
+        getCountry();
+
+        countryArray.add(0, "select List<Country>");
         ArrayAdapter countryAdapter
                 = new ArrayAdapter(getActivity(), R.layout.spinnertextview, countryArray);
         countryAdapter.setDropDownViewResource(
                 android.R.layout
                         .simple_spinner_dropdown_item);
         countrySpinner.setAdapter(countryAdapter);
-        getCountry();
+
         stateArray.add(0, "select State");
         ArrayAdapter stateAdapter
                 = new ArrayAdapter(getActivity(), R.layout.spinnertextview, stateArray);
@@ -221,7 +227,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //            @Override
 //            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                if (position > 0) {
-//                    _country = countryList.get(position - 1).getCountry();
+//                    _country = countryList.get(position - 1).();
 //                } else {
 //                }
 //            }
@@ -334,7 +340,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                     if (response.code() == 200) {
                         user.setAddress(userAddress.getAddress());
                         user.setState(userAddress.getState());
-                        user.setCountry(userAddress.getCountry());
+                       // user.setCountry(userAddress.getCountry());
                         user.setCity(userAddress.getCity());
                         user.setAddress_type(userAddress.getAddress_type());
                         user.setZip(userAddress.getZip());
@@ -342,7 +348,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                         localStorage.createUserLoginSession(userString);
 //                        pinAddress();
 //                        for (int i = 0; i < countryList.size(); i++) {
-//                            countryArray.add(countryList.get(i).getCountry().toString());
+//                            countryArray.add(countryList.get(i).().toString());
 //                        }
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -481,7 +487,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //        ArrayAdapter<String> adapterCountry = new ArrayAdapter<String>(getActivity(), R.layout.spinnertextview, stringArrayState);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        countrySpinner.setAdapter(adapterCountry);
-//        if (user.getCountry() != null) {
+//        if (user.() != null) {
 //            int selectionPosition = adapter.getPosition(user.getState());
 //            countrySpinner.setSelection(selectionPosition);
 //        }
@@ -629,6 +635,42 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private void getCountry() {
+
+        Call<List<Country>> call = RestClient.getRestService(getContext()).getcountry();
+        call.enqueue(new Callback<List<Country>>() {
+            @Override
+            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    List<Country> countryResult = response.body();
+                    if (response.code() == 200) {
+                        countryList = countryResult;
+                       
+
+                    }
+
+                }
+
+               
+            }
+
+            @Override
+            public void onFailure(Call<List<Country>> call, Throwable t) {
+
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
 
     }
 }
