@@ -48,7 +48,7 @@ import retrofit2.http.Query;
  */
 
 public interface RestService {
-    String tenant_id = "1";
+    String tenant_id = "2";
 //    @POST("api/v1/register")
 //    Call<UserResult> register(@Body User user);
 

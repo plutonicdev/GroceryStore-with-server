@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -52,8 +53,9 @@ public class NewProductFragment extends Fragment {
     Token token;
     List<PopularProductsResult> productList = new ArrayList<>();
     private NewProductAdapter pAdapter;
-    int page=1;
-    int page_size=20;
+    int page = 1;
+    int page_size = 10;
+    boolean isLoading = true;
 
     public NewProductFragment() {
         // Required empty public constructor
@@ -81,7 +83,7 @@ public class NewProductFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token,page,page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token, page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -93,6 +95,14 @@ public class NewProductFragment extends Fragment {
 
                         productList = productResult.getResults();
                         setupProductRecycleView();
+
+                        if (page < productResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
 
                     }
 
@@ -134,5 +144,74 @@ public class NewProductFragment extends Fragment {
     private void showProgressDialog() {
         progress.setVisibility(View.VISIBLE);
     }
+
+
+    private void initScrollListener() {
+        nRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productList.size() - 1) {
+                        //bottom of list!
+                        loadMore();
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadMore() {
+        page = page + 1;
+
+        showProgressDialog();
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token, page, page_size);
+        call.enqueue(new Callback<PopularProducts>() {
+            @Override
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
+
+                        productList.addAll( productResult.getResults());
+                        pAdapter.notifyDataSetChanged();
+
+                        if (page < productResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
+
+
+           }
 
 }
