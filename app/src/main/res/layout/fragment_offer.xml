@@ -17,7 +17,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/offer_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

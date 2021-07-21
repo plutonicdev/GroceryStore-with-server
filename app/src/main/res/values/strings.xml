@@ -59,4 +59,10 @@
     <string name="please_select_state">Please select State</string>
     <string name="please_select_city">Please select City</string>
     <string name="please_select_address_type">Please select Address Type</string>
+    <string name="name">Name : </string>
+    <string name="end_date">End Date :</string>
+    <string name="status">Status :</string>
+    <string name="code">Code :</string>
+    <string name="discount_price">Discount Price :</string>
+    <string name="minimum_order_price">Minimum Order Price :</string>
 </resources>

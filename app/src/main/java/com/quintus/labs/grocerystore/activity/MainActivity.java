@@ -313,9 +313,9 @@ public class  MainActivity extends BaseActivity
             case R.id.nav_profile:
                 fragment = new ProfileFragment();
                 break;
-            case R.id.nav_address:
-                fragment = new AddressFragment();
-                break;
+//            case R.id.nav_address:
+//                fragment = new AddressFragment();
+//                break;
             case R.id.nav_category:
                 fragment = new CategoryFragment();
                 break;

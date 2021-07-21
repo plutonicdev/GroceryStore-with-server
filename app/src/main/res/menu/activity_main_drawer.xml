@@ -16,10 +16,10 @@
             android:icon="@drawable/ic_male"
             android:title="My Profile" />
 
-        <item
-            android:id="@+id/nav_address"
-            android:icon="@drawable/house"
-            android:title="Address" />
+<!--        <item-->
+<!--            android:id="@+id/nav_address"-->
+<!--            android:icon="@drawable/house"-->
+<!--            android:title="Address" />-->
     </group>
 
     <group

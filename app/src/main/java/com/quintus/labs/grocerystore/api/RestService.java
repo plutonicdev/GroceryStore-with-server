@@ -24,6 +24,7 @@ import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.model.VoucherList;
+import com.quintus.labs.grocerystore.model.VoucherListData;
 import com.quintus.labs.grocerystore.model.VoucherValidity;
 
 import java.util.List;
@@ -89,7 +90,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("vouchers/list/")
-    Call<VoucherList> allOffers(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
+    Call<VoucherListData> allOffers(@Header("token") Token token, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
