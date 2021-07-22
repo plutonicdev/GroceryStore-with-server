@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.activity.OtpVarificationActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
@@ -243,8 +244,14 @@ public class LoginFragment extends Fragment implements OnClickListener {
                         Log.d("masterToken", masterToken);
                         localStorage.setApiKey(masterToken);
                         Toast.makeText(getContext(), getResources().getString(R.string.login_successfull), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), MainActivity.class));
-                        getActivity().finish();
+                        if (userResponse.isPhone_verified()) {
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                            getActivity().finish();
+                        } else {
+                            startActivity(new Intent(getContext(), OtpVarificationActivity.class));
+//                            Toast.makeText(getContext(), "Otp sent to your phone number for verification", Toast.LENGTH_LONG).show();
+                            getActivity().finish();
+                        }
                     } else {
                         new CustomToast().Show_Toast(getActivity(), view,
                                 "Server error Please try after sometime");

@@ -198,7 +198,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                         String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
                         Log.d("masterToken", masterToken);
                         localStorage.setApiKey(masterToken);
-                        if (user.isPhone_verified()) {
+                        if (userResponse.isPhone_verified()) {
                             startActivity(new Intent(getContext(), MainActivity.class));
                             getActivity().finish();
                         } else {

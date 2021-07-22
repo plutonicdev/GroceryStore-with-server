@@ -17,6 +17,8 @@ public class UserResponse {
     @SerializedName("fcm_id")
     private String fcmId;
 
+    boolean phone_verified;
+
     public UserResponse(String otp, String phone, String password) {
         this.otp = otp;
         this.phone = phone;
@@ -69,6 +71,14 @@ public class UserResponse {
 
     public void setFcmId(String fcmId) {
         this.fcmId = fcmId;
+    }
+
+    public boolean isPhone_verified() {
+        return phone_verified;
+    }
+
+    public void setPhone_verified(boolean phone_verified) {
+        this.phone_verified = phone_verified;
     }
 
 }

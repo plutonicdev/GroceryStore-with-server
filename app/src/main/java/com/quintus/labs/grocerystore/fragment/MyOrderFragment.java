@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -20,7 +21,9 @@ import com.quintus.labs.grocerystore.adapter.OrderAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrdersResult;
+import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -41,13 +44,20 @@ import retrofit2.Response;
  */
 public class MyOrderFragment extends Fragment {
     LocalStorage localStorage;
-    LinearLayout linearLayout;
     Gson gson = new Gson();
-    Order order;
-    private List<Order> orderList = new ArrayList<>();
+    User user;
+    Token token;
+    LinearLayout linearLayout;
+    View progress;
+
+    private List<OrdersResult> orderList = new ArrayList<>();
     private RecyclerView recyclerView;
     private OrderAdapter mAdapter;
-    private List<Order> newOrderList = new ArrayList<>();
+
+
+    int page = 1;
+    int page_size = 10;
+    boolean isLoading = true;
 
     public MyOrderFragment() {
         // Required empty public constructor
@@ -62,39 +72,48 @@ public class MyOrderFragment extends Fragment {
         recyclerView = view.findViewById(R.id.order_rv);
         linearLayout = view.findViewById(R.id.no_order_ll);
         localStorage = new LocalStorage(getContext());
+        user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        token = new Token(localStorage.getApiKey());
+        progress = view.findViewById(R.id.progress_bar);
 
-        User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        order = new Order(user.getId(), user.getToken());
-//        fetchOrderDetails(order);
+        fetchOrderDetails();
 
         return view;
     }
 
-    private void fetchOrderDetails(Order order) {
+    private void fetchOrderDetails() {
+        showProgressDialog();
+        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(token, page, page_size);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
 
-//        Call<OrdersResult> call = RestClient.getRestService(getContext()).orderDetails(order);
-//        call.enqueue(new Callback<OrdersResult>() {
-//            @Override
-//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    OrdersResult ordersResult = response.body();
-//                    if (ordersResult.getCode() == 200) {
-//
-//                        orderList = ordersResult.getOrderList();
-//                        setupOrderRecycleView();
-//
-//                    }
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<OrdersResult> call, Throwable t) {
-//
-//            }
-//        });
+                    Order order = response.body();
+                    if (response.code() == 200) {
+
+                        orderList = order.getResults();
+                        setupOrderRecycleView();
+                        if (page < order.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+                    }
+
+                }
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                hideProgressDialog();
+            }
+
+        });
 
     }
 
@@ -118,4 +137,82 @@ public class MyOrderFragment extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("MyOrder");
     }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == orderList.size() - 1) {
+                        //bottom of list!
+                        loadMore();
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadMore() {
+        page = page + 1;
+
+        showProgressDialog();
+        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(token, page, page_size);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    Order order = response.body();
+                    if (response.code() == 200) {
+
+                        orderList.addAll( order.getResults());
+                        mAdapter.notifyDataSetChanged();
+
+                        if (page < order.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
+
+
+    }
+
 }

@@ -65,4 +65,8 @@
     <string name="code">Code :</string>
     <string name="discount_price">Discount Price :</string>
     <string name="minimum_order_price">Minimum Order Price :</string>
+    <string name="order_no">Order No :</string>
+    <string name="total_price">Total Price :</string>
+    <string name="delivery_date">Delivery Date :</string>
+    <string name="order_date">Order Date:</string>
 </resources>
