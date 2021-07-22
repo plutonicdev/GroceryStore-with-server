@@ -2,6 +2,8 @@ package com.quintus.labs.grocerystore.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -40,10 +42,11 @@ public class OtpVarificationActivity extends AppCompatActivity{
     private static EditText otpcode;
     User user;
     int _otpSuccess = 1;
-
+    CountDownTimer cTimer = null;
+    int counter = 30;
     TextView otp;
     EditText otp_box_1,otp_box_2,otp_box_3,otp_box_4,otp_box_5,otp_box_6;
-
+    TextView resend_otp,otp_timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,8 @@ public class OtpVarificationActivity extends AppCompatActivity{
 
 
         otp = findViewById(R.id.otp);
+        resend_otp = findViewById(R.id.resend_otp);
+        otp_timer = findViewById(R.id.otp_timer);
         otp_box_1 = findViewById(R.id.otp_box_1);
         otp_box_2 = findViewById(R.id.otp_box_2);
         otp_box_3 = findViewById(R.id.otp_box_3);
@@ -207,6 +212,9 @@ public class OtpVarificationActivity extends AppCompatActivity{
 
 
     public void onResendOTPClicked(View view) {
+
+        showTimer();
+
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
         Call<UserResponse> call = RestClient.getRestService(getApplicationContext()).resendOTP(user);
         call.enqueue(new Callback<UserResponse>() {
@@ -229,7 +237,28 @@ public class OtpVarificationActivity extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_try_after_sometime), Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
+
+    private void showTimer() {
+       otp_timer.setVisibility(View.VISIBLE);
+       resend_otp.setVisibility(View.GONE);
+       cTimer =  new CountDownTimer(30000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(counter>0){
+                    otp_timer.setText("Please Wait : "+counter);
+                    counter--;
+                }
+
+            }
+            @Override
+            public void onFinish() {
+                resend_otp.setVisibility(View.VISIBLE);
+                otp_timer.setVisibility(View.GONE);
+
+            }
+        }.start();
+    }
+
+
 }

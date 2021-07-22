@@ -210,7 +210,19 @@
                     android:textAlignment="center"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
-                    android:onClick="onResendOTPClicked"/>
+                    android:onClick="onResendOTPClicked"
+                    android:id="@+id/resend_otp"/>
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="RESEND OTP"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:onClick="onResendOTPClicked"
+                    android:id="@+id/otp_timer"
+                    android:visibility="gone"/>
 
 
                 <com.quintus.labs.grocerystore.customfonts.ButtonSemiBold
