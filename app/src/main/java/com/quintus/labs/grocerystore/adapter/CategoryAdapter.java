@@ -50,13 +50,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView;
-//        if (Tag.equalsIgnoreCase("Home")) {
-//            itemView = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.row_home_category, parent, false);
-//        } else {
+        if (Tag.equalsIgnoreCase("Home")) {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.row_home_category, parent, false);
+        } else {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_category, parent, false);
-      //  }
+        }
 
 
         return new MyViewHolder(itemView);

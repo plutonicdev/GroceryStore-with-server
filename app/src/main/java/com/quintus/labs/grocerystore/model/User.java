@@ -49,8 +49,8 @@ public class User {
         this.zip = zip;
     }
 
-    public User(String name, String phone) {
-        this.name = name;
+    public User(String otp, String phone) {
+        this.otp = otp;
         this.phone = phone;
     }
 

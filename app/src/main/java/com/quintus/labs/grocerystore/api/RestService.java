@@ -80,9 +80,9 @@ public interface RestService {
     @POST("users/verify_resend_otp/")
     Call<UserResponse> resendOTP(@Body User user);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
+  //  @Headers("X-TENANT-ID:" + tenant_id)
     @GET("config/slider_images/")
-    Call<Banners> bannerList();
+    Call<List<Banners>> bannerList();
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/categories/")
@@ -94,7 +94,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
-    Call<Category> popularCategory(@Header("Authorization") String token);
+    Call<CategoryResult> popularCategory(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_products/")

@@ -145,10 +145,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.5"
                         android:text=""
                         android:textSize="@dimen/margin_16"
                         android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/copy"
+                        android:layout_width="@dimen/dimen_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:layout_gravity="start"
+                        android:src="@drawable/ic_baseline_content_copy_24"/>
 
 
                 </LinearLayout>

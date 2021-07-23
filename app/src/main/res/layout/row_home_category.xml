@@ -5,61 +5,56 @@
    * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
    -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:background="@drawable/category_textview_bg"
-    android:elevation="2dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"></androidx.cardview.widget.CardView>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        app:cardCornerRadius="15dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/category_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_1"
-            android:scaleType="fitXY"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/category_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:padding="7dp"
-            android:text="All Category"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
-    </LinearLayout>
+
+            android:gravity="center">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <com.quintus.labs.grocerystore.helper.CircleImage
+                    android:id="@+id/category_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitXY"
+                    app:img_radius="25" />
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                android:id="@+id/category_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:text="Food"
+                android:layout_marginRight="@dimen/margin_20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/margin_10dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

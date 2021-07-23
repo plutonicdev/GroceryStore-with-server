@@ -30,7 +30,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="170dp">
+                    android:layout_height="170dp"
+                    android:id="@+id/slider_rl">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPager"

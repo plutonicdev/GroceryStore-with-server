@@ -175,7 +175,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
        if (_otp.length() != 6) {
            Toast.makeText(this, "Please enter valid OTP", Toast.LENGTH_SHORT).show();
         } else {
-            user = new User(_phone, _otp, firebaseToken);
+            user = new User(_phone, _otp);
             submitOtp(user);
         }
 
@@ -191,7 +191,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
                 UserResponse userResponse = response.body();
                 if (userResponse != null) {
                     if (response.code() == 200) {
-                        startActivity(new Intent(getApplicationContext(), LoginFragment.class));
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         Toast.makeText(getApplicationContext(), "Mobile verified Successfully", Toast.LENGTH_LONG).show();
                     }
                 } else {

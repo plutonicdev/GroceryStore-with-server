@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -40,6 +41,8 @@ import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,16 +80,18 @@ public class HomeFragment extends Fragment {
     private List<AdvertisementBannerResult> advertisementBannerList = new ArrayList<>();
     private List<PopularProductsResult> productList = new ArrayList<>();
     private List<PopularProductsResult> popularProductList = new ArrayList<>();
-    private List<Banners> bannersList = new ArrayList<>();
-    private RecyclerView recyclerView, nRecyclerView, pRecyclerView,adv_banner_rv;
+    private List<Banners> bannersList;
+    private RecyclerView recyclerView, nRecyclerView, pRecyclerView, adv_banner_rv;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
     private PopularProductAdapter pAdapter;
     private AdvertisementBannerAdapter advBannerAdapter;
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
-    int page=1;
-    int page_size=10;
-   // HomeSliderAdapter viewPagerAdapter;
+    int page = 1;
+    int page_size = 10;
+    HomeSliderAdapter viewPagerAdapter;
+    RelativeLayout slider_rl;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -103,10 +108,12 @@ public class HomeFragment extends Fragment {
         adv_banner_rv = view.findViewById(R.id.adv_banner_rv);
         nRecyclerView = view.findViewById(R.id.new_product_rv);
         progress = view.findViewById(R.id.progress_bar);
+        slider_rl = view.findViewById(R.id.slider_rl);
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = localStorage.getApiKey();
+        bannersList = new ArrayList<>();
         getBannerData();
         getCategoryData();
         getNewProduct();
@@ -119,28 +126,28 @@ public class HomeFragment extends Fragment {
 
         sliderDotspanel = view.findViewById(R.id.SliderDots);
 
-       HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
-
-       viewPager.setAdapter(viewPagerAdapter);
-
-        dotscount = viewPagerAdapter.getCount();
-        dots = new ImageView[dotscount];
-
-        for (int i = 0; i < dotscount; i++) {
-
-            dots[i] = new ImageView(getContext());
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(8, 0, 8, 0);
-
-            sliderDotspanel.addView(dots[i], params);
-
-        }
-
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-
+//       HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
+//
+//       viewPager.setAdapter(viewPagerAdapter);
+//
+//        dotscount = viewPagerAdapter.getCount();
+//        dots = new ImageView[dotscount];
+//
+//        for (int i = 0; i < dotscount; i++) {
+//
+//            dots[i] = new ImageView(getContext());
+//            dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
+//
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//            params.setMargins(8, 0, 8, 0);
+//
+//            sliderDotspanel.addView(dots[i], params);
+//
+//        }
+//
+//        dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
+//
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -170,7 +177,7 @@ public class HomeFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token,page,page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token, page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -210,7 +217,7 @@ public class HomeFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token,page,page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token, page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -250,18 +257,57 @@ public class HomeFragment extends Fragment {
     }
 
     private void getBannerData() {
-
         showProgressDialog();
 
-        Call<Banners> call = RestClient.getRestService(getContext()).bannerList();
-        call.enqueue(new Callback<Banners>() {
+        Call<List<Banners>> call = RestClient.getRestService(getContext()).bannerList();
+        call.enqueue(new Callback<List<Banners>>() {
             @Override
-            public void onResponse(Call<Banners> call, Response<Banners> response) {
+            public void onResponse(Call<List<Banners>> call, Response<List<Banners>> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
                     if (response.code() == 200) {
-//                        bannersList = response.body();
-//                        setupBannersRecycleView();
+                        List<Banners> bannersListData = response.body();
+
+                        if (bannersListData.size() > 0) {
+                            for (int i = 0; i < bannersListData.size(); i++) {
+                                Banners sliderUtils = new Banners();
+                                sliderUtils.setImage(bannersListData.get(i).getImage());
+//                            try {
+//                                JSONObject jsonObject = bannersListData.getJSONObject(i);
+//                                sliderUtils.setSliderImageUrl(jsonObject.getString("thumbnailImageUrl"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                                bannersList.add(sliderUtils);
+                            }
+                            viewPagerAdapter = new HomeSliderAdapter(getContext(), bannersList);
+
+                            viewPager.setAdapter(viewPagerAdapter);
+
+                            dotscount = viewPagerAdapter.getCount();
+                            dots = new ImageView[dotscount];
+
+                            for (int i = 0; i < dotscount; i++) {
+
+                                dots[i] = new ImageView(getContext());
+                                dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
+
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                params.setMargins(8, 0, 8, 0);
+
+                                sliderDotspanel.addView(dots[i], params);
+
+                            }
+
+                            dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
+
+
+                            // setupBannersRecycleView();
+
+                        }else{
+                            slider_rl.setVisibility(View.GONE);
+                        }
 
                     }
 
@@ -271,17 +317,18 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Banners> call, Throwable t) {
+            public void onFailure(Call<List<Banners>> call, Throwable t) {
                 Log.d("Error==>", t.getMessage());
             }
         });
 
     }
- private void getCategoryData() {
+
+    private void getCategoryData() {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token,page,page_size);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token, page, page_size);
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
@@ -318,11 +365,12 @@ public class HomeFragment extends Fragment {
 
 
     }
-private void getOffersData() {
+
+    private void getOffersData() {
 
         showProgressDialog();
 
-        Call<AdvertisementBanner> call = RestClient.getRestService(getContext()).getAdvertisementBanners(token,page,page_size);
+        Call<AdvertisementBanner> call = RestClient.getRestService(getContext()).getAdvertisementBanners(token, page, page_size);
         call.enqueue(new Callback<AdvertisementBanner>() {
             @Override
             public void onResponse(Call<AdvertisementBanner> call, Response<AdvertisementBanner> response) {
@@ -362,12 +410,12 @@ private void getOffersData() {
     }
 
     private void setupBannersRecycleView() {
-     //   viewPagerAdapter = new HomeSliderAdapter(bannersList, getContext());
+        //   viewPagerAdapter = new HomeSliderAdapter(bannersList, getContext());
 //        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 //        recyclerView.setLayoutManager(mLayoutManager);
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
 //        recyclerView.setAdapter(mAdapter);
-    //    viewPager.setAdapter(viewPagerAdapter);
+        //    viewPager.setAdapter(viewPagerAdapter);
 
 
     }
