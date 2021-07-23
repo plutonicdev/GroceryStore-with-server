@@ -150,7 +150,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/list/")
-    Call<Order> getOrderDetails(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
+    Call<Order> getOrderDetails(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)

@@ -43,6 +43,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class MyOrderFragment extends Fragment {
+    public static String TAG = "MyOrderFragment==>";
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
@@ -83,7 +84,7 @@ public class MyOrderFragment extends Fragment {
 
     private void fetchOrderDetails() {
         showProgressDialog();
-        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(token, page, page_size);
+        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(localStorage.getApiKey(), page, page_size);
         call.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
@@ -110,6 +111,7 @@ public class MyOrderFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
                 hideProgressDialog();
             }
 
@@ -176,7 +178,7 @@ public class MyOrderFragment extends Fragment {
         page = page + 1;
 
         showProgressDialog();
-        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(token, page, page_size);
+        Call<Order> call = RestClient.getRestService(getContext()).getOrderDetails(localStorage.getApiKey(), page, page_size);
         call.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
