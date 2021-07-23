@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +51,8 @@ public class CategoryFragment extends Fragment {
     private List<Category> categoryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CategoryAdapter mAdapter;
+    int page=1;
+    int page_size=10;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class CategoryFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = new Token(localStorage.getApiKey());
 
         getCategoryData();
 
@@ -78,37 +81,38 @@ public class CategoryFragment extends Fragment {
 
         showProgressDialog();
 
-//        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
-//        call.enqueue(new Callback<CategoryResult>() {
-//            @Override
-//            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    CategoryResult categoryResult = response.body();
-//                    if (categoryResult.getCode() == 200) {
-//
-//                        categoryList = categoryResult.getCategoryList();
-//                        setupCategoryRecycleView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CategoryResult> call, Throwable t) {
-//                Log.d("Error==>", t.getMessage());
-//            }
-//        });
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token,page,page_size);
+        call.enqueue(new Callback<CategoryResult>() {
+            @Override
+            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CategoryResult categoryResult = response.body();
+                    if (response.code() == 200) {
+
+                        categoryList = categoryResult.getResults();
+                        setupCategoryRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResult> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
 
     }
 
     private void setupCategoryRecycleView() {
         mAdapter = new CategoryAdapter(categoryList, getContext(), "Category");
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+      //  RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
