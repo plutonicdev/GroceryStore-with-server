@@ -76,7 +76,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
     LocalStorage localStorage;
     AddAddressListResponse addAddressListResponse;
-    Token token;
+    String token;
     Gson gson;
     User user;
     View progress;
@@ -184,7 +184,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         userString = localStorage.getUserLogin();
 
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(localStorage.getApiKey());
+        token = localStorage.getApiKey();
         progress = v.findViewById(R.id.progress_bar);
 
         getCountry();

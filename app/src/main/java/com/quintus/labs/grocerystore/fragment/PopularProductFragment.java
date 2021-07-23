@@ -50,7 +50,7 @@ public class PopularProductFragment extends Fragment {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
     List<PopularProductsResult> productList = new ArrayList<>();
     private PopularProductAdapter pAdapter;
     int page=1;
@@ -75,7 +75,7 @@ public class PopularProductFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = localStorage.getApiKey();
         getPopularProduct();
 
 

@@ -57,7 +57,7 @@ public class ProductViewActivity extends BaseActivity {
     int cartId;
     Cart cart;
     ProductDetails productDetails;
-    Token token;
+    String token;
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class ProductViewActivity extends BaseActivity {
           _id = intent.getStringExtra("id");
         localStorage = new LocalStorage(getApplicationContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = localStorage.getApiKey();
 
         getProductDetails();
 

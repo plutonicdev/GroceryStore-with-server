@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
     private int dotscount;
     private ImageView[] dots;
     private List<Category> categoryList = new ArrayList<>();
@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(localStorage.getApiKey());
+        token = localStorage.getApiKey();
         getBannerData();
         getCategoryData();
         getNewProduct();

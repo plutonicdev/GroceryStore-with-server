@@ -86,39 +86,39 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/categories/")
-    Call<CategoryResult> allCategory(@Header("token") Token token, @Query("page") int page,@Query("page_size") int page_size);
+    Call<CategoryResult> allCategory(@Header("Authorization") String token, @Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("vouchers/list/")
-    Call<VoucherListData> allOffers(@Header("token") Token token, @Query("page") int page, @Query("page_size") int page_size);
+    Call<VoucherListData> allOffers(@Header("Authorization") String token, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_categories/")
-    Call<Category> popularCategory(@Header("token") Token token);
+    Call<Category> popularCategory(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/popular_products/")
-    Call<PopularProducts> popularProducts(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
+    Call<PopularProducts> popularProducts(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/recently_added/")
-    Call<PopularProducts> newProducts(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
+    Call<PopularProducts> newProducts(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/category/{id}/products/")
-    Call<PopularProducts> allProducts(@Header("token") Token token, @Path("id") String id, @Query("page") int page, @Query("page_size") int page_size);
+    Call<PopularProducts> allProducts(@Header("Authorization") String token, @Path("id") String id, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
-    Call<ProductDetails> productDetails(@Header("token") Token token,@Path("id") String id);
+    Call<ProductDetails> productDetails(@Header("Authorization") String token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/wishlist/")
-    Call<ProductResult> getFavouriteProducts(@Header("token") Token token);
+    Call<ProductResult> getFavouriteProducts(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/currency_lists/")
-    Call<Currency> currencyData(@Header("token") Token token);
+    Call<Currency> currencyData(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
@@ -126,7 +126,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/default/")
-    Call<ProductResult> defaultAddress(@Header("token") Token token);
+    Call<ProductResult> defaultAddress(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/address/create/")
@@ -134,19 +134,19 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
-    Call<ProductResult> updateAddress(@Header("token") Token token,@Path("id") String id);
+    Call<ProductResult> updateAddress(@Header("Authorization") String token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("users/address/{id}/delete/")
-    Call<ProductResult> deleteAddress(@Header("token") Token token,@Path("id") String id);
+    Call<ProductResult> deleteAddress(@Header("Authorization") String token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/search/")
-    Call<ProductResult> searchProduct(@Header("token") Token token,@Query("search") String search,@Query("page") int page,@Query("page_size") int page_size);
+    Call<ProductResult> searchProduct(@Header("Authorization") String token,@Query("search") String search,@Query("page") int page,@Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("catalog/add_update_wishlist/")
-    Call<ProductResult> addfavouriteProduct(@Header("token") Token token);
+    Call<ProductResult> addfavouriteProduct(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/list/")
@@ -155,7 +155,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
-    Call<ProductResult> getSingleOrderDetails(@Header("token") Token token,@Path("id") String id);
+    Call<ProductResult> getSingleOrderDetails(@Header("Authorization") String token,@Path("id") String id);
 
 
     @GET("locations/countries/")
@@ -163,59 +163,59 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
-    Call<State> state(@Header("token") Token token);
+    Call<State> state(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<City> city(@Header("token") Token token);
+    Call<City> city(@Header("Authorization") String token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
-    Call<Pin> pin(@Header("token") Token token);
+    Call<Pin> pin(@Header("Authorization") String token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
-    Call<ProductResult> zip(@Header("token") Token token,@Path("id") String id);
+    Call<ProductResult> zip(@Header("Authorization") String token,@Path("id") String id);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("vouchers/voucher_validity/")
-    Call<VoucherValidity> checkVoucher(@Header("token") Token token);
+    Call<VoucherValidity> checkVoucher(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/initiate/")
-    Call<ProductResult> initatePayment(@Header("token") Token token);
+    Call<ProductResult> initatePayment(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/{id}/status_update/")
-    Call<ProductResult> updatePayment(@Header("token") Token token,@Path("id") String id);
+    Call<ProductResult> updatePayment(@Header("Authorization") String token,@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/checkout/")
-    Call<ProductResult> createOrder(@Header("token") Token token);
+    Call<ProductResult> createOrder(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("carts/list/")
-    Call<ProductResult> getCartList(@Header("token") Token token);
+    Call<ProductResult> getCartList(@Header("Authorization") String token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/create_update/")
-    Call<ProductResult> addToCart(@Header("token") Token token);
+    Call<ProductResult> addToCart(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("carts/remove_product/")
-    Call<ProductResult> removeFromCart(@Header("token") Token token);
+    Call<ProductResult> removeFromCart(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PATCH("baskets/{basketID}/lines/{lineID}/")
-    Call<ProductResult> cartAddRemoveQuantity(@Header("token") Token token,@Path("basketID") String basketID,@Path("lineID") String lineID);
+    Call<ProductResult> cartAddRemoveQuantity(@Header("Authorization") String token,@Path("basketID") String basketID,@Path("lineID") String lineID);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("config/promotion_images/")
-    Call<AdvertisementBanner> getAdvertisementBanners(@Header("token") Token token,@Query("page") int page,@Query("page_size") int page_size);
+    Call<AdvertisementBanner> getAdvertisementBanners(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
 
     /* old apis */

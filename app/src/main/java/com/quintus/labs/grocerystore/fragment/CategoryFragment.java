@@ -47,7 +47,7 @@ public class CategoryFragment extends Fragment {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
     private List<Category> categoryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CategoryAdapter mAdapter;
@@ -69,7 +69,7 @@ public class CategoryFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(localStorage.getApiKey());
+        token = localStorage.getApiKey();
 
         getCategoryData();
 

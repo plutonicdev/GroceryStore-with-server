@@ -60,7 +60,7 @@ public class OffrersFragment extends Fragment {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
 
     public OffrersFragment() {
         // Required empty public constructor
@@ -83,7 +83,7 @@ public class OffrersFragment extends Fragment {
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = localStorage.getApiKey();
 
         getOffers();
         return view;
