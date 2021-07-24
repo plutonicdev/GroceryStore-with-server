@@ -209,8 +209,9 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
 
                     } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Server Error Please try after sometime");
+                        errorUtils.checkUserError(response);
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Server Error Please try after sometime");
                 }
 
 
@@ -227,6 +228,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+                new CustomToast().Show_Toast(getActivity(), view,
+                                "Server Error Please try after sometime");
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }

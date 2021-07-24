@@ -41,6 +41,10 @@ public class OtpVarificationActivity extends AppCompatActivity{
     Gson gson = new Gson();
     private static EditText otpcode;
     User user;
+
+
+    String userjson;
+
     int _otpSuccess = 1;
     CountDownTimer cTimer = null;
     int counter = 30;
@@ -55,9 +59,10 @@ public class OtpVarificationActivity extends AppCompatActivity{
         localStorage = new LocalStorage(getApplicationContext());
         firebaseToken = localStorage.getFirebaseToken();
         submit = findViewById(R.id.submit);
-        _phone = getIntent().getStringExtra("mobile");
 
-
+        userjson = localStorage.getUserLogin();
+        user = gson.fromJson(userjson, User.class);
+        _phone = user.getPhone();
 
         otp = findViewById(R.id.otp);
         resend_otp = findViewById(R.id.resend_otp);
@@ -68,7 +73,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
         otp_box_4 = findViewById(R.id.otp_box_4);
         otp_box_5 = findViewById(R.id.otp_box_5);
         otp_box_6 = findViewById(R.id.otp_box_6);
-        otp.setText(Html.fromHtml(getResources().getString(R.string.otp1)));
+        otp.setText("Enter OTP sent to "+ _phone);
         otp_box_1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -175,7 +180,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
        if (_otp.length() != 6) {
            Toast.makeText(this, "Please enter valid OTP", Toast.LENGTH_SHORT).show();
         } else {
-            user = new User(_phone, _otp);
+            user = new User( _otp,_phone);
             submitOtp(user);
         }
 
