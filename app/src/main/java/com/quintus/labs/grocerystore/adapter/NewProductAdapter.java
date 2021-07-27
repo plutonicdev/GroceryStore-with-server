@@ -113,7 +113,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
         if (!cartList.isEmpty()) {
 //            for (int i = 0; i < cartList.size(); i++) {
-//                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+//                if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
 //                    holder.shopNow.setVisibility(View.GONE);
 //                    holder.quantity_ll.setVisibility(View.VISIBLE);
 //                    holder.quantity.setText(cartList.get(i).getQuantity());
@@ -137,17 +137,17 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
               //  _attribute = product.getAttribute();
                 _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
 
-//                if (context instanceof MainActivity) {
-//                    Cart cart = new Cart(product.getId(), product.getName(), product.getImage(), product.getCurrency(), _price, _attribute, _quantity, _subtotal);
-//                    cartList = ((BaseActivity) context).getCartList();
-//                    cartList.add(cart);
-//
-//                    String cartStr = gson.toJson(cartList);
-//                    //Log.d("CART", cartStr);
-//                    localStorage.setCart(cartStr);
-//                    ((AddorRemoveCallbacks) context).onAddProduct();
-//                    notifyItemChanged(position);
-//                }
+                if (context instanceof MainActivity) {
+                    Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
+                    cartList = ((BaseActivity) context).getCartList();
+                    cartList.add(cart);
+
+                    String cartStr = gson.toJson(cartList);
+                    //Log.d("CART", cartStr);
+                    localStorage.setCart(cartStr);
+                    ((AddorRemoveCallbacks) context).onAddProduct();
+                    notifyItemChanged(position);
+                }
             }
         });
 

@@ -216,28 +216,5 @@ public interface RestService {
     /* old apis */
 
 
-//    @POST("api/v1/getlist")
-//    Call<ProductResult> getCategoryProduct(@Body Category category);
-//
-//    @POST("api/v1/placeorder")
-//    Call<OrdersResult> confirmPlaceOrder(@Body PlaceOrder placeOrder);
-//
-//    @POST("api/v1/orderDetails")
-//    Call<OrdersResult> orderDetails(@Body Order order);
-//
-////    @POST("api/v1/updateUser")
-////    Call<UserResult> updateUser(@Body User user);
-//
-//    @POST("users/address/create/")
-//    Call<AddAddressListResponse> updateUser(@Body User user);
 
-//    @GET("users/address/list/")
-//    Call<AddAddressListResponse> getAddressList(@Body User user);
-
-
-//    @GET("api/v1/product/search")
-//    Call<ProductResult> searchProduct(@Query("s") String search);
-//
-//    @POST("api/v1/singleOrderDetails")
-//    Call<OrdersResult> getOrderItems(@Body OrderItem orderItem);
 }
