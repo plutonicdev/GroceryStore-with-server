@@ -23,7 +23,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:usesCleartextTraffic">
-        <activity android:name=".activity.AddressListActivity"></activity>
+        <activity android:name=".activity.SubCategoryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".activity.AddressListActivity" />
         <activity android:name=".payment.payu.PayuPaymentActivity" />
         <activity android:name=".activity.OtpVarificationActivity" />
         <activity

@@ -2,7 +2,6 @@ package com.quintus.labs.grocerystore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.activity.CartActivity;
 import com.quintus.labs.grocerystore.activity.ProductActivity;
 import com.quintus.labs.grocerystore.activity.SubCategoryActivity;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.SubCategory;
-import com.quintus.labs.grocerystore.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -34,35 +34,27 @@ import java.util.List;
  * Created on 18-Feb-2019.
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
+public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.MyViewHolder> {
 
-    List<Category> categoryList;
+
     List<SubCategory> subCategoryList= new ArrayList<>();
     Context context;
     String Tag;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
-        this.categoryList = categoryList;
+    public SubCategoryAdapter(List<SubCategory> subCategoryList, Context context) {
+        this.subCategoryList = subCategoryList;
         this.context = context;
     }
 
-    public CategoryAdapter(List<Category> categoryList, Context context, String tag) {
-        this.categoryList = categoryList;
-        this.context = context;
-        Tag = tag;
-    }
+
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView;
-        if (Tag.equalsIgnoreCase("Home")) {
+
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_home_category, parent, false);
-        } else {
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.row_category, parent, false);
-        }
 
 
         return new MyViewHolder(itemView);
@@ -71,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-        final Category category = categoryList.get(position);
+        final SubCategory category = subCategoryList.get(position);
         holder.title.setText(category.getName());
 //        Log.d("Category Image ==>", category.getCateimg());
 //        if (Tag.equalsIgnoreCase("Category")) {
@@ -93,10 +85,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subCategoryList= category.getSubCategory();
-                Intent intent = new Intent(context, SubCategoryActivity.class);
-                intent.putExtra("category",(Serializable) subCategoryList);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              //  Toast.makeText(context,String.valueOf(category.getId()),Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, ProductActivity.class);
+              intent.putExtra("id",category.getId());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -120,7 +113,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 //        } else if (Tag.equalsIgnoreCase("Home") && categoryList.size() >= 6) {
 //            return 6;
 //        } else {
-            return categoryList.size();
+            return subCategoryList.size();
        // }
 
     }

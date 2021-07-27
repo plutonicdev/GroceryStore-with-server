@@ -59,7 +59,7 @@
                         android:textColor="@color/white"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
                 </RelativeLayout>
 
 
@@ -82,7 +82,7 @@
                             android:id="@+id/apv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="iPhone 6Sjkgjkjhahk fhkafhkj"
+                            android:text=""
                             android:textColor="@color/colorTex"
                             android:textSize="21dp"
                             android:visibility="visible" />
@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text="Rs"
+                            android:text=""
                             android:textColor="@color/colorTex"
                             android:textSize="21dp" />
 
@@ -110,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
                             android:layout_weight="2"
-                            android:text="750"
+                            android:text=""
                             android:textColor="@color/colorTex"
                             android:textSize="21dp" />
 
@@ -131,7 +131,7 @@
                 <!--*********Shipping**********-->
 
                 <LinearLayout
-
+android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -147,7 +147,7 @@
                         android:gravity="center"
                         android:text="Free Shipping"
                         android:textColor="#fff"
-
+android:visibility="gone"
                         />
 
                     <LinearLayout
@@ -211,14 +211,15 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/colordevider"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:visibility="gone"/>
 
 
 
                 <!--*********Returns**********-->
 
                 <LinearLayout
-
+android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -249,13 +250,14 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/colordevider"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:visibility="gone"/>
 
 
                 <!--*********Guarantee**********-->
 
                 <LinearLayout
-
+android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -422,7 +424,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="Add to cart"
+                            android:text="Share"
                             android:textColor="#4c71f5"
                             android:textSize="16dp"
                             android:layout_marginLeft="@dimen/margin_10dp"/>

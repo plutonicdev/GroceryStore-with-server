@@ -106,7 +106,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/category/{id}/products/")
-    Call<PopularProducts> allProducts(@Header("Authorization") String token, @Path("id") String id, @Query("page") int page, @Query("page_size") int page_size);
+    Call<PopularProducts> allProducts(@Header("Authorization") String token, @Path("id") int id, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("catalog/product/{id}/details/")
@@ -152,11 +152,9 @@ public interface RestService {
     @GET("orders/list/")
     Call<Order> getOrderDetails(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
-
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
     Call<ProductResult> getSingleOrderDetails(@Header("Authorization") String token,@Path("id") String id);
-
 
     @GET("locations/countries/")
     Call<List<Country>> getcountry();
@@ -169,16 +167,13 @@ public interface RestService {
     @GET("locations/state/{id}/cities/")
     Call<City> city(@Header("Authorization") String token);
 
-
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
     Call<Pin> pin(@Header("Authorization") String token);
 
-
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
     Call<ProductResult> zip(@Header("Authorization") String token,@Path("id") String id);
-
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("vouchers/voucher_validity/")

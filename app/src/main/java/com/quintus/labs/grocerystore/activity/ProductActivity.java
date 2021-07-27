@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,11 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.adapter.ProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
 import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Category;
+import com.quintus.labs.grocerystore.model.PopularProducts;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
@@ -56,12 +60,18 @@ public class ProductActivity extends BaseActivity {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
     String categoryName;
     Category category;
-    List<Product> productList = new ArrayList<>();
     ProductAdapter mAdapter;
     private RecyclerView recyclerView;
+    Integer id;
+    int page=1;
+    int page_size=10;
+    boolean isLoading = true;
+
+    List<PopularProductsResult> productList = new ArrayList<>();
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -80,9 +90,11 @@ public class ProductActivity extends BaseActivity {
 
         localStorage = new LocalStorage(getApplicationContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = localStorage.getApiKey();
         Intent intent = getIntent();
-        categoryName = intent.getStringExtra("category");
+
+        id= intent.getIntExtra("id",0);
+      //  categoryName = intent.getStringExtra("category");
 
 //        category = new Category(categoryName, user.getToken());
 
@@ -94,18 +106,62 @@ public class ProductActivity extends BaseActivity {
         recyclerView = findViewById(R.id.product_rv);
 
 
-//        getCategoryProduct();
+        getCategoryProduct();
 
 
     }
 
 
-//    private void getCategoryProduct() {
-//        showProgressDialog();
+
 
     private void getCategoryProduct() {
-        showProgressDialog();
 
+        showProgressDialog();
+        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(token,id,page,page_size);
+        call.enqueue(new Callback<PopularProducts>() {
+            @Override
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
+
+                        productList = productResult.getResults();
+                        setUpRecyclerView();
+
+                        if (page < productResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
+                hideProgressDialog();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+//        showProgressDialog();
+//
 //        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
 //        call.enqueue(new Callback<ProductResult>() {
 //            @Override
@@ -134,11 +190,11 @@ public class ProductActivity extends BaseActivity {
 //            }
 //        });
 
-//
-//    }
-
 
     }
+
+
+
 
 
     private void hideProgressDialog() {
@@ -175,7 +231,7 @@ public class ProductActivity extends BaseActivity {
 
     private void setUpRecyclerView() {
 
-        mAdapter = new ProductAdapter(productList, ProductActivity.this, Tag);
+        mAdapter = new ProductAdapter(productList, ProductActivity.this,Tag);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -185,7 +241,7 @@ public class ProductActivity extends BaseActivity {
 
     private void setUpGridRecyclerView() {
 
-        mAdapter = new ProductAdapter(productList, ProductActivity.this, Tag);
+        mAdapter = new ProductAdapter(productList, ProductActivity.this,Tag);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -248,5 +304,76 @@ public class ProductActivity extends BaseActivity {
         invalidateOptionsMenu();
 
     }
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productList.size() - 1) {
+                        //bottom of list!
+                        loadMore();
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadMore() {
+        page = page + 1;
+
+        showProgressDialog();
+        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(token,id,page, page_size);
+        call.enqueue(new Callback<PopularProducts>() {
+            @Override
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
+
+                        productList.addAll( productResult.getResults());
+                        mAdapter.notifyDataSetChanged();
+
+                        if (page < productResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
+
+
+    }
+
+
+
 
 }

@@ -2,7 +2,9 @@ package com.quintus.labs.grocerystore.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SubCategory {
+import java.io.Serializable;
+
+public class SubCategory implements Serializable {
 
 
     @SerializedName("id")

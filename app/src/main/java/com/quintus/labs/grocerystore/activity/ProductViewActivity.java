@@ -102,17 +102,17 @@ public class ProductViewActivity extends BaseActivity {
 
 
 
-        if (!cartList.isEmpty()) {
-            for (int i = 0; i < cartList.size(); i++) {
-                if (cartList.get(i).getId().equalsIgnoreCase(_id)) {
-                    addToCart.setVisibility(View.GONE);
-                    quantityLL.setVisibility(View.VISIBLE);
-                    quantity.setText(cartList.get(i).getQuantity());
-                    cartId = i;
-
-                }
-            }
-        }
+//        if (!cartList.isEmpty()) {
+//            for (int i = 0; i < cartList.size(); i++) {
+//                if (cartList.get(i).getId().equalsIgnoreCase(_id)) {
+//                    addToCart.setVisibility(View.GONE);
+//                    quantityLL.setVisibility(View.VISIBLE);
+//                    quantity.setText(cartList.get(i).getQuantity());
+//                    cartId = i;
+//
+//                }
+//            }
+//        }
 
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -206,14 +206,15 @@ public class ProductViewActivity extends BaseActivity {
                     title.setText(productDetails.getName());
                     description.setText(productDetails.getDescription());
                     org_price.setText(productDetails.getMrp());
+                    org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     price.setText(productDetails.getPrice());
                     currency.setText(productDetails.getCurrency().getSymbol());
-                    if(Double.parseDouble(productDetails.getDiscount())>0){
-                        discount.setText(productDetails.getDiscount());
-                        discount.setVisibility(View.VISIBLE);
-                    }else{
-                        discount.setVisibility(View.GONE);
-                    }
+//                    if(Double.parseDouble(productDetails.getDiscount())>0){
+//                        discount.setText(productDetails.getDiscount());
+//                        discount.setVisibility(View.VISIBLE);
+//                    }else{
+//                        discount.setVisibility(View.GONE);
+//                    }
 
                     if(productDetails.getImages().get(0).getImage()!=null){
                         Picasso.get().load(productDetails.getImages().get(0).getImage()).error(R.drawable.no_image).into(imageView, new Callback() {

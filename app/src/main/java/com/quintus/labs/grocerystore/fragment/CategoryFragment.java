@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -21,6 +22,7 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -53,6 +55,7 @@ public class CategoryFragment extends Fragment {
     private CategoryAdapter mAdapter;
     int page=1;
     int page_size=10;
+    boolean isLoading = true;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -94,6 +97,14 @@ public class CategoryFragment extends Fragment {
                         categoryList = categoryResult.getResults();
                         setupCategoryRecycleView();
 
+                        if (page < categoryResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
                     }
 
                 }
@@ -111,8 +122,8 @@ public class CategoryFragment extends Fragment {
 
     private void setupCategoryRecycleView() {
         mAdapter = new CategoryAdapter(categoryList, getContext(), "Category");
-      //  RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+       RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+       // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -132,6 +143,76 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Category");
+    }
+
+
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == categoryList.size() - 1) {
+                        //bottom of list!
+                        loadMore();
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadMore() {
+        page = page + 1;
+
+        showProgressDialog();
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token, page, page_size);
+        call.enqueue(new Callback<CategoryResult>() {
+            @Override
+            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CategoryResult productResult = response.body();
+                    if (response.code() == 200) {
+
+                        categoryList.addAll( productResult.getResults());
+                        mAdapter.notifyDataSetChanged();
+
+                        if (page < productResult.getTotalPages()) {
+                            isLoading = true;
+                        } else {
+                            isLoading = false;
+                        }
+
+                        initScrollListener();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResult> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
+
+
     }
 
 }

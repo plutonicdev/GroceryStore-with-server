@@ -24,6 +24,7 @@ import com.quintus.labs.grocerystore.activity.ProductActivity;
 import com.quintus.labs.grocerystore.activity.ProductViewActivity;
 import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -41,7 +42,7 @@ import java.util.List;
  */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
-    List<Product> productList;
+    List<PopularProductsResult> productList;
     Context context;
     String Tag;
     int pQuantity = 1;
@@ -50,12 +51,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     List<Cart> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
 
-    public ProductAdapter(List<Product> productList, Context context) {
+    public ProductAdapter(List<PopularProductsResult> productList, Context context) {
         this.productList = productList;
         this.context = context;
     }
 
-    public ProductAdapter(List<Product> productList, Context context, String tag) {
+    public ProductAdapter(List<PopularProductsResult> productList, Context context, String tag) {
         this.productList = productList;
         this.context = context;
         Tag = tag;
@@ -80,34 +81,34 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        final Product product = productList.get(position);
+        final PopularProductsResult product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
         holder.title.setText(product.getName());
 
-        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0) {
-
-            double M = Double.parseDouble(product.getPrice());
-            double S = Double.parseDouble(product.getDiscount());
-            double discount = M - S;
-
-            int disPercent = (int) Math.round((discount / M) * 100);
-
-            if (disPercent > 1) {
-                holder.offer.setText(disPercent + "% OFF");
-            } else {
-                holder.offer.setVisibility(View.GONE);
-            }
-
-        } else {
-            holder.offer.setVisibility(View.GONE);
-        }
-        holder.attribute.setText(product.getAttribute());
-        holder.currency.setText(product.getCurrency());
-        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-            holder.price.setText(product.getDiscount());
-            holder.org_price.setText(product.getPrice());
+//        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0) {
+//
+//            double M = Double.parseDouble(product.getPrice());
+//            double S = Double.parseDouble(product.getDiscount());
+//            double discount = M - S;
+//
+//            int disPercent = (int) Math.round((discount / M) * 100);
+//
+//            if (disPercent > 1) {
+//                holder.offer.setText(disPercent + "% OFF");
+//            } else {
+//                holder.offer.setVisibility(View.GONE);
+//            }
+//
+//        } else {
+//            holder.offer.setVisibility(View.GONE);
+//        }
+//        holder.attribute.setText(product.getAttribute());
+        holder.currency.setText(String.valueOf(product.getCurrency().getSymbol()));
+        if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
+            holder.price.setText(product.getPrice());
+            holder.org_price.setText(product.getMrp());
             holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         } else {
@@ -115,8 +116,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.org_price.setVisibility(View.GONE);
         }
 
+
         Picasso.get()
-                .load(Utils.ProductImage + product.getImage())
+                .load(product.getImages().get(0).getImage())
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -134,28 +136,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.offer.setVisibility(View.GONE);
         }
 
-        if (!cartList.isEmpty()) {
-            for (int i = 0; i < cartList.size(); i++) {
-                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
-                    holder.addToCart.setVisibility(View.GONE);
-                    holder.subTotal.setVisibility(View.VISIBLE);
-                    holder.quantity.setText(cartList.get(i).getQuantity());
-                    _quantity = cartList.get(i).getQuantity();
-                    if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-                        _price = product.getDiscount();
-                    } else {
-                        _price = product.getPrice();
-                    }
-
-                    _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
-                    holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
-                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
-                }
-            }
-        } else {
-
-            holder.quantity.setText("1");
-        }
+//        if (!cartList.isEmpty()) {
+//            for (int i = 0; i < cartList.size(); i++) {
+//                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+//                    holder.addToCart.setVisibility(View.GONE);
+//                    holder.subTotal.setVisibility(View.VISIBLE);
+//                    holder.quantity.setText(cartList.get(i).getQuantity());
+//                    _quantity = cartList.get(i).getQuantity();
+//                    if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+//                        _price = product.getDiscount();
+//                    } else {
+//                        _price = product.getPrice();
+//                    }
+//
+//                    _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
+//                    holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
+//                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+//                }
+//            }
+//        } else {
+//
+//            holder.quantity.setText("1");
+//        }
 
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,19 +169,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     holder.quantity.setText(total_item + "");
                     for (int i = 0; i < cartList.size(); i++) {
 
-                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
-
-                            // Log.d("totalItem", total_item + "");
-
-                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-                            cartList.get(i).setSubTotal(_subtotal);
-                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
-                            String cartStr = gson.toJson(cartList);
-                            //Log.d("CART", cartStr);
-                            localStorage.setCart(cartStr);
-                            notifyItemChanged(position);
-                        }
+//                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+//
+//                            // Log.d("totalItem", total_item + "");
+//
+//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
+//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
+//                            cartList.get(i).setSubTotal(_subtotal);
+//                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
+//                            String cartStr = gson.toJson(cartList);
+//                            //Log.d("CART", cartStr);
+//                            localStorage.setCart(cartStr);
+//                            notifyItemChanged(position);
+//                        }
                     }
                 }
 
@@ -193,21 +195,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     int total_item = Integer.parseInt(holder.quantity.getText().toString());
                     total_item--;
                     holder.quantity.setText(total_item + "");
-                    for (int i = 0; i < cartList.size(); i++) {
-                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
-
-                            //holder.quantity.setText(total_item + "");
-                            //Log.d("totalItem", total_item + "");
-                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-                            cartList.get(i).setSubTotal(_subtotal);
-                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
-                            String cartStr = gson.toJson(cartList);
-                            //Log.d("CART", cartStr);
-                            localStorage.setCart(cartStr);
-                            notifyItemChanged(position);
-                        }
-                    }
+//                    for (int i = 0; i < cartList.size(); i++) {
+//                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+//
+//                            //holder.quantity.setText(total_item + "");
+//                            //Log.d("totalItem", total_item + "");
+//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
+//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
+//                            cartList.get(i).setSubTotal(_subtotal);
+//                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
+//                            String cartStr = gson.toJson(cartList);
+//                            //Log.d("CART", cartStr);
+//                            localStorage.setCart(cartStr);
+//                            notifyItemChanged(position);
+//                        }
+//                    }
 
                 }
 
@@ -239,24 +241,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     _price = product.getPrice();
                 }
                 _quantity = holder.quantity.getText().toString();
-                _attribute = product.getAttribute();
+              //  _attribute = product.getAttribute();
 
-                if (Integer.parseInt(_quantity) != 0) {
-                    _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
-                    holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
-                    if (context instanceof ProductActivity) {
-                        Cart cart = new Cart(product.getId(), product.getName(), product.getImage(), product.getCurrency(), _price, _attribute, _quantity, _subtotal);
-                        cartList = ((BaseActivity) context).getCartList();
-                        cartList.add(cart);
-                        String cartStr = gson.toJson(cartList);
-                        //Log.d("CART", cartStr);
-                        localStorage.setCart(cartStr);
-                        ((AddorRemoveCallbacks) context).onAddProduct();
-                        notifyItemChanged(position);
-                    }
-                } else {
-                    Toast.makeText(context, "Please Add Quantity", Toast.LENGTH_SHORT).show();
-                }
+//                if (Integer.parseInt(_quantity) != 0) {
+//                    _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
+//                    holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
+//                    if (context instanceof ProductActivity) {
+//                        Cart cart = new Cart(product.getId(), product.getName(), product.getImage(), product.getCurrency(), _price, _attribute, _quantity, _subtotal);
+//                        cartList = ((BaseActivity) context).getCartList();
+//                        cartList.add(cart);
+//                        String cartStr = gson.toJson(cartList);
+//                        //Log.d("CART", cartStr);
+//                        localStorage.setCart(cartStr);
+//                        ((AddorRemoveCallbacks) context).onAddProduct();
+//                        notifyItemChanged(position);
+//                    }
+//                } else {
+//                    Toast.makeText(context, "Please Add Quantity", Toast.LENGTH_SHORT).show();
+//                }
 
 
             }
@@ -266,13 +268,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductViewActivity.class);
-                intent.putExtra("id", product.getId());
+                intent.putExtra("id", String.valueOf(product.getId()));
                 intent.putExtra("title", product.getName());
-                intent.putExtra("image", product.getImage());
+               intent.putExtra("image", product.getImages().get(0).getImage());
                 intent.putExtra("price", product.getPrice());
-                intent.putExtra("currency", product.getCurrency());
-                intent.putExtra("attribute", product.getAttribute());
-                intent.putExtra("discount", product.getDiscount());
+                intent.putExtra("currency", product.getCurrency().getSymbol());
+              //  intent.putExtra("attribute", product.getAttribute());
+              //  intent.putExtra("discount", product.getDiscount());
                 intent.putExtra("description", product.getDescription());
 
 
