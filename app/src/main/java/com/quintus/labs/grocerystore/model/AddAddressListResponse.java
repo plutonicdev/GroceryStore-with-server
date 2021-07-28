@@ -6,83 +6,99 @@ import java.util.List;
 
 public class AddAddressListResponse {
 
+    @SerializedName("id")
+  
+    private Integer id;
+    @SerializedName("country")
+  
+    private Country country;
+    @SerializedName("state")
+  
+    private State state;
+    @SerializedName("city")
+  
+    private City city;
+    @SerializedName("pin")
+  
+    private Pin pin;
     @SerializedName("name")
+  
     private String name;
     @SerializedName("phone")
+  
     private String phone;
-    @SerializedName("alt_phone")
-    private String altPhone;
     @SerializedName("email")
+  
     private String email;
+    @SerializedName("flat_no")
+  
+    private Object flatNo;
+    @SerializedName("room_no")
+  
+    private Object roomNo;
+    @SerializedName("alt_phone")
+  
+    private Object altPhone;
     @SerializedName("line")
-    private String line;
+  
+    private Object line;
     @SerializedName("land_mark")
+  
     private String landMark;
     @SerializedName("address")
+  
     private String address;
     @SerializedName("address_type")
+  
     private String addressType;
-    @SerializedName("country")
-//    List<Country> countryList;
-    private Integer country;
-    @SerializedName("city")
-    private Integer city;
-    @SerializedName("pin")
-    private Integer pin;
-    @SerializedName("state")
-    private Integer state;
     @SerializedName("is_default")
+  
     private Boolean isDefault;
+    @SerializedName("user")
+  
+    private Integer user;
+    @SerializedName("society")
+  
+    private Object society;
 
-    List<Country> countryList;
-    List<State> stateList;
-    List<City> cityList;
-    List<Pin> pinList;
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public AddAddressListResponse(String name, String phone, String email, String address, String addressType, Integer country, Integer city, Integer pin, Integer state, Boolean isDefault) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.addressType = addressType;
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
         this.country = country;
-        this.city = city;
-        this.pin = pin;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
         this.state = state;
-        this.isDefault = isDefault;
     }
 
-    public List<Country> getCountryList() {
-        return countryList;
+    public City getCity() {
+        return city;
     }
 
-    public void setCountryList(List<Country> countryList) {
-        this.countryList = countryList;
+    public void setCity(City city) {
+        this.city = city;
     }
 
-    public List<State> getStateList() {
-        return stateList;
+    public Pin getPin() {
+        return pin;
     }
 
-    public void setStateList(List<State> stateList) {
-        this.stateList = stateList;
-    }
-
-    public List<City> getCityList() {
-        return cityList;
-    }
-
-    public void setCityList(List<City> cityList) {
-        this.cityList = cityList;
-    }
-
-    public List<Pin> getPinList() {
-        return pinList;
-    }
-
-    public void setPinList(List<Pin> pinList) {
-        this.pinList = pinList;
+    public void setPin(Pin pin) {
+        this.pin = pin;
     }
 
     public String getName() {
@@ -101,14 +117,6 @@ public class AddAddressListResponse {
         this.phone = phone;
     }
 
-    public String getAltPhone() {
-        return altPhone;
-    }
-
-    public void setAltPhone(String altPhone) {
-        this.altPhone = altPhone;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -117,11 +125,35 @@ public class AddAddressListResponse {
         this.email = email;
     }
 
-    public String getLine() {
+    public Object getFlatNo() {
+        return flatNo;
+    }
+
+    public void setFlatNo(Object flatNo) {
+        this.flatNo = flatNo;
+    }
+
+    public Object getRoomNo() {
+        return roomNo;
+    }
+
+    public void setRoomNo(Object roomNo) {
+        this.roomNo = roomNo;
+    }
+
+    public Object getAltPhone() {
+        return altPhone;
+    }
+
+    public void setAltPhone(Object altPhone) {
+        this.altPhone = altPhone;
+    }
+
+    public Object getLine() {
         return line;
     }
 
-    public void setLine(String line) {
+    public void setLine(Object line) {
         this.line = line;
     }
 
@@ -149,38 +181,6 @@ public class AddAddressListResponse {
         this.addressType = addressType;
     }
 
-        public Integer getCountry() {
-            return country;
-        }
-
-        public void setCountry(Integer country) {
-            this.country = country;
-        }
-
-    public Integer getCity() {
-        return city;
-    }
-
-    public void setCity(Integer city) {
-        this.city = city;
-    }
-
-    public Integer getPin() {
-        return pin;
-    }
-
-    public void setPin(Integer pin) {
-        this.pin = pin;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
     public Boolean getIsDefault() {
         return isDefault;
     }
@@ -189,4 +189,19 @@ public class AddAddressListResponse {
         this.isDefault = isDefault;
     }
 
+    public Integer getUser() {
+        return user;
+    }
+
+    public void setUser(Integer user) {
+        this.user = user;
+    }
+
+    public Object getSociety() {
+        return society;
+    }
+
+    public void setSociety(Object society) {
+        this.society = society;
+    }
 }

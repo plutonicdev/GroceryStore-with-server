@@ -50,26 +50,15 @@ import retrofit2.http.Query;
 
 public interface RestService {
     String tenant_id = "2";
-//    @POST("api/v1/register")
-//    Call<UserResult> register(@Body User user);
 
     @POST("users/register/")
     Call<UserResponse> register(@Body User user);
 
-//    @POST("api/v1/login")
-//    Call<UserResult> login(@Body User user);
-
     @POST("users/login/")
     Call<UserResponse> login(@Body User user);
 
-//    @POST("api/v1/forgot_password")
-//    Call<UserResult> forgotPassword(@Body User user);
-
     @POST("users/forget_password/")
     Call<UserResponse> forgotPassword(@Body User user);
-
-//    @POST("api/v1/reset_password")
-//    Call<UserResult> resetPassword(@Body User user);
 
     @POST("users/confirm_forget_password/")
     Call<UserResponse> resetPassword(@Body User user);
@@ -122,7 +111,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/list/")
-    Call<AddAddressListResponse> getAddressList(@Header("token") User user);
+    Call<List<AddAddressListResponse>> getAddressList(@Header("Authorization") String token);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("users/address/default/")

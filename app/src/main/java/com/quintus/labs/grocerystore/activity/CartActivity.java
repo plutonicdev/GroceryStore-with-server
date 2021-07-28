@@ -184,8 +184,8 @@ public class CartActivity extends BaseActivity {
         if (cartList.isEmpty()) {
             mState = "HIDE_MENU";
             invalidateOptionsMenu();
-            emptyCart.setVisibility(View.VISIBLE);
-            checkoutLL.setVisibility(View.GONE);
+          //  emptyCart.setVisibility(View.VISIBLE);
+          //  checkoutLL.setVisibility(View.GONE);
         }
         recyclerView = findViewById(R.id.cart_rv);
         recyclerView.setHasFixedSize(true);

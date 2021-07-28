@@ -60,26 +60,26 @@ public class AddressListActivity extends AppCompatActivity {
 
     public void  AddressDataList(){
 
-        Call<AddAddressListResponse> call = RestClient.getRestService(getApplicationContext()).getAddressList(user);
-        call.enqueue(new Callback<AddAddressListResponse>() {
-            @Override
-            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
-                AddAddressListResponse addressListResponse = response.body();
-                if (addressListResponse != null) {
-                    if (response.code() == 200) {
-                       showData();
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.label_something_went_wrong), Toast.LENGTH_LONG).show();
-
-                }
-            }
-            @Override
-            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_try_after_sometime), Toast.LENGTH_LONG).show();
-            }
-        });
+//        Call<AddAddressListResponse> call = RestClient.getRestService(getApplicationContext()).getAddressList(user);
+//        call.enqueue(new Callback<AddAddressListResponse>() {
+//            @Override
+//            public void onResponse(Call<AddAddressListResponse> call, Response<AddAddressListResponse> response) {
+//                AddAddressListResponse addressListResponse = response.body();
+//                if (addressListResponse != null) {
+//                    if (response.code() == 200) {
+//                       showData();
+//                    }
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.label_something_went_wrong), Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<AddAddressListResponse> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_try_after_sometime), Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     private void showData() {

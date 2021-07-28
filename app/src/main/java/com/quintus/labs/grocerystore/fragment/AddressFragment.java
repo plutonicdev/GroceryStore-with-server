@@ -34,6 +34,7 @@ import com.quintus.labs.grocerystore.model.Country;
 
 import com.quintus.labs.grocerystore.model.Pin;
 import com.quintus.labs.grocerystore.model.Country;
+import com.quintus.labs.grocerystore.model.AddAddressListResponse;
 import com.quintus.labs.grocerystore.model.State;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -69,7 +70,8 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     ArrayList stateArray = new ArrayList();
     ArrayList cityArray = new ArrayList();
     List<Country> countryList = null;
-//    List<State> stateList = new ArrayList<>();
+    List<AddAddressListResponse> addressList = new ArrayList<>();
+    //    List<State> stateList = new ArrayList<>();
 //    List<City> cityList = new ArrayList<>();
     String _city, _name, _email, _phone, _address, _state, _zip, _address_type, _country, userString;
     EditText name, email, mobile, address, zip;
@@ -80,6 +82,8 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     Gson gson;
     User user;
     View progress;
+
+    String type = "add";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -187,6 +191,9 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         token = localStorage.getApiKey();
         progress = v.findViewById(R.id.progress_bar);
 
+        getAddressList();
+
+
         getCountry();
 
         countryArray.add(0, "select List<Country>");
@@ -215,13 +222,13 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         getCity();
 
         Log.d("User String : ", userString);
-        if (user != null) {
-            name.setText(user.getName());
-            email.setText(user.getEmail());
-            mobile.setText(user.getMobile());
-            zip.setText(user.getZip());
-            address.setText(user.getAddress());
-        }
+//        if (user != null) {
+//            name.setText(user.getName());
+//            email.setText(user.getEmail());
+//            mobile.setText(user.getMobile());
+//            zip.setText(user.getZip());
+//            address.setText(user.getAddress());
+//        }
 
 //        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -264,7 +271,6 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //            public void onNothingSelected(AdapterView<?> parent) {
 //            }
 //        });
-
 
 
 //        init();
@@ -321,10 +327,59 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 }
 
 
-
             }
         });
         return v;
+
+    }
+
+    private void getAddressList() {
+        showProgressDialog();
+        Call<List<AddAddressListResponse>> call = RestClient.getRestService(getContext()).getAddressList(token);
+        call.enqueue(new Callback<List<AddAddressListResponse>>() {
+            @Override
+            public void onResponse(Call<List<AddAddressListResponse>> call, Response<List<AddAddressListResponse>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    addressList = response.body();
+                    if (response.code() == 200) {
+
+                        if (addressList.size() > 0) {
+                            type = "update";
+
+                            name.setText(addressList.get(0).getName());
+                           email.setText(addressList.get(0).getEmail());
+                            mobile.setText(addressList.get(0).getPhone());
+//            zip.setText(user.getZip());
+                            address.setText(addressList.get(0).getAddress());
+                            if (addressList.get(0).getAddressType().equalsIgnoreCase("HOME")) {
+                                homeType.setChecked(true);
+                            } else {
+                                if (addressList.get(0).getAddressType().equalsIgnoreCase("WORK")) {
+                                    workType.setChecked(true);
+                                }
+                            }
+
+                        } else {
+                            type = "add";
+                        }
+
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<AddAddressListResponse>> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+                hideProgressDialog();
+
+            }
+        });
 
     }
 
@@ -340,7 +395,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                     if (response.code() == 200) {
                         user.setAddress(userAddress.getAddress());
                         user.setState(userAddress.getState());
-                       // user.setCountry(userAddress.getCountry());
+                        // user.setCountry(userAddress.getCountry());
                         user.setCity(userAddress.getCity());
                         user.setAddress_type(userAddress.getAddress_type());
                         user.setZip(userAddress.getZip());
@@ -650,13 +705,13 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                     List<Country> countryResult = response.body();
                     if (response.code() == 200) {
                         countryList = countryResult;
-                       
+
 
                     }
 
                 }
 
-               
+
             }
 
             @Override
@@ -664,13 +719,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
             }
         });
-        
-        
-        
-        
-        
-        
-        
+
 
     }
 }
