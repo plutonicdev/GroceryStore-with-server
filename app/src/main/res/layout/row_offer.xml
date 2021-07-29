@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">
 
@@ -22,203 +22,93 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--            <ImageView-->
-            <!--                android:id="@+id/offer_image"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:adjustViewBounds="true"-->
-            <!--                android:scaleType="fitXY" />-->
+            <ImageView
+                android:id="@+id/offer_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.3"
-                        android:text="@string/name"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.7"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.3"
-                        android:text="@string/end_date"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/end_date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.7"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                <com.quintus.labs.grocerystore.customfonts.TextViewBold
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="@dimen/dimen_50dp"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
 
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.3"
-                        android:text="@string/status"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/status"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.7"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16"
+                    android:visibility="gone"/>
 
 
-                </LinearLayout>
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16"
+                    android:visibility="gone"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="@dimen/margin_10"
+                       >
+                       <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                           android:id="@+id/code"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text=""
+                           android:textColor="@color/white"
+                           android:textSize="@dimen/dimen_20dp" />
 
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.3"
-                        android:text="@string/code"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/code"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.5"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <ImageView
-                        android:id="@+id/copy"
-                        android:layout_width="@dimen/dimen_0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:layout_gravity="start"
-                        android:src="@drawable/ic_baseline_content_copy_24"/>
+                       <ImageView
+                           android:id="@+id/copy"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="@dimen/margin_20dp"
+                           android:src="@drawable/ic_baseline_content_copy_24" />
+                   </LinearLayout>
 
 
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.3"
-                        android:text="@string/discount_price"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/discount_price"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.7"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/discount_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16" />
 
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/minimum_ordre_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:layout_weight="0.5"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16" />
 
-                    <com.quintus.labs.grocerystore.customfonts.TextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.5"
-                        android:text="@string/minimum_order_price"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
-                        android:id="@+id/minimum_ordre_price"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_weight="0.5"
-                        android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -227,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
         </RelativeLayout>

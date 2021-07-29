@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -96,6 +97,25 @@ public class SubCategoryActivity extends AppCompatActivity {
         // Finally, set the newly created TextView as ActionBar custom view
         actionBar.setCustomView(tv);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // todo: goto back activity from here
+
+                onBackPressed();
+                return true;
+
+            case R.id.cart_action:
+                startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     private void getData() {
         if (subCategoryList.size() > 0) {
