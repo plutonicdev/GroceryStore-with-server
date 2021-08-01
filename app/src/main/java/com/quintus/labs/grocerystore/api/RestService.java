@@ -3,8 +3,10 @@ package com.quintus.labs.grocerystore.api;
 
 import com.quintus.labs.grocerystore.model.AddAddress;
 import com.quintus.labs.grocerystore.model.AddAddressListResponse;
+import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.AdvertisementBanner;
 import com.quintus.labs.grocerystore.model.Banners;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
 import com.quintus.labs.grocerystore.model.City;
@@ -150,15 +152,15 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
-    Call<State> state(@Header("Authorization") String token);
+    Call<List<State>> getState(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<City> city(@Header("Authorization") String token);
+    Call<City> city(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
-    Call<Pin> pin(@Header("Authorization") String token);
+    Call<Pin> pin(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
@@ -182,12 +184,12 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("carts/list/")
-    Call<ProductResult> getCartList(@Header("Authorization") String token);
+    Call<CartDetails> getCartList(@Header("Authorization") String token);
 
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/create_update/")
-    Call<ProductResult> addToCart(@Header("Authorization") String token);
+    Call<AddToCart> addToCart(@Header("Authorization") String token, @Body AddToCart addtoCart);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("carts/remove_product/")

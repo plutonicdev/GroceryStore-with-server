@@ -70,11 +70,13 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     ArrayList stateArray = new ArrayList();
     ArrayList cityArray = new ArrayList();
     List<Country> countryList = null;
+    List<State> stateList = null;
     List<AddAddressListResponse> addressList = new ArrayList<>();
     //    List<State> stateList = new ArrayList<>();
 //    List<City> cityList = new ArrayList<>();
     String _city, _name, _email, _phone, _address, _state, _zip, _address_type, _country, userString;
     EditText name, email, mobile, address, zip;
+    int country_id, state_id;
 
     LocalStorage localStorage;
     AddAddressListResponse addAddressListResponse;
@@ -114,59 +116,6 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         }));
     }
 
-    private void getState() {
-        Call<State> call = RestClient.getRestService(getContext()).state(token);
-        call.enqueue((new Callback<State>() {
-            @Override
-            public void onResponse(Call<State> call, Response<State> response) {
-                State state = response.body();
-                if (state != null) {
-                    if (response.code() == 200) {
-//                        countryList = response.body().getCountryList();
-                        state.getState();
-                        stateSpinner.getAdapter();
-                    }
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<State> call, Throwable t) {
-
-            }
-        }));
-    }
-
-//    private void getCountry() {
-//        Call<List<Country>> call = RestClient.getRestService(getContext()).country(token);
-//        call.enqueue((new Callback<List<Country>>() {
-//            @Override
-//            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-//                List<Country> countryResponse = response.body();
-//                if (countryResponse != null) {
-//                    if (response.code() == 200) {
-//                        countryList = countryResponse;
-//                       // countrySpinner.getAdapter();
-////                        if (response.body() != null) {
-////                    List<Country> country = response.body();
-////                    if (response.code() == 200) {
-////                        country.();
-////                        countrySpinner.getAdapter();
-////                        countryList = countryResponse.getCountryList();
-//
-//                    }
-//                } else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Country>> call, Throwable t) {
-//
-//            }
-//        }));
-//    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -194,24 +143,40 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         getAddressList();
 
 
-        getCountry();
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    _country = countryList.get(position - 1).getCountry();
+                   country_id = countryList.get(position - 1).getId();
+                    getState(country_id);
 
-        countryArray.add(0, "select List<Country>");
-        ArrayAdapter countryAdapter
-                = new ArrayAdapter(getActivity(), R.layout.spinnertextview, countryArray);
-        countryAdapter.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
-        countrySpinner.setAdapter(countryAdapter);
+                }
+            }
 
-        stateArray.add(0, "select State");
-        ArrayAdapter stateAdapter
-                = new ArrayAdapter(getActivity(), R.layout.spinnertextview, stateArray);
-        stateAdapter.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(stateAdapter);
-        getState();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //  _education = education[position];
+                if (position > 0) {
+                    _state = stateList.get(position - 1).getState();
+                    state_id = stateList.get(position - 1).getId();
+                    // getState(country_id);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
         cityArray.add(0, "select City");
         ArrayAdapter cityAdapter
                 = new ArrayAdapter(getActivity(), R.layout.spinnertextview, cityArray);
@@ -219,6 +184,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 android.R.layout
                         .simple_spinner_dropdown_item);
         citySpinner.setAdapter(cityAdapter);
+        getCountry();
         getCity();
 
         Log.d("User String : ", userString);
@@ -349,7 +315,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                             type = "update";
 
                             name.setText(addressList.get(0).getName());
-                           email.setText(addressList.get(0).getEmail());
+                            email.setText(addressList.get(0).getEmail());
                             mobile.setText(addressList.get(0).getPhone());
 //            zip.setText(user.getZip());
                             address.setText(addressList.get(0).getAddress());
@@ -704,7 +670,12 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
                     List<Country> countryResult = response.body();
                     if (response.code() == 200) {
-                        countryList = countryResult;
+                        countryList=countryResult;
+                        for (int i = 0; i < countryResult.size(); i++) {
+                            countryArray.add(countryResult.get(i).getCountry());
+                        }
+
+                        addCountryToSpinner();
 
 
                     }
@@ -714,8 +685,64 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
             }
 
+            private void addCountryToSpinner() {
+                countryArray.add(0, "select country");
+                ArrayAdapter countryAdapter
+                        = new ArrayAdapter(getActivity(), R.layout.spinnertextview, countryArray);
+                countryAdapter.setDropDownViewResource(
+                        android.R.layout
+                                .simple_spinner_dropdown_item);
+                countrySpinner.setAdapter(countryAdapter);
+                countrySpinner.setSelection(0);
+            }
+
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    private void getState(int id) {
+        Call<List<State>> call = RestClient.getRestService(getContext()).getState(id);
+        call.enqueue(new Callback<List<State>>() {
+            @Override
+            public void onResponse(Call<List<State>> call, Response<List<State>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    List<State> stateResult = response.body();
+                    if (response.code() == 200) {
+                        stateList=stateResult;
+                        for (int i = 0; i < stateResult.size(); i++) {
+                            stateArray.add(stateResult.get(i).getState());
+                        }
+
+                        addStateToSpinner();
+
+
+                    }
+
+                }
+
+
+            }
+
+            private void addStateToSpinner() {
+                stateArray.add(0, "select state");
+                ArrayAdapter stateAdapter
+                        = new ArrayAdapter(getActivity(), R.layout.spinnertextview, stateArray);
+                stateAdapter.setDropDownViewResource(
+                        android.R.layout
+                                .simple_spinner_dropdown_item);
+                stateSpinner.setAdapter(stateAdapter);
+                stateSpinner.setSelection(0);
+            }
+
+            @Override
+            public void onFailure(Call<List<State>> call, Throwable t) {
 
             }
         });

@@ -227,4 +227,8 @@
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 </LinearLayout>

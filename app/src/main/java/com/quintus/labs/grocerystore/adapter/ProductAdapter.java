@@ -22,7 +22,9 @@ import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.BaseActivity;
 import com.quintus.labs.grocerystore.activity.ProductActivity;
 import com.quintus.labs.grocerystore.activity.ProductViewActivity;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
+import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
 import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
@@ -33,6 +35,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -50,6 +55,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     Gson gson;
     List<Cart> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
+    String token;
+    View changeProgressBar;
+    PopularProductsResult product;
 
     public ProductAdapter(List<PopularProductsResult> productList, Context context) {
         this.productList = productList;
@@ -81,7 +89,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        final PopularProductsResult product = productList.get(position);
+        product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
@@ -162,28 +170,33 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
-                if (pQuantity >= 1) {
-                    int total_item = Integer.parseInt(holder.quantity.getText().toString());
-                    total_item++;
-                    holder.quantity.setText(total_item + "");
-                    for (int i = 0; i < cartList.size(); i++) {
 
-                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
-
-                            // Log.d("totalItem", total_item + "");
-
-                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-                            cartList.get(i).setSubTotal(_subtotal);
-                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
-                            String cartStr = gson.toJson(cartList);
-                            //Log.d("CART", cartStr);
-                            localStorage.setCart(cartStr);
-                            notifyItemChanged(position);
-                        }
-                    }
-                }
+                int prouct_id = product.getId();
+                _subtotal = String.valueOf(Double.parseDouble(product.getPrice()) * 1);
+                AddToCart addtoCart = new AddToCart(1,_subtotal,prouct_id,null,true);
+                addingToCart(addtoCart);
+//                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
+//                if (pQuantity >= 1) {
+//                    int total_item = Integer.parseInt(holder.quantity.getText().toString());
+//                    total_item++;
+//                    holder.quantity.setText(total_item + "");
+//                    for (int i = 0; i < cartList.size(); i++) {
+//
+//                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
+//
+//                            // Log.d("totalItem", total_item + "");
+//
+//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
+//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
+//                            cartList.get(i).setSubTotal(_subtotal);
+//                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
+//                            String cartStr = gson.toJson(cartList);
+//                            //Log.d("CART", cartStr);
+//                            localStorage.setCart(cartStr);
+//                            notifyItemChanged(position);
+//                        }
+//                    }
+//                }
 
             }
         });
@@ -321,6 +334,50 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             plus = itemView.findViewById(R.id.quantity_plus);
             minus = itemView.findViewById(R.id.quantity_minus);
             subTotal = itemView.findViewById(R.id.sub_total);
+            changeProgressBar = itemView.findViewById(R.id.progress_bar);
         }
+    }
+    private void hideProgressDialog() {
+        changeProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        changeProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void addingToCart( AddToCart addtoCart) {
+
+
+        showProgressDialog();
+        Call<AddToCart> call = RestClient.getRestService(context).addToCart(token, addtoCart);
+        call.enqueue(new retrofit2.Callback<AddToCart>() {
+            @Override
+            public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    AddToCart addToCartResponse = response.body();
+                    if (response.code() == 200) {
+                        Toast.makeText(context, "Successfully added to cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                }
+
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<AddToCart> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+
     }
 }
