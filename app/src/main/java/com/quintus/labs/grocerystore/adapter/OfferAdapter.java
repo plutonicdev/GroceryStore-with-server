@@ -33,6 +33,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
     List<VoucherList> offerList;
     Context context;
     String Tag;
+    Integer[] imageList = { R.drawable.offer_bg_1, R.drawable.offer_bg_2, R.drawable.offer_bg_3, R.drawable.offer_bg_4};
+
 
     public OfferAdapter(List<VoucherList> offerList, Context context) {
         this.offerList = offerList;
@@ -78,6 +80,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             }
         });
 
+        if(position>=imageList.length){
+
+        }else{
+            Picasso.get().load(imageList[position]).into(holder.backgroundImage);
+        }
+
 //        Picasso.get().load(offer.getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
 //            @Override
 //            public void onSuccess() {
@@ -102,12 +110,13 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,end_date,status,code,discount_price,minimum_ordre_price;
         ProgressBar progressBar;
-        ImageView imageView;
+        ImageView imageView,backgroundImage;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.copy);
+            backgroundImage = itemView.findViewById(R.id.offer_image);
             name = itemView.findViewById(R.id.name);
             end_date = itemView.findViewById(R.id.end_date);
             status = itemView.findViewById(R.id.status);

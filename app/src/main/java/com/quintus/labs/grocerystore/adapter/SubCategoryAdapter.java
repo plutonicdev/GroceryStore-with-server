@@ -54,7 +54,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         View itemView;
 
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.row_home_category, parent, false);
+                    .inflate(R.layout.row_category, parent, false);
 
 
         return new MyViewHolder(itemView);
