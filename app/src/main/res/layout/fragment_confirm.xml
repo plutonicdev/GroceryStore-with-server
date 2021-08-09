@@ -48,25 +48,6 @@
                         android:textSize="14dp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/ic_credit_card_select" />
-
-                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Payment"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="14dp" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,6 +65,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Confirm"
+                        android:textColor="@color/text_color"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_credit_card_unselect" />
+
+                    <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Payment"
                         android:textColor="@color/text_color"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -167,7 +168,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_10dp"
                             android:orientation="horizontal"
-                            android:weightSum="10">
+                            android:weightSum="10"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="match_parent"

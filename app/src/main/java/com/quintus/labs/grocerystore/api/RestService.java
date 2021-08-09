@@ -156,7 +156,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
-    Call<City> city(@Path("id") int id);
+    Call<List<City>> getcity(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
@@ -164,7 +164,15 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
-    Call<ProductResult> zip(@Header("Authorization") String token,@Path("id") String id);
+    Call<List<Pin>> getzip(@Path("id") int id);
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @POST("users/address/create/")
+    Call<VoucherValidity> createAddress();
+
+    @Headers("X-TENANT-ID:" + tenant_id)
+    @PUT("/users/address/{id}/update/")
+    Call<VoucherValidity> updateAddress(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("vouchers/voucher_validity/")

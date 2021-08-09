@@ -70,7 +70,7 @@ public class PaymentFragment extends Fragment {
                 if (radioButton.getId() == R.id.cash_on_delivery) {
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-                    ft.replace(R.id.content_frame, new ConfirmFragment());
+                    ft.replace(R.id.content_frame, new PaymentFragment());
                     ft.commit();
                 }
                 // Toast.makeText(getContext(),radioButton.getText()+"",Toast.LENGTH_LONG).show();

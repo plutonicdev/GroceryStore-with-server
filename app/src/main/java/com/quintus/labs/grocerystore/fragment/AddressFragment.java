@@ -63,20 +63,22 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
     Context context;
     TextView txt_pyment;
-    Spinner citySpinner, stateSpinner, countrySpinner;
+    Spinner citySpinner, stateSpinner, countrySpinner,zipSpinner;
     RadioButton homeType, workType;
     RadioGroup radioGroup;
     ArrayList countryArray = new ArrayList();
     ArrayList stateArray = new ArrayList();
     ArrayList cityArray = new ArrayList();
+    ArrayList pinArray = new ArrayList();
     List<Country> countryList = null;
     List<State> stateList = null;
+    List<City> cityList = null;
+    List<Pin> pinList = null;
     List<AddAddressListResponse> addressList = new ArrayList<>();
-    //    List<State> stateList = new ArrayList<>();
-//    List<City> cityList = new ArrayList<>();
-    String _city, _name, _email, _phone, _address, _state, _zip, _address_type, _country, userString;
-    EditText name, email, mobile, address, zip;
-    int country_id, state_id;
+
+    String _city, _name, _email, _phone, _address, _state, _pin, _address_type, _country, userString;
+    EditText name, email, mobile, address;
+    int country_id, state_id,city_id, pin_id;
 
     LocalStorage localStorage;
     AddAddressListResponse addAddressListResponse;
@@ -92,29 +94,6 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         super.onCreate(savedInstanceState);
     }
 
-    private void getCity() {
-        Call<City> call = RestClient.getRestService(getContext()).city(token);
-        call.enqueue((new Callback<City>() {
-            @Override
-            public void onResponse(Call<City> call, Response<City> response) {
-                City city = response.body();
-                if (city != null) {
-                    if (response.code() == 200) {
-//                        countryList = response.body().getCountryList();
-                        city.getCity();
-                        citySpinner.getAdapter();
-                    }
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<City> call, Throwable t) {
-
-            }
-        }));
-    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -130,7 +109,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         radioGroup = v.findViewById(R.id.radioGroup);
         homeType = v.findViewById(R.id.homeType);
         workType = v.findViewById(R.id.workType);
-        zip = v.findViewById(R.id.sa_zip);
+        zipSpinner = v.findViewById(R.id.zipSpinner);
 
         localStorage = new LocalStorage(getContext());
         gson = new Gson();
@@ -142,7 +121,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
         getAddressList();
 
-
+        getCountry();
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -162,11 +141,11 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //  _education = education[position];
+
                 if (position > 0) {
                     _state = stateList.get(position - 1).getState();
                     state_id = stateList.get(position - 1).getId();
-                    // getState(country_id);
+                    getCity(state_id);
 
                 }
             }
@@ -177,81 +156,63 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         });
 
 
-        cityArray.add(0, "select City");
-        ArrayAdapter cityAdapter
-                = new ArrayAdapter(getActivity(), R.layout.spinnertextview, cityArray);
-        cityAdapter.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
-        citySpinner.setAdapter(cityAdapter);
-        getCountry();
-        getCity();
+   citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //  _education = education[position];
+                if (position > 0) {
+                    _city = cityList.get(position - 1).getCity();
+                    city_id = cityList.get(position - 1).getId();
+                    getPin(city_id);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+   zipSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //  _education = education[position];
+                if (position > 0) {
+                    _pin = pinList.get(position - 1).getPinCode();
+                    pin_id = pinList.get(position - 1).getId();
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
+
 
         Log.d("User String : ", userString);
-//        if (user != null) {
-//            name.setText(user.getName());
-//            email.setText(user.getEmail());
-//            mobile.setText(user.getMobile());
-//            zip.setText(user.getZip());
-//            address.setText(user.getAddress());
-//        }
 
-//        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position > 0) {
-//                    _country = countryList.get(position - 1).();
-//                } else {
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//
-//        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position > 0) {
-//                    _state = stateList.get(position - 1).getState();
-//                } else {
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//
-//        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position > 0) {
-//                    _city = cityList.get(position - 1).getCity();
-//                } else {
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-
-
-//        init();
         context = container.getContext();
         txt_pyment = v.findViewById(R.id.txt_pyment);
 
         txt_pyment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+                ft.replace(R.id.content_frame, new ConfirmFragment ());
+                ft.commit();
                 _name = name.getText().toString();
                 _email = email.getText().toString();
                 _phone = mobile.getText().toString();
                 _address = address.getText().toString();
 
-                _zip = zip.getText().toString();
+              //  _zip = zip.getText().toString();
                 Pattern p = Pattern.compile(Utils.regEx);
 
                 Matcher m = p.matcher(_email);
@@ -280,11 +241,11 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                     Toast.makeText(getContext(), getResources().getString(R.string.please_select_city), Toast.LENGTH_LONG).show();
                 } else if (_address_type == null || _address_type.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.please_select_address_type), Toast.LENGTH_LONG).show();
-                } else if (_zip.length() == 0) {
-                    zip.setError("Enter your Zip Code");
-                    zip.requestFocus();
+//                } else if (_zip.length() == 0) {
+//                    zip.setError("Enter your Zip Code");
+//                    zip.requestFocus();
                 } else {
-                    User userAddress = new User(_name, _phone, _email, _address, _state, _address_type, _country, _city, _zip);
+                    User userAddress = new User(_name, _phone, _email, _address, _state, _address_type, _country, _city, _pin);
                     String user_address = gson.toJson(userAddress);
                     localStorage.createUserLoginSession(user_address);
                     saveUserAddress(userAddress);
@@ -321,9 +282,11 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                             address.setText(addressList.get(0).getAddress());
                             if (addressList.get(0).getAddressType().equalsIgnoreCase("HOME")) {
                                 homeType.setChecked(true);
+                                _address_type="HOME";
                             } else {
                                 if (addressList.get(0).getAddressType().equalsIgnoreCase("WORK")) {
                                     workType.setChecked(true);
+                                    _address_type="WORK";
                                 }
                             }
 
@@ -374,7 +337,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-                        ft.replace(R.id.content_frame, new PaymentFragment());
+                        ft.replace(R.id.content_frame, new ConfirmFragment ());
                         ft.commit();
                     } else {
                         Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
@@ -395,231 +358,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
 
-    public void pinAddress() {
-        Call<Pin> call = RestClient.getRestService(getContext()).pin(token);
-        call.enqueue(new Callback<Pin>() {
-            @Override
-            public void onResponse(Call<Pin> call, Response<Pin> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-                    if (response.code() == 200) {
 
-                    } else {
-                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-
-            @Override
-            public void onFailure(Call<Pin> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-
-
-//    private void init() {
-//        stringArrayState = new ArrayList<String>();
-//        stringArrayCity = new ArrayList<String>();
-//        stringArrayCountry = new ArrayList<String>();
-//
-//        //set city adapter
-//        final ArrayAdapter<String> adapterCity = new ArrayAdapter<String>(getActivity(), R.layout.spinnertextview, stringArrayCity);
-//        adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        citySpinner.setAdapter(adapterCity);
-//
-//        if (user.getCity() != null) {
-//            int selectionPosition = adapterCity.getPosition(user.getCity());
-//            citySpinner.setSelection(selectionPosition);
-//        }
-//
-//        //Get state json value from assets folder
-//        try {
-//            JSONObject obj = new JSONObject(loadJSONFromAssetState());
-//            JSONArray m_jArry = obj.getJSONArray("statelist");
-//
-//            for (int i = 0; i < m_jArry.length(); i++) {
-//                JSONObject jo_inside = m_jArry.getJSONObject(i);
-//
-//                String state = jo_inside.getString("State");
-//                String id = jo_inside.getString("id");
-//
-//                stringArrayState.add(state);
-//
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinnertextview, stringArrayState);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        stateSpinner.setAdapter(adapter);
-//        if (user.getState() != null) {
-//            int selectionPosition = adapter.getPosition(user.getState());
-//            stateSpinner.setSelection(selectionPosition);
-//        }
-//
-//
-//        //state spinner item selected listner with the help of this we get selected value
-//
-//        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Object item = parent.getItemAtPosition(position);
-//                String Text = stateSpinner.getSelectedItem().toString();
-//
-//
-//                spinnerStateValue = String.valueOf(stateSpinner.getSelectedItem());
-//                _state = spinnerStateValue;
-//                stringArrayCity.clear();
-//
-//                try {
-//                    JSONObject obj = new JSONObject(loadJSONFromAssetCity());
-//                    JSONArray m_jArry = obj.getJSONArray("citylist");
-//
-//                    for (int i = 0; i < m_jArry.length(); i++) {
-//                        JSONObject jo_inside = m_jArry.getJSONObject(i);
-//                        String state = jo_inside.getString("State");
-//                        String cityid = jo_inside.getString("id");
-//
-//                        if (spinnerStateValue.equalsIgnoreCase(state)) {
-//                            _city = jo_inside.getString("city");
-//                            stringArrayCity.add(_city);
-//                        }
-//
-//                    }
-//
-//                    //notify adapter city for getting selected value according to state
-//                    adapterCity.notifyDataSetChanged();
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//        ArrayAdapter<String> adapterCountry = new ArrayAdapter<String>(getActivity(), R.layout.spinnertextview, stringArrayState);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        countrySpinner.setAdapter(adapterCountry);
-//        if (user.() != null) {
-//            int selectionPosition = adapter.getPosition(user.getState());
-//            countrySpinner.setSelection(selectionPosition);
-//        }
-//
-//
-//        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String spinnerCityValue = String.valueOf(citySpinner.getSelectedItem());
-//                Log.e("SpinnerCityValue", spinnerCityValue);
-//
-//                _city = spinnerCityValue;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Object item = parent.getItemAtPosition(position);
-//                String Text = stateSpinner.getSelectedItem().toString();
-//
-//
-//                spinnerCountryValue = String.valueOf(stateSpinner.getSelectedItem());
-//                _country = spinnerCountryValue;
-//                stringArrayState.clear();
-//
-//                try {
-//                    JSONObject obj = new JSONObject(loadJSONFromAssetState());
-//                    JSONArray m_jArry = obj.getJSONArray("statelist");
-//
-//                    for (int i = 0; i < m_jArry.length(); i++) {
-//                        JSONObject jo_inside = m_jArry.getJSONObject(i);
-//                        String state = jo_inside.getString("State");
-//                        String cityid = jo_inside.getString("id");
-//
-//                        if (spinnerCountryValue.equalsIgnoreCase(state)) {
-//                            _city = jo_inside.getString("city");
-//                            stringArrayState.add(_state);
-//                        }
-//
-//                    }
-//
-//                    //notify adapter city for getting selected value according to state
-//                    adapterCity.notifyDataSetChanged();
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//
-//
-//    }
-//
-//
-//    public String loadJSONFromAssetState() {
-//        String json = null;
-//        try {
-//            InputStream is = getContext().getAssets().open("state.json");
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, StandardCharsets.UTF_8);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
-//
-//    public String loadJSONFromAssetCity() {
-//        String json = null;
-//        try {
-//            InputStream is = getContext().getAssets().open("cityState.json");
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, StandardCharsets.UTF_8);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
-//
-//    public String loadJSONFromAssetCountry() {
-//        String json = null;
-//        try {
-//            InputStream is = getContext().getAssets().open("countryState.json");
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, StandardCharsets.UTF_8);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
 
 
     public void onBackPressed() {
@@ -749,4 +488,99 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
 
     }
+
+    private void getCity(int state_id) {
+        Call<List<City>> call = RestClient.getRestService(getContext()).getcity(state_id);
+        call.enqueue(new Callback<List<City>>() {
+            @Override
+            public void onResponse(Call<List<City>> call, Response<List<City>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    List<City> cityResult = response.body();
+                    if (response.code() == 200) {
+                        cityList=cityResult;
+                        for (int i = 0; i < cityResult.size(); i++) {
+                            cityArray.add(cityResult.get(i).getCity());
+                        }
+
+                        addCityToSpinner();
+
+
+                    }
+
+                }
+
+
+            }
+
+            private void addCityToSpinner() {
+                cityArray.add(0, "select city");
+                ArrayAdapter cityAdapter
+                        = new ArrayAdapter(getActivity(), R.layout.spinnertextview, cityArray);
+                cityAdapter.setDropDownViewResource(
+                        android.R.layout
+                                .simple_spinner_dropdown_item);
+                citySpinner.setAdapter(cityAdapter);
+                citySpinner.setSelection(0);
+            }
+
+            @Override
+            public void onFailure(Call<List<City>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+        public void getPin(int id) {
+        Call<List<Pin>> call = RestClient.getRestService(getContext()).getzip(id);
+        call.enqueue(new Callback<List<Pin>>() {
+            @Override
+            public void onResponse(Call<List<Pin>> call, Response<List<Pin>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    List<Pin> pinResult = response.body();
+                    if (response.code() == 200) {
+                        pinList=pinResult;
+                        for (int i = 0; i < pinResult.size(); i++) {
+                            pinArray.add(pinResult.get(i).getPinCode());
+                        }
+
+                        addPinToSpinner();
+
+
+                    }
+
+                }
+
+
+            }
+
+            private void addPinToSpinner() {
+                pinArray.add(0, "select Zip");
+                ArrayAdapter pinAdapter
+                        = new ArrayAdapter(getActivity(), R.layout.spinnertextview, pinArray);
+                pinAdapter.setDropDownViewResource(
+                        android.R.layout
+                                .simple_spinner_dropdown_item);
+                zipSpinner.setAdapter(pinAdapter);
+                zipSpinner.setSelection(0);
+            }
+
+
+            @Override
+            public void onFailure(Call<List<Pin>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+
+
+
 }
