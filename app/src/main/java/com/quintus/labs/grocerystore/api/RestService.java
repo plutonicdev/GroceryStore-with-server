@@ -51,7 +51,7 @@ import retrofit2.http.Query;
  */
 
 public interface RestService {
-    String tenant_id = "2";
+    String tenant_id = "4";
 
     @POST("users/register/")
     Call<UserResponse> register(@Body User user);
@@ -121,11 +121,11 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/address/create/")
-    Call<AddAddress> addAddress(@Header("token") User user);
+    Call<AddAddress> addAddress(@Header("Authorization")String token, @Body AddAddress addAddress);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/address/{id}/update/")
-    Call<ProductResult> updateAddress(@Header("Authorization") String token,@Path("id") String id);
+    Call<AddAddress> updateAddress(@Header("Authorization") String token,@Path("id") int id,@Body AddAddress addAddress);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @DELETE("users/address/{id}/delete/")

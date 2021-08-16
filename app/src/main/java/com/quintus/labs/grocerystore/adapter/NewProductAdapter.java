@@ -94,6 +94,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
         holder.quantity.setText("1");
+        token=localStorage.getApiKey();
 
         holder.title.setText(product.getName());
         if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
@@ -165,8 +166,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             @Override
             public void onClick(View v) {
                 int prouct_id = product.getId();
-                _subtotal = String.valueOf(Double.parseDouble(product.getPrice()) * 1);
-                AddToCart addtoCart = new AddToCart(1,_subtotal,prouct_id,null,true);
+                AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart);
 
 //                for (int i = 0; i < cartList.size(); i++) {
@@ -192,27 +192,32 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             @Override
             public void onClick(View v) {
 
-                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
-                    for (int i = 0; i < cartList.size(); i++) {
-                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
-                            int total_item = Integer.parseInt(holder.quantity.getText().toString());
 
-                            total_item--;
-                            holder.quantity.setText(total_item + "");
-                            Log.d("totalItem", total_item + "");
+                int prouct_id = product.getId();
+                AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
+                addingToCart(addtoCart);
 
-                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-
-                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-                            cartList.get(i).setSubTotal(_subtotal);
-                            String cartStr = gson.toJson(cartList);
-                            //Log.d("CART", cartStr);
-                            localStorage.setCart(cartStr);
-
-                        }
-                    }
-
-                }
+//                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
+//                    for (int i = 0; i < cartList.size(); i++) {
+//                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
+//                            int total_item = Integer.parseInt(holder.quantity.getText().toString());
+//
+//                            total_item--;
+//                            holder.quantity.setText(total_item + "");
+//                            Log.d("totalItem", total_item + "");
+//
+//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
+//
+//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
+//                            cartList.get(i).setSubTotal(_subtotal);
+//                            String cartStr = gson.toJson(cartList);
+//                            //Log.d("CART", cartStr);
+//                            localStorage.setCart(cartStr);
+//
+//                        }
+//                    }
+//
+//                }
 
 
             }

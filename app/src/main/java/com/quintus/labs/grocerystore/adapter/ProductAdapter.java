@@ -173,7 +173,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
                 int prouct_id = product.getId();
                 _subtotal = String.valueOf(Double.parseDouble(product.getPrice()) * 1);
-                AddToCart addtoCart = new AddToCart(1,_subtotal,prouct_id,null,true);
+                AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart);
 //                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
 //                if (pQuantity >= 1) {

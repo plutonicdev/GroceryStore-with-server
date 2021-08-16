@@ -78,7 +78,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
     String _city, _name, _email, _phone, _address, _state, _pin, _address_type, _country, userString;
     EditText name, email, mobile, address;
-    int country_id, state_id,city_id, pin_id;
+    int country_id, state_id,city_id, pin_id,address_id;
 
     LocalStorage localStorage;
     AddAddressListResponse addAddressListResponse;
@@ -118,6 +118,8 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = localStorage.getApiKey();
         progress = v.findViewById(R.id.progress_bar);
+        txt_pyment = v.findViewById(R.id.txt_pyment);
+        context = container.getContext();
 
         getAddressList();
 
@@ -196,17 +198,17 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
         Log.d("User String : ", userString);
 
-        context = container.getContext();
-        txt_pyment = v.findViewById(R.id.txt_pyment);
+
+
 
         txt_pyment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-                ft.replace(R.id.content_frame, new ConfirmFragment ());
-                ft.commit();
+//                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+//                ft.replace(R.id.content_frame, new ConfirmFragment ());
+//                ft.commit();
                 _name = name.getText().toString();
                 _email = email.getText().toString();
                 _phone = mobile.getText().toString();
@@ -245,10 +247,17 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //                    zip.setError("Enter your Zip Code");
 //                    zip.requestFocus();
                 } else {
-                    User userAddress = new User(_name, _phone, _email, _address, _state, _address_type, _country, _city, _pin);
+                    AddAddress userAddress = new AddAddress(_name, _phone, _email, _address, _address_type,country_id,city_id,pin_id,state_id);
                     String user_address = gson.toJson(userAddress);
                     localStorage.createUserLoginSession(user_address);
-                    saveUserAddress(userAddress);
+                    if(type.equalsIgnoreCase("add")) {
+                        saveUserAddress(userAddress);
+
+                    }else{
+
+                        updateUserAddress(userAddress);
+
+                    }
 
 
                 }
@@ -278,7 +287,19 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                             name.setText(addressList.get(0).getName());
                             email.setText(addressList.get(0).getEmail());
                             mobile.setText(addressList.get(0).getPhone());
-//            zip.setText(user.getZip());
+//                            _country = addressList.get(0).getCountry().getCountry();
+//                            country_id =  addressList.get(0).getCountry().getId();
+//
+//                            _state = addressList.get(0).getState().getState();
+//                            state_id = addressList.get(0).getState().getId();
+//
+//                            _city = addressList.get(0).getCity().getCity();
+//                            city_id = addressList.get(0).getCity().getId();
+//
+//                            _pin = addressList.get(0).getPin().getPinCode();
+//                            pin_id = addressList.get(0).getPin().getId();
+
+                          address_id=addressList.get(0).getId();
                             address.setText(addressList.get(0).getAddress());
                             if (addressList.get(0).getAddressType().equalsIgnoreCase("HOME")) {
                                 homeType.setChecked(true);
@@ -313,23 +334,23 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
 
-    private void saveUserAddress(final User userAddress) {
+    private void saveUserAddress(final AddAddress userAddress) {
         showProgressDialog();
-        Call<AddAddress> call = RestClient.getRestService(getContext()).addAddress(userAddress);
+        Call<AddAddress> call = RestClient.getRestService(getContext()).addAddress(token,userAddress);
         call.enqueue(new Callback<AddAddress>() {
             @Override
             public void onResponse(Call<AddAddress> call, Response<AddAddress> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
-                    if (response.code() == 200) {
-                        user.setAddress(userAddress.getAddress());
-                        user.setState(userAddress.getState());
-                        // user.setCountry(userAddress.getCountry());
-                        user.setCity(userAddress.getCity());
-                        user.setAddress_type(userAddress.getAddress_type());
-                        user.setZip(userAddress.getZip());
-                        userString = gson.toJson(user);
-                        localStorage.createUserLoginSession(userString);
+                    if (response.code() == 201) {
+//                        user.setAddress(userAddress.getAddress());
+//                        user.setState(userAddress.getState());
+//                        // user.setCountry(userAddress.getCountry());
+//                        user.setCity(userAddress.getCity());
+//                        user.setAddress_type(userAddress.getAddress_type());
+//                        user.setZip(userAddress.getZip());
+//                        userString = gson.toJson(user);
+//                        localStorage.createUserLoginSession(userString);
 //                        pinAddress();
 //                        for (int i = 0; i < countryList.size(); i++) {
 //                            countryArray.add(countryList.get(i).().toString());
@@ -356,6 +377,53 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         });
 
     }
+
+
+
+    private void updateUserAddress(final AddAddress userAddress) {
+        showProgressDialog();
+        Call<AddAddress> call = RestClient.getRestService(getContext()).updateAddress(token,address_id,userAddress);
+        call.enqueue(new Callback<AddAddress>() {
+            @Override
+            public void onResponse(Call<AddAddress> call, Response<AddAddress> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 200) {
+//                        user.setAddress(userAddress.getAddress());
+//                        user.setState(userAddress.getState());
+//                        // user.setCountry(userAddress.getCountry());
+//                        user.setCity(userAddress.getCity());
+//                        user.setAddress_type(userAddress.getAddress_type());
+//                        user.setZip(userAddress.getZip());
+//                        userString = gson.toJson(user);
+//                        localStorage.createUserLoginSession(userString);
+//                        pinAddress();
+//                        for (int i = 0; i < countryList.size(); i++) {
+//                            countryArray.add(countryList.get(i).().toString());
+//                        }
+
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+                        ft.replace(R.id.content_frame, new ConfirmFragment ());
+                        ft.commit();
+                    } else {
+                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+
+            @Override
+            public void onFailure(Call<AddAddress> call, Throwable t) {
+
+            }
+        });
+
+    }
+
 
 
 

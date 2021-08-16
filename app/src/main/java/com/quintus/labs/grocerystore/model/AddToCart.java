@@ -49,9 +49,8 @@ public class AddToCart {
     public AddToCart() {
     }
 
-    public AddToCart(Integer count, String subtotal, Integer product, String variation,boolean addProduct) {
+    public AddToCart(Integer count, Integer product, String variation,boolean addProduct) {
         this.count = count;
-        this.subtotal = subtotal;
         this.product = product;
         this.variation = variation;
         this.addProduct = addProduct;

@@ -167,8 +167,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             @Override
             public void onClick(View v) {
                 int prouct_id = product.getId();
-                _subtotal = String.valueOf(Double.parseDouble(product.getPrice()) * 1);
-                AddToCart addtoCart = new AddToCart(1,_subtotal,prouct_id,null,true);
+                AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart);
 
 //                for (int i = 0; i < cartList.size(); i++) {

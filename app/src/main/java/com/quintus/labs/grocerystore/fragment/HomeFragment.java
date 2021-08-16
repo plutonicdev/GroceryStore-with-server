@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -91,6 +92,7 @@ public class HomeFragment extends Fragment {
     int page_size = 10;
     HomeSliderAdapter viewPagerAdapter;
     RelativeLayout slider_rl;
+    TextView popular_tv;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -109,6 +111,7 @@ public class HomeFragment extends Fragment {
         nRecyclerView = view.findViewById(R.id.new_product_rv);
         progress = view.findViewById(R.id.progress_bar);
         slider_rl = view.findViewById(R.id.slider_rl);
+        popular_tv = view.findViewById(R.id.popular_tv);
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
@@ -189,6 +192,11 @@ public class HomeFragment extends Fragment {
 
                         assert productResult != null;
                         popularProductList = productResult.getResults();
+                        if(popularProductList.size()>0){
+                            popular_tv.setVisibility(View.VISIBLE);
+                        }else{
+                            popular_tv.setVisibility(View.GONE);
+                        }
                         setupPopularProductRecycleView();
 
                     }
