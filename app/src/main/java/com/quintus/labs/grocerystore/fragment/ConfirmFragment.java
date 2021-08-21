@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.adapter.CheckoutCartAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
@@ -66,7 +68,10 @@ public class ConfirmFragment extends Fragment {
     String orderNo, address;
     String id;
     OrderItem orderItem = new OrderItem();
-
+    String token;
+    User user;
+    View progress;
+Double totalPrice;
 
     public ConfirmFragment() {
         // Required empty public constructor
@@ -87,27 +92,33 @@ public class ConfirmFragment extends Fragment {
         order = view.findViewById(R.id.place_order);
         progressDialog = new ProgressDialog(getContext());
         gson = new Gson();
-        orderList = ((BaseActivity) getActivity()).getOrderList();
-        orderList = ((BaseActivity) getActivity()).getOrderList();
-        cartList = ((BaseActivity) getContext()).getCartList();
-        User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        address = user.getAddress() + "," + user.getCity() + "," + user.getState() + "," + user.getZip();
+        token = localStorage.getApiKey();
+        progress = view.findViewById(R.id.progress_bar);
 
-        for (int i = 0; i < cartList.size(); i++) {
-
-            orderItem = new OrderItem(cartList.get(i).getTitle(), cartList.get(i).getQuantity(), cartList.get(i).getAttribute(), cartList.get(i).getCurrency(), cartList.get(i).getImage(), cartList.get(i).getPrice(), cartList.get(i).getSubTotal());
-            orderItemList.add(orderItem);
-        }
-
-        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), address, user.getId(), orderItemList);
+        getCartDetails();
 
 
-        _total = ((BaseActivity) getActivity()).getTotalPrice();
-        _shipping = 0.0;
-        _totalAmount = _total + _shipping;
-        total.setText(_total + "");
-        shipping.setText(_shipping + "");
-        totalAmount.setText(_totalAmount + "");
+//        orderList = ((BaseActivity) getActivity()).getOrderList();
+//        orderList = ((BaseActivity) getActivity()).getOrderList();
+//        cartList = ((BaseActivity) getContext()).getCartList();
+//        User user = gson.fromJson(localStorage.getUserLogin(), User.class);
+//        address = user.getAddress() + "," + user.getCity() + "," + user.getState() + "," + user.getZip();
+
+//        for (int i = 0; i < cartList.size(); i++) {
+//
+//            orderItem = new OrderItem(cartList.get(i).getTitle(), cartList.get(i).getQuantity(), cartList.get(i).getAttribute(), cartList.get(i).getCurrency(), cartList.get(i).getImage(), cartList.get(i).getPrice(), cartList.get(i).getSubTotal());
+//            orderItemList.add(orderItem);
+//        }
+//
+//        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), address, user.getId(), orderItemList);
+//
+//
+//        _total = ((BaseActivity) getActivity()).getTotalPrice();
+//        _shipping = 0.0;
+//        _totalAmount = _total + _shipping;
+//        total.setText(_total + "");
+//        shipping.setText(_shipping + "");
+//        totalAmount.setText(_totalAmount + "");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +131,12 @@ public class ConfirmFragment extends Fragment {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeUserOrder();
+               // placeUserOrder();
+
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+                ft.replace(R.id.content_frame, new PaymentFragment ());
+                ft.commit();
             }
         });
 
@@ -180,11 +196,11 @@ public class ConfirmFragment extends Fragment {
     }
 
     private void setUpCartRecyclerview() {
-        recyclerView.setHasFixedSize(true);
-        recyclerViewlayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(recyclerViewlayoutManager);
-        adapter = new CheckoutCartAdapter(cartList, getContext());
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerViewlayoutManager = new LinearLayoutManager(getContext());
+//        recyclerView.setLayoutManager(recyclerViewlayoutManager);
+//        adapter = new CheckoutCartAdapter(cartList, getContext());
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -194,5 +210,44 @@ public class ConfirmFragment extends Fragment {
         getActivity().setTitle("Confirm");
     }
 
+    private void getCartDetails() {
 
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getContext()).getCartList(token);
+        call.enqueue(new Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                       total.setText(String.valueOf(cartDetails.getTotalItems()));
+                       totalAmount.setText(String.valueOf(cartDetails.getProductTotalPrice()));
+                        totalPrice=cartDetails.getProductTotalPrice();
+
+                        localStorage.setTotalAmount(String.valueOf(cartDetails.getProductTotalPrice()));
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                hideProgressDialog();
+            }
+        });
+
+    }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
+    }
 }

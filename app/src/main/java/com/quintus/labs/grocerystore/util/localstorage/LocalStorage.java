@@ -14,6 +14,8 @@ public class LocalStorage {
 
     public static final String KEY_USER = "User";
     public static final String API_KEY = "api_key";
+    public static final String TOTAL_AMOUNT = "total_amount";
+    public static final String ADDRESS_ID = "address_id";
     public static final String KEY_USER_ADDRESS = "user_address";
     private static final String KEY_FIREBASE_TOKEN = "firebaseToken";
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
@@ -62,6 +64,8 @@ public class LocalStorage {
         editor.remove(CART);
         editor.remove(ORDER);
         editor.remove(API_KEY);
+        editor.remove(ADDRESS_ID);
+        editor.remove(TOTAL_AMOUNT);
         editor.commit();
     }
 
@@ -83,6 +87,26 @@ public class LocalStorage {
     public void setApiKey(String apiKey) {
         editor = sharedPreferences.edit();
         editor.putString(API_KEY, apiKey);
+        editor.commit();
+    }
+
+    public String getTotalAmount() {
+        return sharedPreferences.getString(TOTAL_AMOUNT, null);
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        editor = sharedPreferences.edit();
+        editor.putString(TOTAL_AMOUNT, totalAmount);
+        editor.commit();
+    }
+
+    public String getAddressId() {
+        return sharedPreferences.getString(ADDRESS_ID, null);
+    }
+
+    public void setAddressId(String id) {
+        editor = sharedPreferences.edit();
+        editor.putString(ADDRESS_ID, id);
         editor.commit();
     }
 

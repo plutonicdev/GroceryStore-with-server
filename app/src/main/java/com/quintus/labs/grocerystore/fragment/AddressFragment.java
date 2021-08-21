@@ -214,6 +214,13 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 _phone = mobile.getText().toString();
                 _address = address.getText().toString();
 
+                if(homeType.isChecked()){
+                    _address_type="HOME";
+                }else{
+                    _address_type="WORK";
+
+                }
+
               //  _zip = zip.getText().toString();
                 Pattern p = Pattern.compile(Utils.regEx);
 
@@ -343,6 +350,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
                     if (response.code() == 201) {
+                        address_id=response.body().getId();
 //                        user.setAddress(userAddress.getAddress());
 //                        user.setState(userAddress.getState());
 //                        // user.setCountry(userAddress.getCountry());
@@ -355,6 +363,8 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //                        for (int i = 0; i < countryList.size(); i++) {
 //                            countryArray.add(countryList.get(i).().toString());
 //                        }
+
+                        localStorage.setAddressId(String.valueOf(response.body().getId()));
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -389,6 +399,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
                     if (response.code() == 200) {
+                        address_id=response.body().getId();
 //                        user.setAddress(userAddress.getAddress());
 //                        user.setState(userAddress.getState());
 //                        // user.setCountry(userAddress.getCountry());
@@ -401,6 +412,8 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 //                        for (int i = 0; i < countryList.size(); i++) {
 //                            countryArray.add(countryList.get(i).().toString());
 //                        }
+
+                        localStorage.setAddressId(String.valueOf(response.body().getId()));
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);

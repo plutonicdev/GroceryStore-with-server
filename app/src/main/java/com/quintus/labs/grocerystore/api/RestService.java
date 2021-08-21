@@ -12,6 +12,7 @@ import com.quintus.labs.grocerystore.model.CategoryResult;
 import com.quintus.labs.grocerystore.model.City;
 import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.Currency;
+import com.quintus.labs.grocerystore.model.InitiatePayment;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
@@ -180,7 +181,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/initiate/")
-    Call<ProductResult> initatePayment(@Header("Authorization") String token);
+    Call<InitiatePayment> initatePayment(@Header("Authorization") String token, @Body String total);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/{id}/status_update/")

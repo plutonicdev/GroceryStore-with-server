@@ -3,6 +3,8 @@ package com.quintus.labs.grocerystore.model;
 import com.google.gson.annotations.SerializedName;
 
 public class AddAddress {
+    @SerializedName("id")
+    private Integer id;
     @SerializedName("name")
     private String name;
     @SerializedName("phone")
@@ -146,5 +148,12 @@ public class AddAddress {
         this.isDefault = isDefault;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
 
