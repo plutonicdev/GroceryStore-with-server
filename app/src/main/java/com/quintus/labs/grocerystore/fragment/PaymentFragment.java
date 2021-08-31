@@ -1,11 +1,16 @@
 package com.quintus.labs.grocerystore.fragment;
 
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,14 +25,27 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.BaseActivity;
+import com.quintus.labs.grocerystore.activity.CartActivity;
+import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.AddAddress;
+import com.quintus.labs.grocerystore.model.CheckoutDetails;
 import com.quintus.labs.grocerystore.model.InitiatePayment;
+import com.quintus.labs.grocerystore.model.Total;
+import com.quintus.labs.grocerystore.model.UpdatePayment;
+import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.payment.razorpay.RazorPayPaymentActivity;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.quintus.labs.grocerystore.fragment.MyOrderFragment.TAG;
 /**
  * Grocery App
  * https://github.com/quintuslabs/GroceryStore
@@ -49,9 +67,11 @@ public class PaymentFragment extends Fragment {
     LinearLayout payll;
     TextView pay;
     String totalAmount;
-   String payment_type="cod";
-   int payment_id;
-   String payment_ref_No;
+    String payment_type = "cod";
+    int payment_id;
+    String payment_ref_No;
+    String address_id;
+    String name, email, mobile;
 
     public PaymentFragment() {
         // Required empty public constructor
@@ -72,15 +92,21 @@ public class PaymentFragment extends Fragment {
         localStorage = new LocalStorage(getContext());
         gson = new Gson();
         token = localStorage.getApiKey();
+        address_id = localStorage.getAddressId();
         progress = view.findViewById(R.id.progress_bar);
-        totalAmount=localStorage.getTotalAmount();
-      //  Double amount = ((BaseActivity) getActivity()).getTotalPrice();
-       pay.append(totalAmount + "");
+        totalAmount = localStorage.getTotalAmount();
+        //  Double amount = ((BaseActivity) getActivity()).getTotalPrice();
+        pay.append(totalAmount + "");
+        User user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        name = user.getName();
+        email = user.getEmail();
+        mobile = user.getPhone();
+
 
         payll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            initiatePayment();
+                initiatePayment();
             }
         });
         paymentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -92,10 +118,10 @@ public class PaymentFragment extends Fragment {
 //                    ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
 //                    ft.replace(R.id.content_frame, new PaymentFragment());
 //                    ft.commit();
-                    payment_type="cod";
+                    payment_type = "cod";
 
-                }else{
-                    payment_type="online";
+                } else {
+                    payment_type = "online";
                 }
                 // Toast.makeText(getContext(),radioButton.getText()+"",Toast.LENGTH_LONG).show();
             }
@@ -115,22 +141,38 @@ public class PaymentFragment extends Fragment {
 
     private void initiatePayment() {
         showProgressDialog();
-        Call<InitiatePayment> call = RestClient.getRestService(getContext()).initatePayment(token,totalAmount);
+        Total total = new Total(totalAmount);
+        Call<InitiatePayment> call = RestClient.getRestService(getContext()).initatePayment(token, total);
         call.enqueue(new Callback<InitiatePayment>() {
             @Override
             public void onResponse(Call<InitiatePayment> call, Response<InitiatePayment> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
                     if (response.code() == 201) {
-                        payment_id=response.body().getId();
-                        payment_ref_No=response.body().getPaymentRefNo();
+                        InitiatePayment initiatePayment = response.body();
+                        payment_id = initiatePayment.getServerResp().getId();
+                        payment_ref_No = initiatePayment.getServerResp().getPaymentRefNo();
 
-//                        if(payment_type.equalsIgnoreCase("cod")){
-//                            String status = "success";
-//                            String payment_response_id = "";
-//                            String payment_type = "cod";
-//                           updatePayment(status,payment_response_id,payment_type) ;
-//                        }
+                        if (payment_type.equalsIgnoreCase("cod")) {
+                            String status = "success";
+                            String payment_response_id = "";
+                            String payment_type = "cod";
+                            UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
+                            updatePaymentData(updatePayment);
+                        } else{
+                            if(initiatePayment.getPgDetails().getName().equalsIgnoreCase("RazorPay")){
+
+                                Intent intent = new Intent(getContext(), RazorPayPaymentActivity.class);
+                                intent.putExtra("payment_id", payment_id);
+                                intent.putExtra("key", initiatePayment.getPgDetails().getKey());
+                                startActivity(intent);
+
+
+                            }
+
+
+
+                        }
 
                     } else {
                         Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
@@ -150,12 +192,73 @@ public class PaymentFragment extends Fragment {
 
     }
 
+    private void updatePaymentData(UpdatePayment updatePayment) {
+        showProgressDialog();
+        Call<UpdatePayment> call = RestClient.getRestService(getContext()).updatePayment(token, String.valueOf(payment_id), updatePayment);
+        call.enqueue(new Callback<UpdatePayment>() {
+            @Override
+            public void onResponse(Call<UpdatePayment> call, Response<UpdatePayment> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 200) {
+                        CheckoutDetails checkout = new CheckoutDetails(String.valueOf(response.body().getId()), response.body().getStatus(), address_id, totalAmount, "", "", "");
+                        checkoutData(checkout);
 
 
+                    } else {
+                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
 
 
+            @Override
+            public void onFailure(Call<UpdatePayment> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void checkoutData(CheckoutDetails checkoutDetails) {
+        showProgressDialog();
+        Call<CheckoutDetails> call = RestClient.getRestService(getContext()).createOrder(token, checkoutDetails);
+        call.enqueue(new Callback<CheckoutDetails>() {
+            @Override
+            public void onResponse(Call<CheckoutDetails> call, Response<CheckoutDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 201) {
+                        Toast.makeText(getContext(), "Order placed Successfully !", Toast.LENGTH_SHORT).show();
+                        localStorage.deleteCart();
+                        showCustomDialog();
+//                        startActivity(new Intent(getActivity(), HomeFragment.class));
+//                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
+                    } else {
+                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), CartActivity.class));
+                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+
+            @Override
+            public void onFailure(Call<CheckoutDetails> call, Throwable t) {
+
+            }
+        });
+
+    }
 
 
     private void hideProgressDialog() {
@@ -165,4 +268,27 @@ public class PaymentFragment extends Fragment {
     private void showProgressDialog() {
         progress.setVisibility(View.VISIBLE);
     }
+
+
+    private void showCustomDialog() {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.success_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                startActivity(new Intent(getContext(), MainActivity.class));
+                getActivity().finish();
+            }
+        });
+        // Set dialog title
+
+        dialog.show();
+    }
+
+
 }

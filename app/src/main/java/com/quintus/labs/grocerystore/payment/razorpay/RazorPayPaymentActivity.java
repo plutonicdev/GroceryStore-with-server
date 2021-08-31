@@ -3,101 +3,274 @@ package com.quintus.labs.grocerystore.payment.razorpay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.activity.CartActivity;
+import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.fragment.HomeFragment;
+import com.quintus.labs.grocerystore.model.CheckoutDetails;
+import com.quintus.labs.grocerystore.model.UpdatePayment;
+import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RazorPayPaymentActivity extends AppCompatActivity implements PaymentResultListener {
     private static final String TAG = "RazorPay==>";
-    Checkout checkout;
 
-    EditText name, email, phNo,amount;
-    Button submit;
-    private String razorpayKey;
+    LocalStorage localStorage;
+    Gson gson;
+    String token, address_id, totalAmount;
+    String name, email, mobile;
+    String key;
+    int payment_id;
+    View progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        name=findViewById(R.id.name);
-        email=findViewById(R.id.email);
-        phNo=findViewById(R.id.phNo);
-        amount=findViewById(R.id.amount);
-        submit=findViewById(R.id.submit);
+        progress = findViewById(R.id.progress_bar);
+        localStorage = new LocalStorage(getApplicationContext());
+        gson = new Gson();
+        token = localStorage.getApiKey();
+        address_id = localStorage.getAddressId();
+        totalAmount = localStorage.getTotalAmount();
+        User user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        name = user.getName();
+        email = user.getEmail();
+        mobile = user.getPhone();
+        key = getIntent().getStringExtra("key");
+        payment_id = getIntent().getIntExtra("payment_id", 0);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(name.getText().toString().equals(null) || name.getText().toString().equals("")){
-                    name.setError("Please Fillup");
-                }else if(email.getText().toString().equals(null) || email.getText().toString().equals("")){
-                    email.setError("Please Fillup");
-                }else if(phNo.getText().toString().equals(null) || phNo.getText().toString().equals("")){
-                    phNo.setError("Please Fillup");
-                }else if(phNo.getText().toString().length()!=10 ){
-                    phNo.setError("Please Enter 10 digit phone number");
-                }else if(amount.getText().toString().equals(null) || amount.getText().toString().equals("")){
-                    amount.setError("Please Fillup");
-                }else if(Integer.parseInt(amount.getText().toString())==0){
-                    amount.setError("Amount should be greater than 0"); //Razorpay min amount is 1 Rs.
-                }else{
-                    //you have to convert Rs. to Paisa using multiplication of 100
-                    String convertedAmount=String.valueOf(Integer.parseInt(amount.getText().toString())*100);
 
-                    startPayment(name.getText().toString(),email.getText().toString(),phNo.getText().toString(),convertedAmount);
-                }
-            }
-        });
+        Checkout.preload(getApplicationContext());
+
+
+                                          startPayment();
+
 
 
 
     }
 
+
+    public void startPayment() {
+
+        /**
+         * Instantiate Checkout
+         */
+        Checkout checkout = new Checkout();
+        checkout.setKeyID(key);
+        /**
+         * Set your logo here
+         */
+        checkout.setImage(R.mipmap.ic_launcher);
+
+        /**
+         * Reference to current activity
+         */
+        final Activity activity = this;
+
+        /**
+         * Pass your payment options to the Razorpay Checkout as a JSONObject
+         */
+        try {
+            JSONObject options = new JSONObject();
+            options.put("theme.color", "#6167F3");
+            options.put("name", name);
+            // options.put("description", description);
+            Float payableAmount = Float.parseFloat(totalAmount) * 100;
+            options.put("currency", "INR");
+            options.put("amount", payableAmount);//pass amount in currency subunits
+            options.put("prefill.email", email);
+            options.put("prefill.contact", mobile);
+
+
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", false);
+            retryObj.put("max_count", 2);
+            options.put("retry", retryObj);
+            checkout.open(activity, options);
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
+    }
+
+
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this, "Payment is successful : " + s, Toast.LENGTH_SHORT).show();
+
+        try {
+            String status = "success";
+            String payment_response_id = s;
+            String payment_type = "online";
+            UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
+            updatePaymentData(updatePayment);
+
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in onPaymentSuccess", e);
+        }
+
+
+      //  Toast.makeText(this, "Payment is successful : " + s, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onPaymentError(int i, String s) {
-        Toast.makeText(this, "Payment Failed due to error : " + s, Toast.LENGTH_SHORT).show();
+
+        if (s.contains("Payment processing cancelled by user")) {
+            try {
+                String status = "failed";
+                String payment_response_id = "denied_payment";
+                String payment_type = "online";
+                UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
+                updatePaymentData(updatePayment);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception in onPaymentError", e);
+            }
+        } else {
+            try {
+                String str = s;
+                String[] arrOfStr = str.split("\"payment_id\":\"", 2);
+                String newstring = arrOfStr[1];
+                String failed_id = newstring.replace("\"}}", " ");
+                String status = "failed";
+                String payment_response_id = failed_id;
+                String payment_type = "online";
+                UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
+                updatePaymentData(updatePayment);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception in onPaymentError", e);
+            }
+        }
+     //   Toast.makeText(this, "Payment Failed due to error : " + s, Toast.LENGTH_SHORT).show();
     }
 
 
-    public void startPayment(String name, String email, String phNo, String convertedAmount){
-        /*
-          You need to pass current activity in order to let Razorpay create CheckoutActivity
-         */
-        razorpayKey="rzp_test_IouKPyYlXmQEK3"; //Generate your razorpay key from Settings-> API Keys-> copy Key Id
-        checkout = new Checkout();
-        checkout.setKeyID(razorpayKey);
-        try {
-            JSONObject options = new JSONObject();
-            options.put("name", name);
-            options.put("description", "Razorpay Payment Test");
-            options.put("currency", "INR");
-            options.put("amount", convertedAmount);
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+    private void updatePaymentData(UpdatePayment updatePayment) {
+        showProgressDialog();
+        Call<UpdatePayment> call = RestClient.getRestService(getApplicationContext()).updatePayment(token, String.valueOf(payment_id), updatePayment);
+        call.enqueue(new Callback<UpdatePayment>() {
+            @Override
+            public void onResponse(Call<UpdatePayment> call, Response<UpdatePayment> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 200) {
+                        CheckoutDetails checkout = new CheckoutDetails(String.valueOf(response.body().getId()), response.body().getStatus(), address_id, totalAmount, "", "", "");
+                        checkoutData(checkout);
 
-            JSONObject preFill = new JSONObject();
-            preFill.put("email", email);
-            preFill.put("contact", phNo);
-            options.put("prefill", preFill);
 
-            checkout.open(this, options);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error in payment: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+
+            @Override
+            public void onFailure(Call<UpdatePayment> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void checkoutData(CheckoutDetails checkoutDetails) {
+        showProgressDialog();
+        Call<CheckoutDetails> call = RestClient.getRestService(getApplicationContext()).createOrder(token, checkoutDetails);
+        call.enqueue(new Callback<CheckoutDetails>() {
+            @Override
+            public void onResponse(Call<CheckoutDetails> call, Response<CheckoutDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 201) {
+
+                        if(response.body().getPaymentStatus().equalsIgnoreCase("failed")){
+                            Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Order placed Successfully !", Toast.LENGTH_SHORT).show();
+                            localStorage.deleteCart();
+                            //       showCustomDialog();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                            finish();
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                        finish();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+
+            @Override
+            public void onFailure(Call<CheckoutDetails> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void showCustomDialog() {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(getApplicationContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.success_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+        // Set dialog title
+
+        dialog.show();
+    }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
     }
 }

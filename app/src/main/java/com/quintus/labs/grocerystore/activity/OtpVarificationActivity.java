@@ -58,7 +58,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
         otpcode = findViewById(R.id.otp_text);
         localStorage = new LocalStorage(getApplicationContext());
         firebaseToken = localStorage.getFirebaseToken();
-        submit = findViewById(R.id.submit);
+        submit = findViewById(R.id.verify);
 
         userjson = localStorage.getUserLogin();
         user = gson.fromJson(userjson, User.class);

@@ -217,7 +217,11 @@ public class CartActivity extends BaseActivity {
             emptyCart.setVisibility(View.VISIBLE);
             checkoutLL.setVisibility(View.GONE);
         }
+
+        getCartDetails();
     }
+
+
 
     private void getCartDetails() {
 
@@ -233,7 +237,7 @@ public class CartActivity extends BaseActivity {
                     if (response.code() == 200) {
                         if (cartDetails.getTotalItems() > 0) {
                             cartList = cartDetails.getProductDetails();
-                         String  _subtotal = String.valueOf(cartDetails.getProductTotalPrice() * cartDetails.getTotalItems());
+                         String  _subtotal = String.valueOf(cartDetails.getProductTotalPrice());
                             totalPrice.setText("Rs. " + _subtotal);
                             setUpCartRecyclerview();
                         } else {

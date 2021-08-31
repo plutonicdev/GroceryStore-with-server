@@ -322,7 +322,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 //                        String cartStr = gson.toJson(cartList);
 //                        Log.d("CART", cartStr);
 //                        localStorage.setCart(cartStr);
-//                        ((CartActivity) context).updateTotalPrice();
+                        ((CartActivity) context).updateTotalPrice();
+
+
                     } else {
                         Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
                     }

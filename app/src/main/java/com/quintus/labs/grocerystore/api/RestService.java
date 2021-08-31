@@ -9,6 +9,7 @@ import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.CheckoutDetails;
 import com.quintus.labs.grocerystore.model.City;
 import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.Currency;
@@ -23,6 +24,8 @@ import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.State;
 import com.quintus.labs.grocerystore.model.Token;
+import com.quintus.labs.grocerystore.model.Total;
+import com.quintus.labs.grocerystore.model.UpdatePayment;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
@@ -181,15 +184,15 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("payments/initiate/")
-    Call<InitiatePayment> initatePayment(@Header("Authorization") String token, @Body String total);
+    Call<InitiatePayment> initatePayment(@Header("Authorization") String token, @Body Total total);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @POST("payments/{id}/status_update/")
-    Call<ProductResult> updatePayment(@Header("Authorization") String token,@Path("id") String id);
+    @PUT("payments/{id}/status_update/")
+    Call<UpdatePayment> updatePayment(@Header("Authorization") String token, @Path("id") String id, @Body UpdatePayment updatePayment);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @POST("carts/checkout/")
-    Call<ProductResult> createOrder(@Header("Authorization") String token);
+    Call<CheckoutDetails> createOrder(@Header("Authorization") String token,@Body CheckoutDetails checkoutDetails);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("carts/list/")

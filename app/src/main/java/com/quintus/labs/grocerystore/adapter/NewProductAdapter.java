@@ -125,7 +125,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 //            for (int i = 0; i < cartList.size(); i++) {
 //                if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
 //                    holder.shopNow.setVisibility(View.GONE);
-//                    holder.quantity_ll.setVisibility(View.VISIBLE);
+ //                  holder.quantity_ll.setVisibility(View.VISIBLE);
 //                    holder.quantity.setText(cartList.get(i).getQuantity());
 //
 //                }
@@ -151,6 +151,10 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                     Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
                     cartList = ((BaseActivity) context).getCartList();
                     cartList.add(cart);
+
+                    int prouct_id = product.getId();
+                    AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
+                    addingToCart(addtoCart);
 
                     String cartStr = gson.toJson(cartList);
                     //Log.d("CART", cartStr);
