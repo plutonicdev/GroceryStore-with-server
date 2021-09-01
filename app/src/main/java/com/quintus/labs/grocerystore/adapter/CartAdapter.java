@@ -307,12 +307,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             total_item++;
                             quantity.setText(total_item + "");
                             _subtotal = String.valueOf(Double.parseDouble(price) * total_item);
+                            notifyDataSetChanged();
                         } else {
                             Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
                             int total_item = Integer.parseInt(quantity.getText().toString());
                             total_item--;
                             quantity.setText(total_item + "");
                             _subtotal = String.valueOf(Double.parseDouble(price) * total_item);
+                            notifyDataSetChanged();
                         }
 
 //                        cartList.remove(position);

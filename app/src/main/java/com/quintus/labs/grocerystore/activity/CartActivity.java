@@ -210,13 +210,13 @@ public class CartActivity extends BaseActivity {
     @Override
     public void updateTotalPrice() {
 
-        totalPrice.setText("Rs. " + getTotalPrice() + "");
-        if (getTotalPrice() == 0.0) {
-            mState = "HIDE_MENU";
-            invalidateOptionsMenu();
-            emptyCart.setVisibility(View.VISIBLE);
-            checkoutLL.setVisibility(View.GONE);
-        }
+       // totalPrice.setText("Rs. " + getTotalPrice() + "");
+//        if (getTotalPrice() == 0.0) {
+//            mState = "HIDE_MENU";
+//            invalidateOptionsMenu();
+//            emptyCart.setVisibility(View.VISIBLE);
+//            checkoutLL.setVisibility(View.GONE);
+//        }
 
         getCartDetails();
     }
@@ -256,6 +256,7 @@ public class CartActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
         });
