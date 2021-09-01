@@ -57,7 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
-    PopularProductsResult product;
+  //  PopularProductsResult product;
 
     public ProductAdapter(List<PopularProductsResult> productList, Context context) {
         this.productList = productList;
@@ -89,7 +89,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        product = productList.get(position);
+      final  PopularProductsResult  product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
@@ -174,7 +174,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 int prouct_id = product.getId();
                 _subtotal = String.valueOf(Double.parseDouble(product.getPrice()) * 1);
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
-                addingToCart(addtoCart);
+                addingToCart(addtoCart,"plus");
 //                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
 //                if (pQuantity >= 1) {
 //                    int total_item = Integer.parseInt(holder.quantity.getText().toString());
@@ -203,28 +203,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
-                if (pQuantity != 1) {
-                    int total_item = Integer.parseInt(holder.quantity.getText().toString());
-                    total_item--;
-                    holder.quantity.setText(total_item + "");
-                    for (int i = 0; i < cartList.size(); i++) {
-                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
 
-                            //holder.quantity.setText(total_item + "");
-                            //Log.d("totalItem", total_item + "");
-                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-                            cartList.get(i).setSubTotal(_subtotal);
-                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
-                            String cartStr = gson.toJson(cartList);
-                            //Log.d("CART", cartStr);
-                            localStorage.setCart(cartStr);
-                            notifyItemChanged(position);
-                        }
-                    }
-
-                }
+                int prouct_id = product.getId();
+                AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
+                addingToCart(addtoCart,"minus");
+//                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
+//                if (pQuantity != 1) {
+//                    int total_item = Integer.parseInt(holder.quantity.getText().toString());
+//                    total_item--;
+//                    holder.quantity.setText(total_item + "");
+//                    for (int i = 0; i < cartList.size(); i++) {
+//                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
+//
+//                            //holder.quantity.setText(total_item + "");
+//                            //Log.d("totalItem", total_item + "");
+//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
+//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
+//                            cartList.get(i).setSubTotal(_subtotal);
+//                            holder.subTotal.setText(total_item + "X" + holder.price.getText().toString() + "= Rs." + _subtotal);
+//                            String cartStr = gson.toJson(cartList);
+//                            //Log.d("CART", cartStr);
+//                            localStorage.setCart(cartStr);
+//                            notifyItemChanged(position);
+//                        }
+//                    }
+//
+//                }
 
             }
         });
@@ -304,10 +308,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         return productList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        return position;
+//    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -345,7 +349,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         changeProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void addingToCart( AddToCart addtoCart) {
+    private void addingToCart( AddToCart addtoCart,final String plus) {
 
 
         showProgressDialog();
@@ -359,7 +363,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
                     AddToCart addToCartResponse = response.body();
                     if (response.code() == 200) {
-                        Toast.makeText(context, "Successfully added to cart", Toast.LENGTH_LONG).show();
+                        if (plus.equalsIgnoreCase("plus")) {
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+
+                        }
                     } else {
                         Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
                     }

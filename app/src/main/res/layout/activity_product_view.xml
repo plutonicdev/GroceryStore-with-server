@@ -198,7 +198,7 @@ android:visibility="gone"
                         android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Item discription"
+                        android:text=""
                         android:textColor="@color/colorSub"
 
                         />
@@ -462,6 +462,11 @@ android:visibility="gone"
         android:text="BUY IT NOW"
         android:textColor="#fff"
         android:textSize="16dp"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
         android:visibility="gone" />
 </RelativeLayout>
 

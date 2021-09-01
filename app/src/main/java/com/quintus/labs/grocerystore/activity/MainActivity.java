@@ -374,6 +374,8 @@ public class  MainActivity extends BaseActivity
     @Override
     public void onRemoveProduct() {
         super.onRemoveProduct();
+        cart_count--;
+        invalidateOptionsMenu();
     }
 
 

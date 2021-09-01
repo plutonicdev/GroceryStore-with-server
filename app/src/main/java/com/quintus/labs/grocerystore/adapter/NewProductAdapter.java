@@ -58,7 +58,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
-    PopularProductsResult product;
+   // PopularProductsResult product;
 
     public NewProductAdapter(List<PopularProductsResult> productList, Context context) {
         this.productList = productList;
@@ -89,7 +89,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        product = productList.get(position);
+     final   PopularProductsResult   product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
@@ -138,29 +138,29 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             public void onClick(View v) {
                 holder.shopNow.setVisibility(View.GONE);
                 holder.quantity_ll.setVisibility(View.VISIBLE);
-                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-                    _price = product.getDiscount();
-                } else {
-                    _price = product.getPrice();
-                }
-                _quantity = holder.quantity.getText().toString();
+//                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
+//                    _price = product.getDiscount();
+//                } else {
+//                    _price = product.getPrice();
+//                }
+//                _quantity = holder.quantity.getText().toString();
               //  _attribute = product.getAttribute();
                // _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
 
                 if (context instanceof MainActivity) {
-                    Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
-                    cartList = ((BaseActivity) context).getCartList();
-                    cartList.add(cart);
+//                    Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
+//                    cartList = ((BaseActivity) context).getCartList();
+//                    cartList.add(cart);
 
                     int prouct_id = product.getId();
                     AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
-                    addingToCart(addtoCart);
+                    addingToCart(addtoCart,position,"plus");
 
-                    String cartStr = gson.toJson(cartList);
+                 //   String cartStr = gson.toJson(cartList);
                     //Log.d("CART", cartStr);
-                    localStorage.setCart(cartStr);
-                    ((AddorRemoveCallbacks) context).onAddProduct();
-                    notifyItemChanged(position);
+                 //   localStorage.setCart(cartStr);
+                   ((AddorRemoveCallbacks) context).onAddProduct();
+//                    notifyItemChanged(position);
                 }
             }
         });
@@ -171,7 +171,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             public void onClick(View v) {
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
-                addingToCart(addtoCart);
+                addingToCart(addtoCart,position,"plus");
+                ((AddorRemoveCallbacks) context).onAddProduct();
 
 //                for (int i = 0; i < cartList.size(); i++) {
 //                    if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
@@ -199,7 +200,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
-                addingToCart(addtoCart);
+                addingToCart(addtoCart,position,"minus");
+                ((AddorRemoveCallbacks) context).onRemoveProduct();
 
 //                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
 //                    for (int i = 0; i < cartList.size(); i++) {
@@ -246,10 +248,10 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        return position;
+//    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -286,7 +288,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
         changeProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void addingToCart( AddToCart addtoCart) {
+    private void addingToCart( AddToCart addtoCart,final  int position,final String plus) {
 
 
         showProgressDialog();
@@ -300,7 +302,13 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
                     AddToCart addToCartResponse = response.body();
                     if (response.code() == 200) {
-                        Toast.makeText(context, "Successfully added to cart", Toast.LENGTH_LONG).show();
+                        if (plus.equalsIgnoreCase("plus")) {
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+
+                        }
                     } else {
                         Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
                     }
