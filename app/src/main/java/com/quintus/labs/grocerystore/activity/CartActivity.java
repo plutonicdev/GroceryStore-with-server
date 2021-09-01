@@ -96,7 +96,7 @@ public class CartActivity extends BaseActivity {
         if (mState.equalsIgnoreCase("HIDE_MENU")) {
             item.setVisible(false);
         } else {
-            item.setVisible(true);
+            item.setVisible(false);
         }
         return true;
     }

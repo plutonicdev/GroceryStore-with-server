@@ -94,7 +94,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="5dp"
-                        android:text="Rs."
+                        android:text=""
                         android:textSize="16dp" />
 
                     <TextView

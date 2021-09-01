@@ -118,8 +118,8 @@ public class ProductViewActivity extends BaseActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEntry = _image + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
-
+            //    String userEntry = productDetails.getImages().get(0).getImage() + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
+                String userEntry = productDetails.getImages().get(0).getImage() + "\n" + productDetails.getName() + "\n" + productDetails.getDescription() + "\n" + productDetails.getCurrency().getSymbol() +  productDetails.getPrice() + "(" + productDetails.getMrp() + ")";
                 Intent textShareIntent = new Intent(Intent.ACTION_SEND);
                 textShareIntent.putExtra(Intent.EXTRA_TEXT, userEntry);
                 textShareIntent.setType("text/plain");
@@ -215,6 +215,8 @@ public class ProductViewActivity extends BaseActivity {
 //                    }else{
 //                        discount.setVisibility(View.GONE);
 //                    }
+
+
 
                     if(productDetails.getImages().get(0).getImage()!=null){
                         Picasso.get().load(productDetails.getImages().get(0).getImage()).error(R.drawable.no_image).into(imageView, new Callback() {

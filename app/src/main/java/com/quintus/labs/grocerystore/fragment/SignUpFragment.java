@@ -150,11 +150,14 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         } else if (getMobileNumber.length() == 0) {
             mobileNumber.setError("Enter Your Mobile Number");
             mobileNumber.requestFocus();
+        } else if (getMobileNumber.length() < 10) {
+            mobileNumber.setError("Enter Correct Mobile Number");
+            mobileNumber.requestFocus();
         } else if (getPassword.length() == 0) {
             password.setError("Enter Password");
             password.requestFocus();
-        } else if (getPassword.length() < 6) {
-            password.setError("Enter 6 digit Password");
+        } else if (getPassword.length() < 8) {
+            password.setError("Enter 8 digit Password");
             password.requestFocus();
         } else if (!terms_conditions.isChecked()) {
             new CustomToast().Show_Toast(getActivity(), view,

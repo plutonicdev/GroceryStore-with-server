@@ -213,6 +213,12 @@ public class LoginFragment extends Fragment implements OnClickListener {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Enter both credentials.");
             vibrate(200);
+        }else if( getMobile.length() < 10){
+            mobile.setError("Enter Correct Mobile Number");
+            mobile.requestFocus();
+        }else if( getPassword.length() < 8){
+            password.setError("Enter Correct Password");
+            password.requestFocus();
         } else if (NetworkCheck.isNetworkAvailable(getContext())) {
             user = new User(getMobile, getPassword, firebaseToken);
             login(user);
@@ -253,8 +259,9 @@ public class LoginFragment extends Fragment implements OnClickListener {
                             getActivity().finish();
                         }
                     } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Server error Please try after sometime");
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Server error Please try after sometime");
+                        errorUtils.checkUserError(response);
                     }
 
                 } else {
@@ -268,6 +275,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+                new CustomToast().Show_Toast(getActivity(), view,
+                        "Server Error Please try after sometime");
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
