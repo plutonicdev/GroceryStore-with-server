@@ -222,7 +222,6 @@ public class CartActivity extends BaseActivity {
     }
 
 
-
     private void getCartDetails() {
 
         showProgressDialog();

@@ -87,7 +87,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         holder.subTotal.setText(_subtotal);
         Log.d("Cart Image==>", cart.getProduct().getImages().get(0).getImage());
         Picasso.get()
-                .load(Utils.ProductImage + cart.getProduct().getImages().get(0).getImage())
+                .load( cart.getProduct().getImages().get(0).getImage())
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {

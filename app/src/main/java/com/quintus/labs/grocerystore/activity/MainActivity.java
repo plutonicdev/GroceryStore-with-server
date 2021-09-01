@@ -65,7 +65,7 @@ import retrofit2.Response;
  */
 public class  MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static int cart_count = 1;
+    private static int cart_count = 0;
     User user;
     List<Product> productList = new ArrayList<>();
     SearchAdapter mAdapter;
