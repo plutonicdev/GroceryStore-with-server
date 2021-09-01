@@ -135,27 +135,26 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         String getEmailId = emailId.getText().toString();
         String getMobileNumber = mobileNumber.getText().toString();
         String getPassword = password.getText().toString();
-        // Pattern match for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
 
         if (getFullName.length() == 0) {
-            fullName.setError("Eneter Your Name");
+            fullName.setError("Enter Your Name");
             fullName.requestFocus();
         } else if (getEmailId.length() == 0) {
-            emailId.setError("Eneter Your Email");
+            emailId.setError("Enter Your Email");
             emailId.requestFocus();
-//        } else if (!m.find()) {
-//            emailId.setError("Eneter Correct Email");
-//            emailId.requestFocus();
+        } else if (!getEmailId.matches(emailPattern)) {
+            emailId.setError("Enter Correct Email");
+            emailId.requestFocus();
         } else if (getMobileNumber.length() == 0) {
-            mobileNumber.setError("Eneter Your Mobile Number");
+            mobileNumber.setError("Enter Your Mobile Number");
             mobileNumber.requestFocus();
         } else if (getPassword.length() == 0) {
-            password.setError("Eneter Password");
+            password.setError("Enter Password");
             password.requestFocus();
         } else if (getPassword.length() < 6) {
-            password.setError("Eneter 6 digit Password");
+            password.setError("Enter 6 digit Password");
             password.requestFocus();
         } else if (!terms_conditions.isChecked()) {
             new CustomToast().Show_Toast(getActivity(), view,

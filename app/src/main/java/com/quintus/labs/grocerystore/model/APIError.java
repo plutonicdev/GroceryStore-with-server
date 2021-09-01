@@ -8,6 +8,7 @@ public class APIError {
     private String email;
     private String otp;
     private String non_field_errors;
+    private String name;
 
     public APIError() {
     }
@@ -66,5 +67,13 @@ public class APIError {
 
     public void setOtp(String otp) {
         this.otp = otp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -33,6 +33,8 @@ public class ErrorUtils {
                 Toast.makeText(context, apiError.getNon_field_errors(), Toast.LENGTH_LONG).show();
             } else if (apiError.getOtp() != null) {
                 Toast.makeText(context, apiError.getOtp(), Toast.LENGTH_LONG).show();
+            } else if (apiError.getName() != null) {
+                Toast.makeText(context, apiError.getName(), Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(context, "Please provide correct information", Toast.LENGTH_LONG).show();
             }

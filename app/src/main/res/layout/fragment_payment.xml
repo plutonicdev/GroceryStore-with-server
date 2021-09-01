@@ -42,7 +42,7 @@
                     <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Adderss"
+                        android:text="Address"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="CAH ON DELIVERY" />
+                android:text="CASH ON DELIVERY" />
 
         </RadioGroup>
 
