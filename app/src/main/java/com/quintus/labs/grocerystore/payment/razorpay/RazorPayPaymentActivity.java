@@ -66,9 +66,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
         Checkout.preload(getApplicationContext());
 
 
-                                          startPayment();
-
-
+        startPayment();
 
 
     }
@@ -133,7 +131,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
         }
 
 
-      //  Toast.makeText(this, "Payment is successful : " + s, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, "Payment is successful : " + s, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -166,7 +164,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                 Log.e(TAG, "Exception in onPaymentError", e);
             }
         }
-     //   Toast.makeText(this, "Payment Failed due to error : " + s, Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(this, "Payment Failed due to error : " + s, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -211,7 +209,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                 if (response != null) {
                     if (response.code() == 201) {
 
-                        if(response.body().getPaymentStatus().equalsIgnoreCase("failed")){
+                        if (response.body().getPaymentStatus().equalsIgnoreCase("failed")) {
                             Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), CartActivity.class));
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

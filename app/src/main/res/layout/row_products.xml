@@ -4,7 +4,7 @@
    * Created on 18-Feb-2019.
    * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
    -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -146,13 +146,89 @@
                 </LinearLayout>
             </LinearLayout>
 
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/shop_now"
+                    style="@android:style/MediaButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shop_button_bg"
+                    android:padding="10dp"
+                    android:text="shop Now"
+                    android:textColor="@color/gen_white" />
+
+                <LinearLayout
+                    android:id="@+id/quantity_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/shop_button_bg"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/quantity_minus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="12dp"
+                        android:paddingBottom="5dp"
+                        android:text="-"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/quantity_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="12dp"
+                        android:paddingBottom="5dp"
+                        android:text="+"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -161,13 +237,13 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/quantity_minus"
+                        android:id="@+id/quantity_minuss"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@drawable/ic_minus" />
 
                     <TextView
-                        android:id="@+id/quantity"
+                        android:id="@+id/quantityy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -178,7 +254,7 @@
                         android:textStyle="bold" />
 
                     <Button
-                        android:id="@+id/quantity_plus"
+                        android:id="@+id/quantity_pluss"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@drawable/ic_plus" />
@@ -187,7 +263,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true">
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/add_to_cart"
@@ -225,10 +302,12 @@
 
 
             </RelativeLayout>
+
         </LinearLayout>
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
     </androidx.cardview.widget.CardView>
-    <include
-        android:id="@+id/progress_bar"
-        layout="@layout/progressbar"
-        android:visibility="gone" />
-</LinearLayout>
+
+</RelativeLayout>
