@@ -159,7 +159,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                  //   String cartStr = gson.toJson(cartList);
                     //Log.d("CART", cartStr);
                  //   localStorage.setCart(cartStr);
-                   ((AddorRemoveCallbacks) context).onAddProduct();
+
 //                    notifyItemChanged(position);
                 }
             }
@@ -172,7 +172,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart,position,"plus");
-                ((AddorRemoveCallbacks) context).onAddProduct();
+
 
 //                for (int i = 0; i < cartList.size(); i++) {
 //                    if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
@@ -201,7 +201,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
                 addingToCart(addtoCart,position,"minus");
-                ((AddorRemoveCallbacks) context).onRemoveProduct();
+
 
 //                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
 //                    for (int i = 0; i < cartList.size(); i++) {
@@ -303,9 +303,11 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                     AddToCart addToCartResponse = response.body();
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
+                            ((AddorRemoveCallbacks) context).onAddProduct();
                             Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
 
                         } else {
+                            ((AddorRemoveCallbacks) context).onRemoveProduct();
                             Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
 
                         }

@@ -55,7 +55,12 @@
 
                 <include layout="@layout/nav_footer_main"></include>
             </LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

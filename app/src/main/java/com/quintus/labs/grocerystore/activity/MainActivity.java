@@ -46,7 +46,9 @@ import com.quintus.labs.grocerystore.fragment.OffrersFragment;
 import com.quintus.labs.grocerystore.fragment.PopularProductFragment;
 import com.quintus.labs.grocerystore.fragment.ProfileFragment;
 import com.quintus.labs.grocerystore.helper.Converter;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Product;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -73,6 +75,12 @@ public class  MainActivity extends BaseActivity
     private RecyclerView recyclerView;
     boolean doubleBackToExitPressedOnce = false;
 
+    LocalStorage localStorage;
+    List<ProductDetail> cartList = new ArrayList<>();
+    Gson gson;
+    String token;
+    View progress;
+
     @SuppressLint("ResourceAsColor")
     static void centerToolbarTitle(@NonNull final Toolbar toolbar) {
         final CharSequence title = toolbar.getTitle();
@@ -87,6 +95,8 @@ public class  MainActivity extends BaseActivity
             toolbar.requestLayout();
             //also you can use titleView for changing font: titleView.setTypeface(Typeface);
         }
+
+
     }
 
     @Override
@@ -259,8 +269,13 @@ public class  MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         centerToolbarTitle(toolbar);
-        cart_count = cartCount();
+       //cart_count = cartCount();
 
+        progress = findViewById(R.id.progress_bar);
+        localStorage = new LocalStorage(getApplicationContext());
+        gson = new Gson();
+        token = localStorage.getApiKey();
+        getCartDetails();
         FloatingActionButton fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.search_recycler_view);
         fab.setVisibility(View.GONE);
@@ -377,17 +392,60 @@ public class  MainActivity extends BaseActivity
     @Override
     public void onAddProduct() {
         super.onAddProduct();
-        cart_count++;
-        invalidateOptionsMenu();
+      //  cart_count++;
+        getCartDetails();
+      //  invalidateOptionsMenu();
 
     }
 
     @Override
     public void onRemoveProduct() {
         super.onRemoveProduct();
-        cart_count--;
-        invalidateOptionsMenu();
+      //  cart_count--;
+        getCartDetails();
+      //  invalidateOptionsMenu();
     }
+
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        assert cartDetails != null;
+                        cart_count=cartDetails.getTotalItems();
+                        invalidateOptionsMenu();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+    }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
 
 
 }

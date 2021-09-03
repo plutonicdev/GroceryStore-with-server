@@ -26,6 +26,7 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
 import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -76,6 +77,7 @@ public class ProductViewActivity extends BaseActivity {
         token = localStorage.getApiKey();
 
         getProductDetails();
+        getCartDetails();
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         changeActionBarTitle(getSupportActionBar());
@@ -85,7 +87,7 @@ public class ProductViewActivity extends BaseActivity {
         //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        cart_count = cartCount();
+     //   cart_count = cartCount();
 
         title = findViewById(R.id.apv_title);
         description = findViewById(R.id.description);
@@ -147,7 +149,7 @@ public class ProductViewActivity extends BaseActivity {
                 quantityLL.setVisibility(View.VISIBLE);
                 AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,true);
                 addingToCart(addtoCart,"plus");
-                onAddProduct();
+
             }
         });
 
@@ -158,7 +160,7 @@ public class ProductViewActivity extends BaseActivity {
 
                 AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,true);
                 addingToCart(addtoCart,"plus");
-                 onAddProduct();
+
 
 
 
@@ -196,7 +198,7 @@ public class ProductViewActivity extends BaseActivity {
 
                 AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,false);
                 addingToCart(addtoCart,"minus");
-                onRemoveProduct();
+
 
 
 
@@ -324,19 +326,6 @@ public class ProductViewActivity extends BaseActivity {
     }
 
 
-    @Override
-    public void onAddProduct() {
-        cart_count++;
-        invalidateOptionsMenu();
-
-    }
-
-    @Override
-    public void onRemoveProduct() {
-        cart_count--;
-        invalidateOptionsMenu();
-
-    }
     private void hideProgressDialog() {
         changeProgressBar.setVisibility(View.GONE);
     }
@@ -363,9 +352,11 @@ public class ProductViewActivity extends BaseActivity {
                     if (response.code() == 200) {
 
                         if (plus.equalsIgnoreCase("plus")) {
+                            onAddProduct();
                             Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_LONG).show();
 
                         } else {
+                            onRemoveProduct();
                             Toast.makeText(getApplicationContext(), "Successfully removed", Toast.LENGTH_LONG).show();
 
                         }
@@ -389,6 +380,53 @@ public class ProductViewActivity extends BaseActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public void onAddProduct() {
+        super.onAddProduct();
+        //  cart_count++;
+        getCartDetails();
+    //    invalidateOptionsMenu();
+
+    }
+
+    @Override
+    public void onRemoveProduct() {
+        super.onRemoveProduct();
+        //  cart_count--;
+        getCartDetails();
+     //   invalidateOptionsMenu();
+    }
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new retrofit2.Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        cart_count=cartDetails.getTotalItems();
+                        invalidateOptionsMenu();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
 
     }
 }

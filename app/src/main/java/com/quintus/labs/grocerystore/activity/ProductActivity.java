@@ -29,6 +29,7 @@ import com.quintus.labs.grocerystore.adapter.ProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
 import com.quintus.labs.grocerystore.helper.Data;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.PopularProductsResult;
@@ -91,6 +92,7 @@ public class ProductActivity extends BaseActivity {
         localStorage = new LocalStorage(getApplicationContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = localStorage.getApiKey();
+        getCartDetails();
         Intent intent = getIntent();
 
         id= intent.getIntExtra("id",0);
@@ -293,15 +295,17 @@ public class ProductActivity extends BaseActivity {
 
     @Override
     public void onAddProduct() {
-        cart_count++;
-        invalidateOptionsMenu();
+//        cart_count++;
+//        invalidateOptionsMenu();
+        getCartDetails();
 
     }
 
     @Override
     public void onRemoveProduct() {
-        cart_count--;
-        invalidateOptionsMenu();
+//        cart_count--;
+//        invalidateOptionsMenu();
+        getCartDetails();
 
     }
 
@@ -370,6 +374,39 @@ public class ProductActivity extends BaseActivity {
             }
         });
 
+
+    }
+
+
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        assert cartDetails != null;
+                        cart_count=cartDetails.getTotalItems();
+                        invalidateOptionsMenu();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
 
     }
 

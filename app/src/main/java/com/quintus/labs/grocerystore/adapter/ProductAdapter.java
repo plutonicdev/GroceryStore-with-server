@@ -154,7 +154,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     //   String cartStr = gson.toJson(cartList);
                     //Log.d("CART", cartStr);
                     //   localStorage.setCart(cartStr);
-                    ((AddorRemoveCallbacks) context).onAddProduct();
+
 //                    notifyItemChanged(position);
                // }
             }
@@ -195,7 +195,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart,"plus");
-                ((AddorRemoveCallbacks) context).onAddProduct();
+
 
 //                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
 //                if (pQuantity >= 1) {
@@ -229,7 +229,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
                 addingToCart(addtoCart,"minus");
-                ((AddorRemoveCallbacks) context).onRemoveProduct();
+
 
 
 
@@ -311,9 +311,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     AddToCart addToCartResponse = response.body();
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
+                            ((AddorRemoveCallbacks) context).onAddProduct();
                             Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
 
                         } else {
+                            ((AddorRemoveCallbacks) context).onRemoveProduct();
                             Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
 
                         }
