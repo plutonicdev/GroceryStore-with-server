@@ -79,7 +79,7 @@ public class ConfirmFragment extends Fragment {
     View progress;
     Double totalPrice;
     EditText et_code;
-    Button code_button;
+    Button code_button,code_button_disabled;
     String voucher_code;
 
 
@@ -104,6 +104,7 @@ public class ConfirmFragment extends Fragment {
         order = view.findViewById(R.id.place_order);
         et_code = view.findViewById(R.id.et_code);
         code_button = view.findViewById(R.id.code_button);
+        code_button_disabled = view.findViewById(R.id.code_button_disabled);
         progressDialog = new ProgressDialog(getContext());
         gson = new Gson();
         token = localStorage.getApiKey();
@@ -241,6 +242,8 @@ public class ConfirmFragment extends Fragment {
                     VoucherResult cartDetails = response.body();
                     if (response.code() == 200) {
                         et_code.setText("");
+                        code_button.setVisibility(View.GONE);
+                        code_button_disabled.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Coupon Applied Successfully.", Toast.LENGTH_SHORT).show();
                         totalPrice = Double.parseDouble(String.valueOf(cartDetails.getCartPrice()));
                         payable.setText("\u20B9" + " " + cartDetails.getCartPrice());
