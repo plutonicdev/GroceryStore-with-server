@@ -1,5 +1,6 @@
 package com.quintus.labs.grocerystore.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -18,9 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.model.AddressDetails;
+import com.quintus.labs.grocerystore.model.DelExecDetails;
+import com.quintus.labs.grocerystore.model.OrderDetails;
+import com.quintus.labs.grocerystore.model.OrderDetailsData;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
+import com.quintus.labs.grocerystore.model.ProductsData;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.VoucherList;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -43,8 +49,19 @@ import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
     List<OrdersResult> orderList;
+    OrderDetailsData orderDetails;
+    DelExecDetails delExecDetails;
+    List<ProductsData> productsData;
+    AddressDetails addressDetails;
+    OrderItemAdapter orderItemAdapter;
     Context context;
     String Tag;
+    RecyclerView recyclerView;
+    LocalStorage localStorage;
+    Gson gson;
+    String token;
+    View changeProgressBar;
+    TextView total,payable;
 
     public OrderAdapter(List<OrdersResult> orderList, Context context) {
         this.orderList = orderList;
@@ -68,50 +85,65 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        localStorage = new LocalStorage(context);
+        gson = new Gson();
+        token = localStorage.getApiKey();
 
         final OrdersResult order = orderList.get(position);
         holder.order_no.setText("#" + order.getOrderNo());
-       holder.order_date.setText(order.getCreatedDate());
+        holder.order_date.setText(order.getCreatedDate());
         holder.total_price.setText(order.getTotal());
         holder.status.setText(order.getStatus());
         holder.delivery_date.setText(order.getDeliveryDate());
-//        holder.viewDetails.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openOrderItemModal(order);
-//            }
-//        });
-//
-//
+        holder.viewDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrderItemModal(order.getId());
+            }
+        });
+
+
    }
 
-    private void openOrderItemModal(OrdersResult order) {
+    private void openOrderItemModal(int id) {
         final Dialog dialog = new Dialog(context, R.style.FullScreenDialogStyle);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.orderdetails_dialog);
 
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-      //  recyclerView = dialog.findViewById(R.id.order_list);
+        recyclerView = dialog.findViewById(R.id.order_list);
+        total = dialog.findViewById(R.id.total_price);
+        payable = dialog.findViewById(R.id.payable_price);
 
-//        Call<OrdersResult> call = RestClient.getRestService(context).getOrderItems(orderItem);
-//        call.enqueue(new Callback<OrdersResult>() {
-//            @Override
-//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-//                orderItemList = response.body().getOrderItemList();
-//                orderItemAdapter = new OrderItemAdapter(orderItemList, context);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-//                recyclerView.setLayoutManager(mLayoutManager);
-//                recyclerView.setItemAnimator(new DefaultItemAnimator());
-//                recyclerView.setAdapter(orderItemAdapter);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<OrdersResult> call, Throwable t) {
-//                Log.d(TAG, "errorResponse:==>" + t.getMessage());
-//            }
-//        });
+        showProgressDialog();
+        Call<OrderDetails> call = RestClient.getRestService(context).getSingleOrderDetails(token,id);
+        call.enqueue(new Callback<OrderDetails>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
+                orderDetails = response.body().getOrderDetails();
+                delExecDetails=response.body().getDelExecDetails();
+                productsData=response.body().getProducts();
+                addressDetails=response.body().getAddressDetails();
+                total.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+orderDetails.getTotalAmout());
+                payable.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+ orderDetails.getPayableAmount());
+                orderItemAdapter = new OrderItemAdapter(orderDetails,delExecDetails,productsData,addressDetails, context);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(orderItemAdapter);
+
+                hideProgressDialog();
+
+            }
+
+            @Override
+            public void onFailure(Call<OrderDetails> call, Throwable t) {
+                Log.d(TAG, "errorResponse:==>" + t.getMessage());
+                hideProgressDialog();
+            }
+        });
 
 
         // if button is clicked, close the custom dialog
@@ -134,6 +166,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView  order_no,total_price,status,delivery_date,order_date;
+        Button viewDetails;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -143,8 +176,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             delivery_date = itemView.findViewById(R.id.delivery_date);
             status = itemView.findViewById(R.id.status);
             order_date = itemView.findViewById(R.id.order_date);
+            viewDetails = itemView.findViewById(R.id.view_details);
+            changeProgressBar = itemView.findViewById(R.id.progress_bar);
 
 
         }
+    }
+
+    private void hideProgressDialog() {
+        changeProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        changeProgressBar.setVisibility(View.VISIBLE);
     }
 }

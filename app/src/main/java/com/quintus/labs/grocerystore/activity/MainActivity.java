@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -94,6 +95,11 @@ public class  MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+
+            FragmentManager manager = getSupportFragmentManager();
+            int count = manager.getBackStackEntryCount();
+           // Log.d("This Fragment name: ", ""+count);
+            if(count==1) {
             if (doubleBackToExitPressedOnce) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
@@ -114,7 +120,11 @@ public class  MainActivity extends BaseActivity
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-           // super.onBackPressed();
+
+            }else {
+
+                super.onBackPressed();
+            }
         }
     }
 
@@ -346,6 +356,7 @@ public class  MainActivity extends BaseActivity
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
             ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(null);
             ft.commit();
 
         }

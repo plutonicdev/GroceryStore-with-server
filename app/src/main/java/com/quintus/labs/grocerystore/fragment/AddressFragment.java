@@ -256,7 +256,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 } else {
                     AddAddress userAddress = new AddAddress(_name, _phone, _email, _address, _address_type,country_id,city_id,pin_id,state_id);
                     String user_address = gson.toJson(userAddress);
-                    localStorage.createUserLoginSession(user_address);
+                 //   localStorage.createUserLoginSession(user_address);
                     if(type.equalsIgnoreCase("add")) {
                         saveUserAddress(userAddress);
 

@@ -21,7 +21,9 @@ import com.quintus.labs.grocerystore.activity.CartActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.model.ProductDetail;
+import com.quintus.labs.grocerystore.model.Products;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
@@ -181,9 +183,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 int prouct_id = cart.getProduct().getId();
-                AddToCart addtoCart = new AddToCart(cart.getCount(), prouct_id, null, false);
-
-                removefromCart(addtoCart, position);
+                Products products= new Products(prouct_id);
+                removeWholeProductFromCart(products);
 
 
 //                cartList.remove(position);
@@ -347,5 +348,56 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
 
     }
+
+
+
+
+
+    private void removeWholeProductFromCart(Products products) {
+
+
+        showProgressDialog();
+        Call<Void> call = RestClient.getRestService(context).removeFromCart(token, products);
+        call.enqueue(new retrofit2.Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response != null) {
+
+                    if (response.code() == 204) {
+                        Toast.makeText(context, " Successfully Removed From Cart.", Toast.LENGTH_LONG).show();
+                        ((CartActivity) context).updateTotalPrice();
+
+                    } else {
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                }
+
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 

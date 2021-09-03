@@ -39,7 +39,7 @@
     <string name="reset_code">Reset Code</string>
     <string name="reset_password">Reset Password</string>
     <string name="resend_code">Resend Code</string>
-    <string name="order_item_details">Your Order Details</string>
+    <string name="order_item_details">My Order Details</string>
     <string name="an_otp_code_sent_to_your_phone">An OTP is sent to your phone number, enter here.</string>
     <string name="enter_otp_code">Enter OTP</string>
     <string name="save">Save</string>
@@ -69,4 +69,6 @@
     <string name="total_price">Total Price :</string>
     <string name="delivery_date">Delivery Date :</string>
     <string name="order_date">Order Date:</string>
+    <string name="enter_coupon_code">Enter Coupon Code</string>
+    <string name="apply">Apply</string>
 </resources>

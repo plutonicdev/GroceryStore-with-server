@@ -51,11 +51,12 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.7"
                         android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -80,8 +81,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.7"
                         android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
 
                 </LinearLayout>
@@ -99,8 +100,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.3"
                         android:text="@string/total_price"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
                     <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
                         android:id="@+id/total_price"
@@ -110,8 +111,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.7"
                         android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
 
                 </LinearLayout>
@@ -129,8 +130,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.3"
                         android:text="@string/status"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
                     <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
                         android:id="@+id/status"
@@ -140,8 +141,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.7"
                         android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
 
                 </LinearLayout>
@@ -159,8 +160,8 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.3"
                         android:text="@string/delivery_date"
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
                     <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
                         android:id="@+id/delivery_date"
@@ -170,20 +171,32 @@
                         android:layout_marginStart="@dimen/margin_10dp"
                         android:layout_weight="0.7"
                         android:text=""
-                        android:textSize="@dimen/margin_16"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/margin_16" />
 
 
                 </LinearLayout>
 
-
-
+                <Button
+                    android:id="@+id/view_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/dimen_5dp"
+                    android:text="View Details"
+                    android:textColor="@color/white" />
 
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
     </androidx.cardview.widget.CardView>
+
 
 </RelativeLayout>

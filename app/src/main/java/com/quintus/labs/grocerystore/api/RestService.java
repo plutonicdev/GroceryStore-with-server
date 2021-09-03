@@ -15,13 +15,16 @@ import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.Currency;
 import com.quintus.labs.grocerystore.model.InitiatePayment;
 import com.quintus.labs.grocerystore.model.Order;
+import com.quintus.labs.grocerystore.model.OrderDetails;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.Pin;
 import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.PopularProducts;
+import com.quintus.labs.grocerystore.model.Product;
 import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.Products;
 import com.quintus.labs.grocerystore.model.State;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.Total;
@@ -29,8 +32,10 @@ import com.quintus.labs.grocerystore.model.UpdatePayment;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.Voucher;
 import com.quintus.labs.grocerystore.model.VoucherList;
 import com.quintus.labs.grocerystore.model.VoucherListData;
+import com.quintus.labs.grocerystore.model.VoucherResult;
 import com.quintus.labs.grocerystore.model.VoucherValidity;
 
 import java.util.List;
@@ -39,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
@@ -143,13 +149,17 @@ public interface RestService {
     @POST("catalog/add_update_wishlist/")
     Call<ProductResult> addfavouriteProduct(@Header("Authorization") String token);
 
+
+    @POST("vouchers/voucher_validity/")
+    Call<VoucherResult> checkVoucher(@Header("Authorization") String token, @Body Voucher voucher);
+
     @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/list/")
     Call<Order> getOrderDetails(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
+
     @GET("orders/{id}/details/")
-    Call<ProductResult> getSingleOrderDetails(@Header("Authorization") String token,@Path("id") String id);
+    Call<OrderDetails> getSingleOrderDetails(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("locations/countries/")
     Call<List<Country>> getcountry();
@@ -204,8 +214,8 @@ public interface RestService {
     Call<AddToCart> addToCart(@Header("Authorization") String token, @Body AddToCart addtoCart);
 
     @Headers("X-TENANT-ID:" + tenant_id)
-    @DELETE("carts/remove_product/")
-    Call<ProductResult> removeFromCart(@Header("Authorization") String token);
+    @HTTP(method = "DELETE", path = "carts/remove_product/", hasBody = true)
+    Call<Void> removeFromCart(@Header("Authorization") String token,@Body Products products);
 
     @Headers("X-TENANT-ID:" + tenant_id)
     @PATCH("baskets/{basketID}/lines/{lineID}/")

@@ -60,7 +60,9 @@
         <activity
             android:name=".activity.LoginRegisterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".activity.CartActivity" />
+        <activity android:name=".activity.CartActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            />
         <activity android:name=".activity.CheckoutActivity" />
         <activity android:name=".activity.ProductViewActivity" />
 

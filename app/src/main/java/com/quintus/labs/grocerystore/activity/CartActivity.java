@@ -172,13 +172,16 @@ public class CartActivity extends BaseActivity {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, // Width of TextView
                 RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
+        //lp.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
+       // lp.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
         TextView tv = new TextView(getApplicationContext());
         // Apply the layout parameters to TextView widget
         tv.setLayoutParams(lp);
-        tv.setGravity(Gravity.CENTER);
+        tv.setGravity(Gravity.CENTER_HORIZONTAL);
         tv.setTypeface(null, Typeface.BOLD);
         // Set text to display in TextView
-        tv.setText("Cart"); // ActionBar title text
+        tv.setText("My Cart"); // ActionBar title text
         tv.setTextSize(20);
 
         // Set the text color of TextView to red

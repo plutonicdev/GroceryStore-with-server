@@ -140,7 +140,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
 
         if (s.contains("Payment processing cancelled by user")) {
             try {
-                String status = "failed";
+                String status = "failure";
                 String payment_response_id = "denied_payment";
                 String payment_type = "online";
                 UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
@@ -154,7 +154,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                 String[] arrOfStr = str.split("\"payment_id\":\"", 2);
                 String newstring = arrOfStr[1];
                 String failed_id = newstring.replace("\"}}", " ");
-                String status = "failed";
+                String status = "failure";
                 String payment_response_id = failed_id;
                 String payment_type = "online";
                 UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
