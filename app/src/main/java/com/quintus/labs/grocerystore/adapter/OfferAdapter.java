@@ -63,28 +63,36 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
         final VoucherList offer = offerList.get(position);
-        holder.name.setText(offer.getName());
-        holder.end_date.setText(offer.getEndDate());
-        holder.status.setText(offer.getVoucherStatus());
-        holder.code.setText(offer.getCode());
-        holder.discount_price.setText(offer.getDiscountAmount());
-        holder.minimum_ordre_price.setText(offer.getMinSpent());
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("PROMOCODE", offer.getCode());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(context,"Code Copied !",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        if(position>=imageList.length){
-
+        if(offer.getVoucherStatus().equalsIgnoreCase("ongoing")) {
+            holder.cardView.setVisibility(View.VISIBLE);
         }else{
-            Picasso.get().load(imageList[position]).into(holder.backgroundImage);
+            holder.cardView.setVisibility(View.GONE);
         }
+            holder.name.setText(offer.getName());
+            holder.end_date.setText(offer.getEndDate());
+            holder.status.setText(offer.getVoucherStatus());
+            holder.code.setText(offer.getCode());
+            holder.discount_price.setText(offer.getDiscountAmount());
+            holder.minimum_ordre_price.setText(offer.getMinSpent());
+
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("PROMOCODE", offer.getCode());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(context, "Code Copied !", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            if (position >= imageList.length) {
+
+            } else {
+                Picasso.get().load(imageList[position]).into(holder.backgroundImage);
+            }
+
+
 
 //        Picasso.get().load(offer.getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
 //            @Override
@@ -111,6 +119,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         TextView name,end_date,status,code,discount_price,minimum_ordre_price;
         ProgressBar progressBar;
         ImageView imageView,backgroundImage;
+        CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,6 +133,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             discount_price = itemView.findViewById(R.id.discount_price);
             minimum_ordre_price = itemView.findViewById(R.id.minimum_ordre_price);
             progressBar = itemView.findViewById(R.id.progressbar);
+            cardView = itemView.findViewById(R.id.card_view);
 
         }
     }

@@ -148,9 +148,11 @@ public class PopularProductsResult {
     @SerializedName("width_uom")
    
     private Object widthUom;
+
     @SerializedName("length_uom")
-   
     private Object lengthUom;
+
+
 
     public Integer getId() {
         return id;

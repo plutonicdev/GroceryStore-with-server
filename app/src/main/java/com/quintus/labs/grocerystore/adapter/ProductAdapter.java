@@ -94,7 +94,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
       final  PopularProductsResult  product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
-        cartList = ((BaseActivity) context).getCartList();
+       // cartList = ((BaseActivity) context).getCartList();
         holder.quantity.setText("1");
         token=localStorage.getApiKey();
         holder.title.setText(product.getName());
@@ -150,6 +150,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     int prouct_id = product.getId();
                     AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                     addingToCart(addtoCart,"plus");
+                _quantity = holder.quantity.getText().toString();
+                int qty=Integer.parseInt(_quantity)+1;
+                holder.quantity.setText(String.valueOf(qty));
 
                     //   String cartStr = gson.toJson(cartList);
                     //Log.d("CART", cartStr);
@@ -196,6 +199,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart,"plus");
 
+                _quantity = holder.quantity.getText().toString();
+                int qty=Integer.parseInt(_quantity)+1;
+                holder.quantity.setText(String.valueOf(qty));
 
 //                pQuantity = Integer.parseInt(holder.quantity.getText().toString());
 //                if (pQuantity >= 1) {
@@ -229,7 +235,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
                 addingToCart(addtoCart,"minus");
-
+                _quantity = holder.quantity.getText().toString();
+                int qty=Integer.parseInt(_quantity)-1;
+                if(qty<1){
+                    holder.shopNow.setVisibility(View.VISIBLE);
+                    holder.quantity_ll.setVisibility(View.GONE);
+                }
+                holder.quantity.setText(String.valueOf(qty));
 
 
 

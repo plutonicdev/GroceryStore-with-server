@@ -50,7 +50,7 @@ import retrofit2.Response;
 public class ProductViewActivity extends BaseActivity {
     private static int cart_count = 0;
     public TextView quantity, inc, dec;
-    String _id, _title, _image, _description, _price, _currency, _discount, _attribute;
+    String _id, _title, _image, _description, _price, _currency, _discount, _attribute,_quantity;
     TextView id, title, description, price, org_price, currency, discount, attribute;
     ImageView imageView;
     ProgressBar progressBar;
@@ -104,7 +104,7 @@ public class ProductViewActivity extends BaseActivity {
         inc = findViewById(R.id.quantity_plus);
         dec = findViewById(R.id.quantity_minus);
 
-        cartList = getCartList();
+      //  cartList = getCartList();
 
 
 

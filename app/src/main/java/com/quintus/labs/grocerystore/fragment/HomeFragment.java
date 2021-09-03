@@ -237,6 +237,7 @@ public class HomeFragment extends Fragment {
 
                         assert productResult != null;
                         productList = productResult.getResults();
+
                         setupProductRecycleView();
 
                     }

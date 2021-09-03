@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Order;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.lang.reflect.Type;
@@ -34,6 +36,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 10;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 20;
     List<Cart> cartList = new ArrayList<Cart>();
+    List<ProductDetail> cartList1 = new ArrayList<ProductDetail>();
     List<Order> orderList = new ArrayList<Order>();
     Gson gson;
     LocalStorage localStorage;
@@ -50,37 +53,37 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
         progressDialog = new ProgressDialog(BaseActivity.this);
         //user = gson.fromJson(userJson, UserResult.class);
         //  NetworkCheck.isNetworkAvailable(getApplicationContext());
-        cartCount();
+      //  cartCount();
 
     }
 
     public int cartCount() {
 
-        gson = new Gson();
-        if (localStorage.getCart() != null) {
-            String jsonCart = localStorage.getCart();
-            Log.d("CART : ", jsonCart);
-            Type type = new TypeToken<List<Cart>>() {
-            }.getType();
-            cartList = gson.fromJson(jsonCart, type);
-
-
-            //Toast.makeText(getContext(),remedyList.size()+"",Toast.LENGTH_LONG).show();
-            return cartList.size();
-        }
-        return 0;
+//        gson = new Gson();
+//        if (localStorage.getCart() != null) {
+//            String jsonCart = localStorage.getCart();
+//            Log.d("CART : ", jsonCart);
+//            Type type = new TypeToken<List<Cart>>() {
+//            }.getType();
+//            cartList = gson.fromJson(jsonCart, type);
+//
+//
+//            //Toast.makeText(getContext(),remedyList.size()+"",Toast.LENGTH_LONG).show();
+//            return cartList.size();
+//        }
+       return 0;
     }
 
-    public List<Cart> getCartList() {
+    public List<ProductDetail> getCartList() {
         if (localStorage.getCart() != null) {
             String jsonCart = localStorage.getCart();
             //Log.d("CART : ", jsonCart);
-            Type type = new TypeToken<List<Cart>>() {
+            Type type = new TypeToken<List<CartDetails>>() {
             }.getType();
-            cartList = gson.fromJson(jsonCart, type);
-            return cartList;
+            cartList1 = gson.fromJson(jsonCart, type);
+            return cartList1;
         }
-        return cartList;
+        return cartList1;
     }
 
     public List<Order> getOrderList() {
@@ -96,7 +99,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
     }
 
     public Double getTotalPrice() {
-        cartList = getCartList();
+       // cartList = getCartList();
         Double total = 0.0;
         if (cartCount() > 0) {
             for (int i = 0; i < cartList.size(); i++) {

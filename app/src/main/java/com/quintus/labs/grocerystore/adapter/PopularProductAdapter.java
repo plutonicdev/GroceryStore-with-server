@@ -95,7 +95,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         localStorage = new LocalStorage(context);
         gson = new Gson();
         token = localStorage.getApiKey();
-        cartList = ((BaseActivity) context).getCartList();
+      //  cartList = ((BaseActivity) context).getCartList();
 
         holder.title.setText(product.getName());
         if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
@@ -152,6 +152,9 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                     int prouct_id = product.getId();
                     AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                     addingToCart(addtoCart,"plus");
+                    _quantity = holder.quantity.getText().toString();
+                    int qty=Integer.parseInt(_quantity)+1;
+                    holder.quantity.setText(String.valueOf(qty));
 
 //                        Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
 //                       cartList = ((BaseActivity) context).getCartList();
@@ -173,6 +176,9 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                 addingToCart(addtoCart,"plus");
+                _quantity = holder.quantity.getText().toString();
+                int qty=Integer.parseInt(_quantity)+1;
+                holder.quantity.setText(String.valueOf(qty));
 
 
 //                for (int i = 0; i < cartList.size(); i++) {
@@ -203,6 +209,14 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                 int prouct_id = product.getId();
                 AddToCart addtoCart = new AddToCart(1,prouct_id,null,false);
                 addingToCart(addtoCart,"minus");
+
+                _quantity = holder.quantity.getText().toString();
+                int qty=Integer.parseInt(_quantity)-1;
+                if(qty<1){
+                    holder.shopNow.setVisibility(View.VISIBLE);
+                    holder.quantity_ll.setVisibility(View.GONE);
+                }
+                holder.quantity.setText(String.valueOf(qty));
 
 
 //                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {

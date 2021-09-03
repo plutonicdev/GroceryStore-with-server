@@ -421,6 +421,9 @@ public class  MainActivity extends BaseActivity
                     if (response.code() == 200) {
                         assert cartDetails != null;
                         cart_count=cartDetails.getTotalItems();
+                        String cartStr = gson.toJson(cartDetails.getProductDetails());
+                            //Log.d("CART", cartStr);
+                           localStorage.setCart(cartStr);
                         invalidateOptionsMenu();
                     }
 
