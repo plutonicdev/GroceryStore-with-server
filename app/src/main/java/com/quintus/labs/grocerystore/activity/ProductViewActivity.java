@@ -50,7 +50,7 @@ import retrofit2.Response;
 public class ProductViewActivity extends BaseActivity {
     private static int cart_count = 0;
     public TextView quantity, inc, dec;
-    String _id, _title, _image, _description, _price, _currency, _discount, _attribute,_quantity;
+    String _id, _title, _image, _description, _price, _currency, _discount, _attribute, _quantity;
     TextView id, title, description, price, org_price, currency, discount, attribute;
     ImageView imageView;
     ProgressBar progressBar;
@@ -63,15 +63,16 @@ public class ProductViewActivity extends BaseActivity {
     String token;
     User user;
     View changeProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_view);
-        changeProgressBar =findViewById(R.id.progress_bar);
+        changeProgressBar = findViewById(R.id.progress_bar);
 
         Intent intent = getIntent();
 
-          _id = intent.getStringExtra("id");
+        _id = intent.getStringExtra("id");
         localStorage = new LocalStorage(getApplicationContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
         token = localStorage.getApiKey();
@@ -87,7 +88,7 @@ public class ProductViewActivity extends BaseActivity {
         //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-     //   cart_count = cartCount();
+        //   cart_count = cartCount();
 
         title = findViewById(R.id.apv_title);
         description = findViewById(R.id.description);
@@ -104,8 +105,7 @@ public class ProductViewActivity extends BaseActivity {
         inc = findViewById(R.id.quantity_plus);
         dec = findViewById(R.id.quantity_minus);
 
-      //  cartList = getCartList();
-
+        //  cartList = getCartList();
 
 
 //        if (!cartList.isEmpty()) {
@@ -124,8 +124,8 @@ public class ProductViewActivity extends BaseActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    String userEntry = productDetails.getImages().get(0).getImage() + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
-                String userEntry = productDetails.getImages().get(0).getImage() + "\n" + productDetails.getName() + "\n" + productDetails.getDescription() + "\n" + productDetails.getCurrency().getSymbol() +  productDetails.getPrice() + "(" + productDetails.getMrp() + ")";
+                //    String userEntry = productDetails.getImages().get(0).getImage() + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
+                String userEntry = productDetails.getImages().get(0).getImage() + "\n" + productDetails.getName() + "\n" + productDetails.getDescription() + "\n" + productDetails.getCurrency().getSymbol() + productDetails.getPrice() + "(" + productDetails.getMrp() + ")";
                 Intent textShareIntent = new Intent(Intent.ACTION_SEND);
                 textShareIntent.putExtra(Intent.EXTRA_TEXT, userEntry);
                 textShareIntent.setType("text/plain");
@@ -133,7 +133,12 @@ public class ProductViewActivity extends BaseActivity {
             }
         });
 
+        quantity.setText("0");
 
+        if(quantity.getText().toString().equalsIgnoreCase("0")){
+            addToCart.setVisibility(View.VISIBLE);
+            quantityLL.setVisibility(View.GONE);
+        }
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,8 +152,13 @@ public class ProductViewActivity extends BaseActivity {
 
                 addToCart.setVisibility(View.GONE);
                 quantityLL.setVisibility(View.VISIBLE);
-                AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,true);
-                addingToCart(addtoCart,"plus");
+
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) + 1;
+                quantity.setText(String.valueOf(qty));
+
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, true);
+                addingToCart(addtoCart, "plus");
 
             }
         });
@@ -157,14 +167,12 @@ public class ProductViewActivity extends BaseActivity {
         inc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) + 1;
+                quantity.setText(String.valueOf(qty));
 
-                AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,true);
-                addingToCart(addtoCart,"plus");
-
-
-
-
-
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, true);
+                addingToCart(addtoCart, "plus");
 
 
 //                _price = price.getText().toString();
@@ -185,21 +193,23 @@ public class ProductViewActivity extends BaseActivity {
 //                localStorage.setCart(cartStr);
 
 
-
-
             }
         });
 
         dec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) - 1;
+                quantity.setText(String.valueOf(qty));
 
+                if(quantity.getText().toString().equalsIgnoreCase("0")){
+                    addToCart.setVisibility(View.VISIBLE);
+                    quantityLL.setVisibility(View.GONE);
+                }
 
-
-                AddToCart addtoCart = new AddToCart(1,Integer.parseInt(_id),null,false);
-                addingToCart(addtoCart,"minus");
-
-
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, false);
+                addingToCart(addtoCart, "minus");
 
 
 //                _price = price.getText().toString();
@@ -229,11 +239,11 @@ public class ProductViewActivity extends BaseActivity {
 
     private void getProductDetails() {
 
-        Call<ProductDetails>call = RestClient.getRestService(getApplicationContext()).productDetails(token,_id);
+        Call<ProductDetails> call = RestClient.getRestService(getApplicationContext()).productDetails(token, _id);
         call.enqueue(new retrofit2.Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     productDetails = response.body();
                     title.setText(productDetails.getName());
                     description.setText(productDetails.getDescription());
@@ -249,8 +259,7 @@ public class ProductViewActivity extends BaseActivity {
 //                    }
 
 
-
-                    if(productDetails.getImages().get(0).getImage()!=null){
+                    if (productDetails.getImages().get(0).getImage() != null) {
                         Picasso.get().load(productDetails.getImages().get(0).getImage()).error(R.drawable.no_image).into(imageView, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -268,7 +277,7 @@ public class ProductViewActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ProductDetails> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
@@ -335,7 +344,6 @@ public class ProductViewActivity extends BaseActivity {
     }
 
 
-
     private void addingToCart(AddToCart addtoCart, final String plus) {
 
 
@@ -388,7 +396,7 @@ public class ProductViewActivity extends BaseActivity {
         super.onAddProduct();
         //  cart_count++;
         getCartDetails();
-    //    invalidateOptionsMenu();
+        //    invalidateOptionsMenu();
 
     }
 
@@ -397,7 +405,7 @@ public class ProductViewActivity extends BaseActivity {
         super.onRemoveProduct();
         //  cart_count--;
         getCartDetails();
-     //   invalidateOptionsMenu();
+        //   invalidateOptionsMenu();
     }
 
     private void getCartDetails() {
@@ -412,7 +420,7 @@ public class ProductViewActivity extends BaseActivity {
 
                     CartDetails cartDetails = response.body();
                     if (response.code() == 200) {
-                        cart_count=cartDetails.getTotalItems();
+                        cart_count = cartDetails.getTotalItems();
                         invalidateOptionsMenu();
                     }
 

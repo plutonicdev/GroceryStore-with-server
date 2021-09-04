@@ -141,7 +141,7 @@ public class PaymentFragment extends Fragment {
 
     private void initiatePayment() {
         showProgressDialog();
-        Total total = new Total(totalAmount);
+        Total total = new Total(totalAmount,payment_type);
         Call<InitiatePayment> call = RestClient.getRestService(getContext()).initatePayment(token, total);
         call.enqueue(new Callback<InitiatePayment>() {
             @Override

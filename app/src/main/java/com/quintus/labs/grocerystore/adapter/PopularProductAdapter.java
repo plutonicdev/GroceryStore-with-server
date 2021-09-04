@@ -134,7 +134,10 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             }
         }
 
-
+        if( holder.quantity.getText().toString().equalsIgnoreCase("0")){
+            holder.shopNow.setVisibility(View.VISIBLE);
+            holder.quantity_ll.setVisibility(View.GONE);
+        }
         holder.shopNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

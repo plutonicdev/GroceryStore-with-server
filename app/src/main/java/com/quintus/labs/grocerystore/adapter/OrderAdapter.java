@@ -61,7 +61,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     Gson gson;
     String token;
     View changeProgressBar;
-    TextView total,payable;
+    TextView total,payable,payable_price_dec;
 
     public OrderAdapter(List<OrdersResult> orderList, Context context) {
         this.orderList = orderList;
@@ -115,6 +115,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         recyclerView = dialog.findViewById(R.id.order_list);
         total = dialog.findViewById(R.id.total_price);
         payable = dialog.findViewById(R.id.payable_price);
+        payable_price_dec = dialog.findViewById(R.id.payable_price_dec);
 
         showProgressDialog();
         Call<OrderDetails> call = RestClient.getRestService(context).getSingleOrderDetails(token,id);
@@ -126,7 +127,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 delExecDetails=response.body().getDelExecDetails();
                 productsData=response.body().getProducts();
                 addressDetails=response.body().getAddressDetails();
-                total.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+orderDetails.getTotalAmout());
+                total.setText(orderDetails.getPaymentMode());
+                if(orderDetails.getPaymentMode().equalsIgnoreCase("online")){
+                    payable_price_dec.setText("Total Price Paid : ");
+                }else{
+                    payable_price_dec.setText("Total Payable Price : ");
+                }
                 payable.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+ orderDetails.getPayableAmount());
                 orderItemAdapter = new OrderItemAdapter(orderDetails,delExecDetails,productsData,addressDetails, context);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);

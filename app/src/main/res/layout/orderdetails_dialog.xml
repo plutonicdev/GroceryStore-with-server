@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+   >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
 
 
     <RelativeLayout
@@ -30,40 +36,41 @@
     </RelativeLayout>
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/order_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dimen_20dp"/>
+       android:paddingBottom="@dimen/dimen_40dp"/>
 
 
+    </LinearLayout>
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom= "true"
+        android:gravity= "center"
+        android:background="@color/colorPrimary">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:visibility="gone">
+        android:layout_marginTop="15dp">
 
         <com.quintus.labs.grocerystore.customfonts.TextViewRegular
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Price : "
-            android:textColor="@color/text_color"
+            android:text="Mode Of Payment : "
+            android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold" />
 
@@ -71,9 +78,10 @@
             android:id="@+id/total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="18dp"
-            android:text="222"/>
+            android:text=""
+            android:textAllCaps="true"/>
 
     </LinearLayout>
 
@@ -82,13 +90,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp">
 
         <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+            android:id="@+id/payable_price_dec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Payable Price : "
-            android:textColor="@color/text_color"
+            android:text=""
+            android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold" />
 
@@ -96,19 +106,19 @@
             android:id="@+id/payable_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="18dp"
-            android:text="222"/>
+            android:text=""/>
 
     </LinearLayout>
 
-</LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
 
-    </ScrollView>
+</RelativeLayout>
 
 
-</LinearLayout>
 
 
 

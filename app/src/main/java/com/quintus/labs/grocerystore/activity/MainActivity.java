@@ -105,7 +105,7 @@ public class  MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
+         getCartDetails();
             FragmentManager manager = getSupportFragmentManager();
             int count = manager.getBackStackEntryCount();
            // Log.d("This Fragment name: ", ""+count);

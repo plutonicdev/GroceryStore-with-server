@@ -126,7 +126,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     }
                 });
 
-
+        if( holder.quantity.getText().toString().equalsIgnoreCase("0")){
+            holder.shopNow.setVisibility(View.VISIBLE);
+            holder.quantity_ll.setVisibility(View.GONE);
+        }
 
         holder.shopNow.setOnClickListener(new View.OnClickListener() {
             @Override
