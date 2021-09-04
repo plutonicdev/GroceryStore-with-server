@@ -14,6 +14,7 @@ import com.quintus.labs.grocerystore.model.City;
 import com.quintus.labs.grocerystore.model.Country;
 import com.quintus.labs.grocerystore.model.Currency;
 import com.quintus.labs.grocerystore.model.InitiatePayment;
+import com.quintus.labs.grocerystore.model.MessageResponse;
 import com.quintus.labs.grocerystore.model.Order;
 import com.quintus.labs.grocerystore.model.OrderDetails;
 import com.quintus.labs.grocerystore.model.OrderItem;
@@ -30,6 +31,7 @@ import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.Total;
 import com.quintus.labs.grocerystore.model.UpdatePayment;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.User1;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.model.Voucher;
@@ -72,8 +74,8 @@ public interface RestService {
     @POST("users/forget_password/")
     Call<UserResponse> forgotPassword(@Body User user);
 
-    @POST("users/confirm_forget_password/")
-    Call<UserResponse> resetPassword(@Body User user);
+    @PUT("users/confirm_forget_password/")
+    Call<MessageResponse> resetPassword(@Body User1 user);
 
     @POST("users/verify_otp/")
     Call<UserResponse> otpVarification(@Body User user);

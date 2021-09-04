@@ -21,7 +21,9 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.model.MessageResponse;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.User1;
 import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
@@ -52,6 +54,8 @@ public class ForgotPassword_Fragment extends Fragment implements
     UserResponse userResponse;
     Gson gson = new Gson();
     User user;
+    User1 user1;
+    String mobileNO;
 
     public ForgotPassword_Fragment() {
 
@@ -148,23 +152,27 @@ public class ForgotPassword_Fragment extends Fragment implements
             new CustomToast().Show_Toast(getActivity(), view,
                     "Password and confirm password doesn't match");
         } else {
-            user.setReset_code(getOtp);
-            user.setPassword(getPassword);
-            resetPassword();
+
+            User1 user1 = new User1(mobileNO,getOtp,getPassword);
+//            user1.setOtp(getOtp);
+//            user1.setPassword(getPassword);
+//            user1.setPhone(mobileNO);
+            resetPassword(user1);
         }
 
     }
 
-    private void resetPassword() {
+    private void resetPassword(User1 users) {
         showProgressDialog();
-        Call<UserResponse> call = RestClient.getRestService(getContext()).resetPassword(user);
-        call.enqueue(new Callback<UserResponse>() {
+        Call<MessageResponse> call = RestClient.getRestService(getContext()).resetPassword(users);
+        call.enqueue(new Callback<MessageResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response.code() == 200) {
-                    startActivity(new Intent(getContext(), LoginFragment.class));
                     Toast.makeText(getContext(), "Password Reset Successfully", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getContext(), LoginRegisterActivity.class));
+
                 } else {
                     Toast.makeText(getContext(), "Please Enter Correct OTP", Toast.LENGTH_LONG).show();
                 }
@@ -191,7 +199,7 @@ public class ForgotPassword_Fragment extends Fragment implements
 //            }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
@@ -207,6 +215,7 @@ public class ForgotPassword_Fragment extends Fragment implements
             new CustomToast().Show_Toast(getActivity(), view,
                     "Please enter your Mobile Number");
         } else {
+            mobileNO=getMobile;
             user = new User();
             user.setMobile(getMobile);
             forgotPassword();
