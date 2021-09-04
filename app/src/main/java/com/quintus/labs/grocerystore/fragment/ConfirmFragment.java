@@ -77,10 +77,11 @@ public class ConfirmFragment extends Fragment {
     String token;
     User user;
     View progress;
-    Double totalPrice;
+    Double totalPrice,originalPrice;
     EditText et_code;
     Button code_button,code_button_disabled;
     String voucher_code;
+    TextView remove_coupon;
 
 
     public ConfirmFragment() {
@@ -103,6 +104,7 @@ public class ConfirmFragment extends Fragment {
         back = view.findViewById(R.id.back);
         order = view.findViewById(R.id.place_order);
         et_code = view.findViewById(R.id.et_code);
+        remove_coupon = view.findViewById(R.id.remove_coupon);
         code_button = view.findViewById(R.id.code_button);
         code_button_disabled = view.findViewById(R.id.code_button_disabled);
         progressDialog = new ProgressDialog(getContext());
@@ -110,7 +112,22 @@ public class ConfirmFragment extends Fragment {
         token = localStorage.getApiKey();
         progress = view.findViewById(R.id.progress_bar);
 
+        remove_coupon.setVisibility(View.GONE);
+
         getCartDetails();
+
+        remove_coupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                code_button.setVisibility(View.VISIBLE);
+                code_button_disabled.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Coupon Removed Successfully.", Toast.LENGTH_SHORT).show();
+                payable.setText("\u20B9" + " " +originalPrice);
+                discount.setText("\u20B9" + " " + "0.0");
+                totalPrice=originalPrice;
+                remove_coupon.setVisibility(View.GONE);
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +219,7 @@ public class ConfirmFragment extends Fragment {
                         total.setText(String.valueOf(cartDetails.getTotalItems()));
                         totalAmount.setText("\u20B9" + " " + cartDetails.getProductTotalPrice());
                         totalPrice = cartDetails.getProductTotalPrice();
+                        originalPrice = cartDetails.getProductTotalPrice();
                         payable.setText("\u20B9" + " " + cartDetails.getProductTotalPrice());
                         discount.setText("\u20B9" + " " + "0.0");
 
@@ -244,6 +262,7 @@ public class ConfirmFragment extends Fragment {
                         et_code.setText("");
                         code_button.setVisibility(View.GONE);
                         code_button_disabled.setVisibility(View.VISIBLE);
+                        remove_coupon.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Coupon Applied Successfully.", Toast.LENGTH_SHORT).show();
                         totalPrice = Double.parseDouble(String.valueOf(cartDetails.getCartPrice()));
                         payable.setText("\u20B9" + " " + cartDetails.getCartPrice());

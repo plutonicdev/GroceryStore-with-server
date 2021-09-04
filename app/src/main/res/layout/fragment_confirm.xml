@@ -379,6 +379,18 @@
 
                 </LinearLayout>
 
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remove_coupon"
+                    android:text="Remove Coupon "
+                    android:textColor="@color/red"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
 
             </LinearLayout>
         </ScrollView>
