@@ -97,6 +97,8 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         token = localStorage.getApiKey();
       //  cartList = ((BaseActivity) context).getCartList();
 
+        holder.quantity.setText("0");
+
         holder.title.setText(product.getName());
         if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
             holder.price.setText(product.getCurrency().getSymbol() + (" ") + product.getPrice());

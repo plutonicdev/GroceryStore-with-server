@@ -161,6 +161,7 @@ public class  MainActivity extends BaseActivity
         menuItem.setIcon(Converter.convertLayoutToImage(MainActivity.this, cart_count, R.drawable.ic_shopping_basket));
         final MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        searchItem.setVisible(false);
 
         SearchView searchView = null;
         if (searchItem != null) {

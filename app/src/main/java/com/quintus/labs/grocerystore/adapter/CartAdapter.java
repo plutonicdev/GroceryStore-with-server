@@ -145,7 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             public void onClick(View v) {
 
                 pQuantity = Integer.parseInt(quantity.getText().toString());
-                if (pQuantity != 1) {
+
 
                     int prouct_id = cart.getProduct().getId();
                     String price=cart.getProduct().getPrice();
@@ -176,7 +176,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 //                    }
 
                 }
-            }
+
         });
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
