@@ -66,17 +66,18 @@ import retrofit2.Response;
  * Created on 18-Feb-2019.
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
-public class  MainActivity extends BaseActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int cart_count = 0;
     User user;
+    private ArrayList<ProductDetail> productDetail = new ArrayList<>();
     List<Product> productList = new ArrayList<>();
     SearchAdapter mAdapter;
     private RecyclerView recyclerView;
     boolean doubleBackToExitPressedOnce = false;
 
     LocalStorage localStorage;
-    List<ProductDetail> cartList = new ArrayList<>();
+
     Gson gson;
     String token;
     View progress;
@@ -105,33 +106,33 @@ public class  MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-         getCartDetails();
+            getCartDetails();
             FragmentManager manager = getSupportFragmentManager();
             int count = manager.getBackStackEntryCount();
-           // Log.d("This Fragment name: ", ""+count);
-            if(count==1) {
-            if (doubleBackToExitPressedOnce) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-                return;
-            }
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
+            // Log.d("This Fragment name: ", ""+count);
+            if (count == 1) {
+                if (doubleBackToExitPressedOnce) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                    return;
                 }
-            }, 2000);
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-            }else {
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+            } else {
 
                 super.onBackPressed();
             }
@@ -270,7 +271,7 @@ public class  MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         centerToolbarTitle(toolbar);
-       //cart_count = cartCount();
+        //cart_count = cartCount();
 
         progress = findViewById(R.id.progress_bar);
         localStorage = new LocalStorage(getApplicationContext());
@@ -393,18 +394,18 @@ public class  MainActivity extends BaseActivity
     @Override
     public void onAddProduct() {
         super.onAddProduct();
-      //  cart_count++;
+        //  cart_count++;
         getCartDetails();
-      //  invalidateOptionsMenu();
+        //  invalidateOptionsMenu();
 
     }
 
     @Override
     public void onRemoveProduct() {
         super.onRemoveProduct();
-      //  cart_count--;
+        //  cart_count--;
         getCartDetails();
-      //  invalidateOptionsMenu();
+        //  invalidateOptionsMenu();
     }
 
 
@@ -421,10 +422,26 @@ public class  MainActivity extends BaseActivity
                     CartDetails cartDetails = response.body();
                     if (response.code() == 200) {
                         assert cartDetails != null;
-                        cart_count=cartDetails.getTotalItems();
-                        String cartStr = gson.toJson(cartDetails.getProductDetails());
-                            //Log.d("CART", cartStr);
-                           localStorage.setCart(cartStr);
+                        cart_count = cartDetails.getTotalItems();
+//                        String cartStr = gson.toJson(cartDetails.getProductDetails());
+//                            //Log.d("CART", cartStr);
+//                           localStorage.setCart(cartStr);
+                        productDetail.clear();
+                        if(cartDetails.getProductDetails().size()>0) {
+                            for (int i = 0; i < cartDetails.getProductDetails().size(); i++) {
+
+                                int id = cartDetails.getProductDetails().get(i).getProduct().getId();
+                                int count = cartDetails.getProductDetails().get(i).getCount();
+                                ProductDetail productDetails = new ProductDetail(id, count);
+                                productDetail.add(productDetails);
+                            }
+                            String cartStr = gson.toJson(productDetail);
+                            Log.d("CART", cartStr);
+                            localStorage.setCart(cartStr);
+                        }else{
+                            productDetail.clear();
+                            localStorage.deleteCart();
+                        }
                         invalidateOptionsMenu();
                     }
 
@@ -449,7 +466,6 @@ public class  MainActivity extends BaseActivity
     private void showProgressDialog() {
         progress.setVisibility(View.VISIBLE);
     }
-
 
 
 }

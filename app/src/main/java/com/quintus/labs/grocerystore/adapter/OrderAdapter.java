@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     String token;
     View changeProgressBar;
     TextView total,payable,payable_price_dec;
+    LinearLayout ll_total;
 
     public OrderAdapter(List<OrdersResult> orderList, Context context) {
         this.orderList = orderList;
@@ -116,6 +118,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         total = dialog.findViewById(R.id.total_price);
         payable = dialog.findViewById(R.id.payable_price);
         payable_price_dec = dialog.findViewById(R.id.payable_price_dec);
+        ll_total = dialog.findViewById(R.id.ll_total);
 
         showProgressDialog();
         Call<OrderDetails> call = RestClient.getRestService(context).getSingleOrderDetails(token,id);
@@ -132,6 +135,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                     payable_price_dec.setText("Total Price Paid : ");
                 }else{
                     payable_price_dec.setText("Total Payable Price : ");
+                }
+                if(orderDetails.getPaymentStatus().equalsIgnoreCase("failure")){
+                    ll_total.setVisibility(View.GONE);
                 }
                 payable.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+ orderDetails.getPayableAmount());
                 orderItemAdapter = new OrderItemAdapter(orderDetails,delExecDetails,productsData,addressDetails, context);

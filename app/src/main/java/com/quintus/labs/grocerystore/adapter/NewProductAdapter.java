@@ -57,8 +57,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
     LocalStorage localStorage;
     Gson gson;
-    List<Cart> cartList = new ArrayList<>();
-    List<ProductDetail> cartList1 = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
+
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
@@ -97,7 +97,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
      final   PopularProductsResult   product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
-//        cartList1 = ((BaseActivity) context).getCartList();
+       cartList = ((BaseActivity) context).getCartList();
 //        Log.d("cart", String.valueOf(cartList1));
        holder.quantity.setText("0");
         token=localStorage.getApiKey();
@@ -141,14 +141,14 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
         });
 
         if (!cartList.isEmpty()) {
-//            for (int i = 0; i < cartList.size(); i++) {
-//                if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
-//                    holder.shopNow.setVisibility(View.GONE);
- //                  holder.quantity_ll.setVisibility(View.VISIBLE);
-//                    holder.quantity.setText(cartList.get(i).getQuantity());
-//
-//                }
-//            }
+            for (int i = 0; i < cartList.size(); i++) {
+                if (cartList.get(i).getId().equals(product.getId())) {
+                    holder.shopNow.setVisibility(View.GONE);
+                    holder.quantity_ll.setVisibility(View.VISIBLE);
+                    holder.quantity.setText(String.valueOf(cartList.get(i).getCount()));
+                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+                }
+            }
         }
 
         if( holder.quantity.getText().toString().equalsIgnoreCase("0")){
@@ -334,18 +334,18 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
                             ((AddorRemoveCallbacks) context).onAddProduct();
-                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_SHORT).show();
 
                         } else {
                             ((AddorRemoveCallbacks) context).onRemoveProduct();
-                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
-                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 

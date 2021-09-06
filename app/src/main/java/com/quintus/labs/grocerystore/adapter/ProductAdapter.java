@@ -30,6 +30,7 @@ import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
 import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
@@ -55,7 +56,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     int pQuantity = 1;
     LocalStorage localStorage;
     Gson gson;
-    List<Cart> cartList = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
@@ -94,8 +95,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
       final  PopularProductsResult  product = productList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
-       // cartList = ((BaseActivity) context).getCartList();
-        holder.quantity.setText("1");
+        cartList = ((BaseActivity) context).getCartList();
+        holder.quantity.setText("0");
         token=localStorage.getApiKey();
         holder.title.setText(product.getName());
 
@@ -125,6 +126,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                         Log.d("Error : ", e.getMessage());
                     }
                 });
+
+
+        if (!cartList.isEmpty()) {
+            for (int i = 0; i < cartList.size(); i++) {
+                if (cartList.get(i).getId().equals(product.getId())) {
+                    holder.shopNow.setVisibility(View.GONE);
+                    holder.quantity_ll.setVisibility(View.VISIBLE);
+                    holder.quantity.setText(String.valueOf(cartList.get(i).getCount()));
+                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+                }
+            }
+        }
 
         if( holder.quantity.getText().toString().equalsIgnoreCase("0")){
             holder.shopNow.setVisibility(View.VISIBLE);
@@ -327,18 +340,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
                             ((AddorRemoveCallbacks) context).onAddProduct();
-                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_SHORT).show();
 
                         } else {
                             ((AddorRemoveCallbacks) context).onRemoveProduct();
-                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
-                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 

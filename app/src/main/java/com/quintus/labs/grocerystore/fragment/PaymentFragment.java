@@ -176,6 +176,8 @@ public class PaymentFragment extends Fragment {
 
                     } else {
                         Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), CartActivity.class));
+                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
 
                 }
@@ -186,7 +188,9 @@ public class PaymentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<InitiatePayment> call, Throwable t) {
-
+                Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), CartActivity.class));
+                getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
 
@@ -207,6 +211,8 @@ public class PaymentFragment extends Fragment {
 
                     } else {
                         Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), CartActivity.class));
+                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
 
                 }
@@ -217,7 +223,9 @@ public class PaymentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UpdatePayment> call, Throwable t) {
-
+                Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), CartActivity.class));
+                getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
 
@@ -235,8 +243,6 @@ public class PaymentFragment extends Fragment {
                         Toast.makeText(getContext(), "Order placed Successfully !", Toast.LENGTH_SHORT).show();
                         localStorage.deleteCart();
                         showCustomDialog();
-//                        startActivity(new Intent(getActivity(), HomeFragment.class));
-//                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
                     } else {
@@ -254,7 +260,9 @@ public class PaymentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CheckoutDetails> call, Throwable t) {
-
+                Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), CartActivity.class));
+                getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
 

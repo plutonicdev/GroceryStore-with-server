@@ -260,10 +260,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
 
                     } else {
-                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -303,14 +303,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                     AddToCart addToCartResponse = response.body();
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
-                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_SHORT).show();
                             int total_item = Integer.parseInt(quantity.getText().toString());
                             total_item++;
                             quantity.setText(total_item + "");
                             _subtotal = String.valueOf(Double.parseDouble(price) * total_item);
                             notifyDataSetChanged();
                         } else {
-                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_SHORT).show();
                             int total_item = Integer.parseInt(quantity.getText().toString());
                             total_item--;
                             quantity.setText(total_item + "");
@@ -365,14 +365,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                 if (response != null) {
 
                     if (response.code() == 204) {
-                        Toast.makeText(context, " Successfully Removed From Cart.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, " Successfully Removed From Cart.", Toast.LENGTH_SHORT).show();
                         ((CartActivity) context).updateTotalPrice();
 
                     } else {
-                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 

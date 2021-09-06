@@ -24,9 +24,11 @@ import androidx.appcompat.app.ActionBar;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
+import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
 import com.quintus.labs.grocerystore.model.CartDetails;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.model.ProductDetails;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
@@ -56,13 +58,14 @@ public class ProductViewActivity extends BaseActivity {
     ProgressBar progressBar;
     LinearLayout addToCart, share;
     RelativeLayout quantityLL;
-    List<Cart> cartList = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
     int cartId;
     Cart cart;
     ProductDetails productDetails;
     String token;
     User user;
     View changeProgressBar;
+    private ArrayList<ProductDetail> productDetail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class ProductViewActivity extends BaseActivity {
         //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
+
+
         //   cart_count = cartCount();
 
         title = findViewById(R.id.apv_title);
@@ -105,20 +110,21 @@ public class ProductViewActivity extends BaseActivity {
         inc = findViewById(R.id.quantity_plus);
         dec = findViewById(R.id.quantity_minus);
 
-        //  cartList = getCartList();
+          cartList = getCartList();
+          quantity.setText("0");
 
 
-//        if (!cartList.isEmpty()) {
-//            for (int i = 0; i < cartList.size(); i++) {
-//                if (cartList.get(i).getId().equalsIgnoreCase(_id)) {
-//                    addToCart.setVisibility(View.GONE);
-//                    quantityLL.setVisibility(View.VISIBLE);
-//                    quantity.setText(cartList.get(i).getQuantity());
-//                    cartId = i;
-//
-//                }
-//            }
-//        }
+        if (!cartList.isEmpty()) {
+            for (int i = 0; i < cartList.size(); i++) {
+                if (cartList.get(i).getId().equals(Integer.parseInt(_id))) {
+                    addToCart.setVisibility(View.GONE);
+                    quantityLL.setVisibility(View.VISIBLE);
+                    quantity.setText(String.valueOf(cartList.get(i).getCount()));
+                    cartId = i;
+
+                }
+            }
+        }
 
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +139,6 @@ public class ProductViewActivity extends BaseActivity {
             }
         });
 
-        quantity.setText("0");
 
         if(quantity.getText().toString().equalsIgnoreCase("0")){
             addToCart.setVisibility(View.VISIBLE);
@@ -361,20 +366,20 @@ public class ProductViewActivity extends BaseActivity {
 
                         if (plus.equalsIgnoreCase("plus")) {
                             onAddProduct();
-                            Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_SHORT).show();
 
                         } else {
                             onRemoveProduct();
-                            Toast.makeText(getApplicationContext(), "Successfully removed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Successfully removed", Toast.LENGTH_SHORT).show();
 
                         }
 
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -421,6 +426,25 @@ public class ProductViewActivity extends BaseActivity {
                     CartDetails cartDetails = response.body();
                     if (response.code() == 200) {
                         cart_count = cartDetails.getTotalItems();
+
+                        productDetail.clear();
+                        if(cartDetails.getProductDetails().size()>0) {
+                            for (int i = 0; i < cartDetails.getProductDetails().size(); i++) {
+
+                                int id = cartDetails.getProductDetails().get(i).getProduct().getId();
+                                int count = cartDetails.getProductDetails().get(i).getCount();
+                                ProductDetail productDetails = new ProductDetail(id, count);
+                                productDetail.add(productDetails);
+                            }
+                            String cartStr = gson.toJson(productDetail);
+                            Log.d("CART", cartStr);
+                            localStorage.setCart(cartStr);
+                        }else{
+                            productDetail.clear();
+                            localStorage.deleteCart();
+                        }
+
+
                         invalidateOptionsMenu();
                     }
 
@@ -437,6 +461,16 @@ public class ProductViewActivity extends BaseActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
+
+    }
+
+
 }
 
 

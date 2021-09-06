@@ -43,7 +43,7 @@
         android:id="@+id/order_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:paddingBottom="@dimen/dimen_40dp"/>
+       android:paddingBottom="100dp"/>
 
 
     </LinearLayout>
@@ -91,7 +91,8 @@
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:id="@+id/ll_total">
 
         <com.quintus.labs.grocerystore.customfonts.TextViewRegular
             android:id="@+id/payable_price_dec"

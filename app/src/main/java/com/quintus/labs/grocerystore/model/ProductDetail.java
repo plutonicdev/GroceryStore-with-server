@@ -22,6 +22,11 @@ public class ProductDetail {
   
     private Boolean saveForLater;
 
+    public ProductDetail(Integer id, Integer count) {
+        this.id = id;
+        this.count = count;
+    }
+
     public Integer getId() {
         return id;
     }

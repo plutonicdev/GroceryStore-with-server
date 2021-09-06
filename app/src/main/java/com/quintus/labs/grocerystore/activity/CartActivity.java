@@ -170,19 +170,19 @@ public class CartActivity extends BaseActivity {
     private void changeActionBarTitle(ActionBar actionBar) {
         // Create a LayoutParams for TextView
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, // Width of TextView
+                RelativeLayout.LayoutParams.WRAP_CONTENT, // Width of TextView
                 RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
-        //lp.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
-       // lp.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
-        lp.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
+lp.setMarginStart(300);
+
         TextView tv = new TextView(getApplicationContext());
         // Apply the layout parameters to TextView widget
         tv.setLayoutParams(lp);
-        tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        tv.setGravity(Gravity.CENTER);
         tv.setTypeface(null, Typeface.BOLD);
         // Set text to display in TextView
         tv.setText("My Cart"); // ActionBar title text
         tv.setTextSize(20);
+
 
         // Set the text color of TextView to red
         // This line change the ActionBar title text color
@@ -213,7 +213,7 @@ public class CartActivity extends BaseActivity {
     @Override
     public void updateTotalPrice() {
 
-       // totalPrice.setText("Rs. " + getTotalPrice() + "");
+        // totalPrice.setText("Rs. " + getTotalPrice() + "");
 //        if (getTotalPrice() == 0.0) {
 //            mState = "HIDE_MENU";
 //            invalidateOptionsMenu();
@@ -239,7 +239,7 @@ public class CartActivity extends BaseActivity {
                     if (response.code() == 200) {
                         if (cartDetails.getTotalItems() > 0) {
                             cartList = cartDetails.getProductDetails();
-                         String  _subtotal = String.valueOf(cartDetails.getProductTotalPrice());
+                            String _subtotal = String.valueOf(cartDetails.getProductTotalPrice());
                             totalPrice.setText("Rs. " + _subtotal);
                             setUpCartRecyclerview();
                         } else {

@@ -209,7 +209,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                 if (response != null) {
                     if (response.code() == 201) {
 
-                        if (response.body().getPaymentStatus().equalsIgnoreCase("failed")) {
+                        if (response.body().getPaymentStatus().equalsIgnoreCase("")) {
                             Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), CartActivity.class));
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -238,7 +238,10 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
 
             @Override
             public void onFailure(Call<CheckoutDetails> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                finish();
             }
         });
 

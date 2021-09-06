@@ -29,6 +29,7 @@ import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.Cart;
 import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.AddToCart;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.util.CustomToast;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -54,7 +55,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
     String Tag;
     LocalStorage localStorage;
     Gson gson;
-    List<Cart> cartList = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
@@ -95,7 +96,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
         localStorage = new LocalStorage(context);
         gson = new Gson();
         token = localStorage.getApiKey();
-      //  cartList = ((BaseActivity) context).getCartList();
+        cartList = ((BaseActivity) context).getCartList();
 
         holder.quantity.setText("0");
 
@@ -125,12 +126,12 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
 
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
-//                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
-//                    holder.shopNow.setVisibility(View.GONE);
-//                    holder.quantity_ll.setVisibility(View.VISIBLE);
-//                    holder.quantity.setText(cartList.get(i).getQuantity());
-//                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
-//                }
+                if (cartList.get(i).getId().equals(product.getId())) {
+                    holder.shopNow.setVisibility(View.GONE);
+                    holder.quantity_ll.setVisibility(View.VISIBLE);
+                    holder.quantity.setText(String.valueOf(cartList.get(i).getCount()));
+                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+                }
             }
         }
 
@@ -270,6 +271,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         context.startActivity(intent);
 
+
             }
         });
 
@@ -343,18 +345,18 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
                     if (response.code() == 200) {
                         if (plus.equalsIgnoreCase("plus")) {
                             ((AddorRemoveCallbacks) context).onAddProduct();
-                            Toast.makeText(context, "Successfully added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully added", Toast.LENGTH_SHORT).show();
 
                         } else {
                             ((AddorRemoveCallbacks) context).onRemoveProduct();
-                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Successfully removed", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
-                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "please try after sometime", Toast.LENGTH_SHORT).show();
                 }
 
 

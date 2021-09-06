@@ -121,6 +121,7 @@ public class ConfirmFragment extends Fragment {
             public void onClick(View view) {
                 code_button.setVisibility(View.VISIBLE);
                 code_button_disabled.setVisibility(View.GONE);
+                et_code.setText("");
                 Toast.makeText(getContext(), "Coupon Removed Successfully.", Toast.LENGTH_SHORT).show();
                 payable.setText("\u20B9" + " " +originalPrice);
                 discount.setText("\u20B9" + " " + "0.0");
@@ -259,7 +260,6 @@ public class ConfirmFragment extends Fragment {
 
                     VoucherResult cartDetails = response.body();
                     if (response.code() == 200) {
-                        et_code.setText("");
                         code_button.setVisibility(View.GONE);
                         code_button_disabled.setVisibility(View.VISIBLE);
                         remove_coupon.setVisibility(View.VISIBLE);

@@ -78,7 +78,7 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
         if (localStorage.getCart() != null) {
             String jsonCart = localStorage.getCart();
             //Log.d("CART : ", jsonCart);
-            Type type = new TypeToken<List<CartDetails>>() {
+            Type type = new TypeToken<List<ProductDetail>>() {
             }.getType();
             cartList1 = gson.fromJson(jsonCart, type);
             return cartList1;
@@ -100,16 +100,17 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
 
     public Double getTotalPrice() {
        // cartList = getCartList();
-        Double total = 0.0;
-        if (cartCount() > 0) {
-            for (int i = 0; i < cartList.size(); i++) {
-                total = total + Double.valueOf(cartList.get(i).getSubTotal());
-                Log.d(TAG, "Total :" + total + "");
-            }
-            Log.d(TAG, "Total :" + total + "");
-            return total;
-        }
-        return total;
+//        Double total = 0.0;
+//        if (cartCount() > 0) {
+//            for (int i = 0; i < cartList.size(); i++) {
+//                total = total + Double.valueOf(cartList.get(i).getSubTotal());
+//                Log.d(TAG, "Total :" + total + "");
+//            }
+//            Log.d(TAG, "Total :" + total + "");
+//            return total;
+//        }
+//        return total;
+        return null;
     }
 
 

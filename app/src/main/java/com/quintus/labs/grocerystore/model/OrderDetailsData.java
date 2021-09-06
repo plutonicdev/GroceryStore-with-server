@@ -13,6 +13,9 @@ public class OrderDetailsData {
     @SerializedName("payment_mode")
      private String paymentMode;
 
+    @SerializedName("payment_status")
+     private String paymentStatus;
+
     @SerializedName("created_date")
    
     private String createdDate;
@@ -80,5 +83,13 @@ public class OrderDetailsData {
 
     public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }
