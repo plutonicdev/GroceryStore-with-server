@@ -34,12 +34,15 @@ import com.quintus.labs.grocerystore.model.InitiatePayment;
 import com.quintus.labs.grocerystore.model.Total;
 import com.quintus.labs.grocerystore.model.UpdatePayment;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.payment.payu.PayuPaymentActivity;
 import com.quintus.labs.grocerystore.payment.razorpay.RazorPayPaymentActivity;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,6 +75,8 @@ public class PaymentFragment extends Fragment {
     String payment_ref_No;
     String address_id;
     String name, email, mobile;
+
+
 
     public PaymentFragment() {
         // Required empty public constructor
@@ -107,6 +112,9 @@ public class PaymentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initiatePayment();
+//                Intent intent = new Intent(getContext(), PayuPaymentActivity.class);
+//                // intent.putExtra("payment_id", payment_id);
+//                startActivity(intent);
             }
         });
         paymentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -160,12 +168,32 @@ public class PaymentFragment extends Fragment {
                             UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
                             updatePaymentData(updatePayment);
                         } else{
-                            if(initiatePayment.getPgDetails().getName().equalsIgnoreCase("RazorPay")){
+                            if(initiatePayment.getPgDetails().getName().equalsIgnoreCase("RazorPay")) {
 
                                 Intent intent = new Intent(getContext(), RazorPayPaymentActivity.class);
                                 intent.putExtra("payment_id", payment_id);
                                 intent.putExtra("key", initiatePayment.getPgDetails().getKey());
                                 startActivity(intent);
+                                getActivity().finish();
+                            } else if(initiatePayment.getPgDetails().getName().equalsIgnoreCase("PayU")){
+                                String serverCalculatedHash= initiatePayment.getPayuResp().getHashh();
+                                String  amount= initiatePayment.getPayuResp().getAmount();
+                                String txnid=initiatePayment.getPayuResp().getTxnid();
+                                String productinfo=initiatePayment.getPayuResp().getProductinfo();
+                                String merchant_key =initiatePayment.getPayuResp().getMerchantKey();
+                                String  mode= initiatePayment.getPgDetails().getMode();
+
+                                Intent intent = new Intent(getContext(), PayuPaymentActivity.class);
+                                intent.putExtra("payment_id", payment_id);
+                                intent.putExtra("serverCalculatedHash", serverCalculatedHash);
+                                intent.putExtra("amount", amount);
+                                intent.putExtra("txnid", txnid);
+                                intent.putExtra("productinfo", productinfo);
+                                intent.putExtra("merchant_key", merchant_key);
+                                intent.putExtra("mode", mode);
+                                startActivity(intent);
+                                getActivity().finish();
+
 
 
                             }

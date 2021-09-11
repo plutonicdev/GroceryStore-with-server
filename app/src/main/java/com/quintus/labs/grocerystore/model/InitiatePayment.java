@@ -8,6 +8,8 @@ public class InitiatePayment {
     private ServerResp serverResp;
     @SerializedName("pg_details")
     private PgDetails pgDetails;
+    @SerializedName("payu_resp")
+    private PayuResp payuResp;
 
     public ServerResp getServerResp() {
         return serverResp;
@@ -25,4 +27,11 @@ public class InitiatePayment {
         this.pgDetails = pgDetails;
     }
 
+    public PayuResp getPayuResp() {
+        return payuResp;
+    }
+
+    public void setPayuResp(PayuResp payuResp) {
+        this.payuResp = payuResp;
+    }
 }
