@@ -36,10 +36,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         this.context = context;
     }
 
-    public SearchAdapter(List<Product> productList, Context context, String tag) {
-        this.productList = productList;
-        this.context = context;
-    }
 
     @NonNull
     @Override

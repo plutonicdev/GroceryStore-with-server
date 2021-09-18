@@ -36,11 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubCategoryActivity extends AppCompatActivity {
-    List<SubCategory> subCategoryList= new ArrayList<>();
-   // ProgressBar progressBar;
-//    ImageView imageView;
-//    TextView textView;
-//    CardView cardView;
+    List<SubCategory> subCategoryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private SubCategoryAdapter mAdapter;
     View progress;
@@ -49,12 +45,8 @@ public class SubCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category);
-        recyclerView=findViewById(R.id.subCategory_rv);
+        recyclerView = findViewById(R.id.subCategory_rv);
         progress = findViewById(R.id.progress_bar);
-      //  progressBar=findViewById(R.id.progressbar);
-//        imageView=findViewById(R.id.category_image);
-//        textView=findViewById(R.id.category_title);
-//        cardView=findViewById(R.id.card_view);
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         changeActionBarTitle(getSupportActionBar());
@@ -66,10 +58,9 @@ public class SubCategoryActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        subCategoryList =  (List<SubCategory>) intent.getSerializableExtra("category");
+        subCategoryList = (List<SubCategory>) intent.getSerializableExtra("category");
 
         getData();
-
 
 
     }
@@ -120,32 +111,12 @@ public class SubCategoryActivity extends AppCompatActivity {
     private void getData() {
         if (subCategoryList.size() > 0) {
             setupSubCategoryRecycleView();
-//            for (int i = 0; i < subCategoryList.size(); i++) {
-//                Picasso.get()
-//                        .load( subCategoryList.get(i).getImage())
-//                        .into(imageView, new Callback() {
-//                            @Override
-//                            public void onSuccess() {
-//                               progressBar.setVisibility(View.GONE);
-//                            }
-//
-//                            @Override
-//                            public void onError(Exception e) {
-//                                Log.d("Error : ", e.getMessage());
-//                            }
-//                        });
-//                  textView.setText(subCategoryList.get(i).getName());
-////                Banners sliderUtils = new Banners();
-////                sliderUtils.setImage(bannersListData.get(i).getImage());
-//
-//            }
         }
-       // Toast.makeText(this,subCategoryList.get(0).getName(),Toast.LENGTH_SHORT).show();
     }
 
     private void setupSubCategoryRecycleView() {
         mAdapter = new SubCategoryAdapter(subCategoryList, getApplicationContext());
-          RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

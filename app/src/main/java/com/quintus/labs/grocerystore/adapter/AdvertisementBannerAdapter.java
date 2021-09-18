@@ -34,10 +34,6 @@ public class AdvertisementBannerAdapter extends RecyclerView.Adapter<Advertiseme
     Context context;
     String Tag;
 
-    public AdvertisementBannerAdapter(List<AdvertisementBannerResult> advertisementBannerList, Context context) {
-        this.advertisementBannerList = advertisementBannerList;
-        this.context = context;
-    }
 
     public AdvertisementBannerAdapter(List<AdvertisementBannerResult> advertisementBannerList, Context context, String tag) {
         this.advertisementBannerList = advertisementBannerList;

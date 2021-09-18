@@ -37,9 +37,9 @@ import java.util.List;
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.MyViewHolder> {
 
 
-    List<SubCategory> subCategoryList= new ArrayList<>();
+    List<SubCategory> subCategoryList = new ArrayList<>();
     Context context;
-    String Tag;
+
 
     public SubCategoryAdapter(List<SubCategory> subCategoryList, Context context) {
         this.subCategoryList = subCategoryList;
@@ -47,14 +47,13 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     }
 
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView;
 
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.row_category, parent, false);
+        itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_category, parent, false);
 
 
         return new MyViewHolder(itemView);
@@ -65,56 +64,40 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
         final SubCategory category = subCategoryList.get(position);
         holder.title.setText(category.getName());
-//        Log.d("Category Image ==>", category.getCateimg());
-//        if (Tag.equalsIgnoreCase("Category")) {
-            Picasso.get()
-                    .load( category.getImage())
-                    .into(holder.imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.progressBar.setVisibility(View.GONE);
-                        }
 
-                        @Override
-                        public void onError(Exception e) {
-                            Log.d("Error : ", e.getMessage());
-                        }
-                    });
-  //      }
-//
+        Picasso.get()
+                .load(category.getImage())
+                .into(holder.imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.d("Error : ", e.getMessage());
+                    }
+                });
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(context,String.valueOf(category.getId()),Toast.LENGTH_SHORT).show();
+
 
                 Intent intent = new Intent(context, ProductActivity.class);
-              intent.putExtra("id",category.getId());
+                intent.putExtra("id", category.getId());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
-//
-//        holder.title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, ProductActivity.class);
-//                intent.putExtra("category", category.getCategry());
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                context.startActivity(intent);
-//            }
-//        });
 
     }
 
     @Override
     public int getItemCount() {
-//        if (Tag.equalsIgnoreCase("Home") && categoryList.size() < 6 && categoryList.size() > 3) {
-//            return 3;
-//        } else if (Tag.equalsIgnoreCase("Home") && categoryList.size() >= 6) {
-//            return 6;
-//        } else {
-            return subCategoryList.size();
-       // }
+
+        return subCategoryList.size();
+
 
     }
 

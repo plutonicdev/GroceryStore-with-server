@@ -83,7 +83,7 @@ public interface RestService {
     @POST("users/verify_resend_otp/")
     Call<UserResponse> resendOTP(@Body User user);
 
-  //  @Headers("X-TENANT-ID:" + tenant_id)
+
     @GET("config/slider_images/")
     Call<List<Banners>> bannerList();
 
@@ -228,7 +228,6 @@ public interface RestService {
     Call<AdvertisementBanner> getAdvertisementBanners(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
 
-    /* old apis */
 
 
 

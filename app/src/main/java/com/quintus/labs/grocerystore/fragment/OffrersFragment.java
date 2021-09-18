@@ -73,11 +73,6 @@ public class OffrersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offer, container, false);
         recyclerView = view.findViewById(R.id.offer_rv);
 
-//        mAdapter = new OfferAdapter(data.getOfferList(), getContext());
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(mAdapter);
 
         progress = view.findViewById(R.id.progress_bar);
 

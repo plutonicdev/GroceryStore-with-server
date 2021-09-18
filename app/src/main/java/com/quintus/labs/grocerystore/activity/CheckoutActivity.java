@@ -35,7 +35,6 @@ public class CheckoutActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
-        //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -56,7 +55,6 @@ public class CheckoutActivity extends BaseActivity {
         // Apply the layout parameters to TextView widget
         tv.setLayoutParams(lp);
         tv.setGravity(Gravity.CENTER);
-        //tv.setTypeface(null, Typeface.BOLD);
         // Set text to display in TextView
         tv.setText("Checkout"); // ActionBar title text
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Poppins-Bold.ttf");

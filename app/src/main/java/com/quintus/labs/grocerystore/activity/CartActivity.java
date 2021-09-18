@@ -69,7 +69,6 @@ public class CartActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
-        //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
         progress = findViewById(R.id.progress_bar);
         localStorage = new LocalStorage(getApplicationContext());
@@ -77,12 +76,10 @@ public class CartActivity extends BaseActivity {
         emptyCart = findViewById(R.id.empty_cart_img);
         checkoutLL = findViewById(R.id.checkout_LL);
         totalPrice = findViewById(R.id.total_price);
-        //  totalPrice.setText("Rs. " + getTotalPrice() + "");
         token = localStorage.getApiKey();
         recyclerView = findViewById(R.id.cart_rv);
         recyclerView.setHasFixedSize(true);
 
-        // setUpCartRecyclerview();
         getCartDetails();
 
     }
@@ -213,13 +210,6 @@ lp.setMarginStart(300);
     @Override
     public void updateTotalPrice() {
 
-        // totalPrice.setText("Rs. " + getTotalPrice() + "");
-//        if (getTotalPrice() == 0.0) {
-//            mState = "HIDE_MENU";
-//            invalidateOptionsMenu();
-//            emptyCart.setVisibility(View.VISIBLE);
-//            checkoutLL.setVisibility(View.GONE);
-//        }
 
         getCartDetails();
     }

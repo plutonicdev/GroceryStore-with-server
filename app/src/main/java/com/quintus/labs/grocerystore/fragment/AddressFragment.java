@@ -139,9 +139,9 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                     }
 
 
-                }else{
-                  //  Toast.makeText(context, "Please Select a Country", Toast.LENGTH_SHORT).show();
-                    country_id=0;
+                } else {
+
+                    country_id = 0;
                 }
 
 
@@ -165,9 +165,9 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                         Toast.makeText(context, "Please Select a State", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                  //  Toast.makeText(context, "Please Select a State", Toast.LENGTH_SHORT).show();
-                    state_id=0;
+                } else {
+
+                    state_id = 0;
                 }
             }
 
@@ -190,9 +190,9 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                         Toast.makeText(context, "Please Select a Country", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                  //  Toast.makeText(context, "Please Select a City", Toast.LENGTH_SHORT).show();
-                    city_id=0;
+                } else {
+
+                    city_id = 0;
                 }
             }
 
@@ -205,14 +205,14 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         zipSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //  _education = education[position];
+
                 if (position > 0) {
                     _pin = pinList.get(position - 1).getPinCode();
                     pin_id = pinList.get(position - 1).getId();
 
-                } else{
-                  //  Toast.makeText(context, "Please Select a Zip", Toast.LENGTH_SHORT).show();
-                    state_id=0;
+                } else {
+
+                    state_id = 0;
                 }
             }
 
@@ -222,17 +222,11 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
         });
 
 
-        Log.d("User String : ", userString);
-
-
         txt_pyment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-//                ft.replace(R.id.content_frame, new ConfirmFragment ());
-//                ft.commit();
+
                 _name = name.getText().toString();
                 _email = email.getText().toString();
                 _phone = mobile.getText().toString();
@@ -245,7 +239,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
                 }
 
-                //  _zip = zip.getText().toString();
+
                 Pattern p = Pattern.compile(Utils.regEx);
 
                 Matcher m = p.matcher(_email);
@@ -280,7 +274,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 } else {
                     AddAddress userAddress = new AddAddress(_name, _phone, _email, _address, _address_type, country_id, city_id, pin_id, state_id);
                     String user_address = gson.toJson(userAddress);
-                    //   localStorage.createUserLoginSession(user_address);
+
                     if (type.equalsIgnoreCase("add")) {
                         saveUserAddress(userAddress);
 
@@ -376,18 +370,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 if (response != null) {
                     if (response.code() == 201) {
                         address_id = response.body().getId();
-//                        user.setAddress(userAddress.getAddress());
-//                        user.setState(userAddress.getState());
-//                        // user.setCountry(userAddress.getCountry());
-//                        user.setCity(userAddress.getCity());
-//                        user.setAddress_type(userAddress.getAddress_type());
-//                        user.setZip(userAddress.getZip());
-//                        userString = gson.toJson(user);
-//                        localStorage.createUserLoginSession(userString);
-//                        pinAddress();
-//                        for (int i = 0; i < countryList.size(); i++) {
-//                            countryArray.add(countryList.get(i).().toString());
-//                        }
+
 
                         localStorage.setAddressId(String.valueOf(response.body().getId()));
 
@@ -424,18 +407,6 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
                 if (response != null) {
                     if (response.code() == 200) {
                         address_id = response.body().getId();
-//                        user.setAddress(userAddress.getAddress());
-//                        user.setState(userAddress.getState());
-//                        // user.setCountry(userAddress.getCountry());
-//                        user.setCity(userAddress.getCity());
-//                        user.setAddress_type(userAddress.getAddress_type());
-//                        user.setZip(userAddress.getZip());
-//                        userString = gson.toJson(user);
-//                        localStorage.createUserLoginSession(userString);
-//                        pinAddress();
-//                        for (int i = 0; i < countryList.size(); i++) {
-//                            countryArray.add(countryList.get(i).().toString());
-//                        }
 
                         localStorage.setAddressId(String.valueOf(response.body().getId()));
 

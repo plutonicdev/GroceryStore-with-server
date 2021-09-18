@@ -96,13 +96,6 @@ public class ProductActivity extends BaseActivity {
         Intent intent = getIntent();
 
         id= intent.getIntExtra("id",0);
-      //  categoryName = intent.getStringExtra("category");
-
-//        category = new Category(categoryName, user.getToken());
-
-       // category = new Category(categoryName, user.getToken());
-
-
 
         cart_count = cartCount();
         recyclerView = findViewById(R.id.product_rv);
@@ -152,45 +145,6 @@ public class ProductActivity extends BaseActivity {
                 hideProgressDialog();
             }
         });
-
-
-
-
-
-
-
-
-
-
-//        showProgressDialog();
-//
-//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
-//        call.enqueue(new Callback<ProductResult>() {
-//            @Override
-//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    ProductResult productResult = response.body();
-//                    if (productResult.getCode() == 200) {
-//
-//                        productList = productResult.getProductList();
-//                        setUpRecyclerView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductResult> call, Throwable t) {
-//                Log.d("Error", t.getMessage());
-//                hideProgressDialog();
-//
-//            }
-//        });
 
 
     }
@@ -295,16 +249,12 @@ public class ProductActivity extends BaseActivity {
 
     @Override
     public void onAddProduct() {
-//        cart_count++;
-//        invalidateOptionsMenu();
         getCartDetails();
 
     }
 
     @Override
     public void onRemoveProduct() {
-//        cart_count--;
-//        invalidateOptionsMenu();
         getCartDetails();
 
     }

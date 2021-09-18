@@ -92,9 +92,6 @@ public class ProductViewActivity extends BaseActivity {
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
 
-
-        //   cart_count = cartCount();
-
         title = findViewById(R.id.apv_title);
         description = findViewById(R.id.description);
         currency = findViewById(R.id.apv_currency);
@@ -147,13 +144,6 @@ public class ProductViewActivity extends BaseActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                _price = price.getText().toString();
-//
-//                cart = new Cart(_id, _title, _image, _currency, _price, _attribute, "1", _price);
-//                cartList.add(cart);
-//                String cartStr = gson.toJson(cartList);
-//                //Log.d("CART", cartStr);
-//                localStorage.setCart(cartStr);
 
                 addToCart.setVisibility(View.GONE);
                 quantityLL.setVisibility(View.VISIBLE);
@@ -180,23 +170,6 @@ public class ProductViewActivity extends BaseActivity {
                 addingToCart(addtoCart, "plus");
 
 
-//                _price = price.getText().toString();
-//
-//
-//                // int total_item = Integer.parseInt(cartList.get(cartId).getQuantity());
-//                int total_item = Integer.parseInt(quantity.getText().toString());
-//                total_item++;
-//                Log.d("totalItem", total_item + "");
-//                quantity.setText(total_item + "");
-//                String subTotal = String.valueOf(Double.parseDouble(_price) * total_item);
-//                cartList.get(cartId).setQuantity(quantity.getText().toString());
-//                cartList.get(cartId).setSubTotal(subTotal);
-//                cartList.get(cartId).setAttribute(attribute.getText().toString());
-//                cartList.get(cartId).setPrice(_price);
-//                String cartStr = gson.toJson(cartList);
-//                //Log.d("CART", cartStr);
-//                localStorage.setCart(cartStr);
-
 
             }
         });
@@ -217,25 +190,7 @@ public class ProductViewActivity extends BaseActivity {
                 addingToCart(addtoCart, "minus");
 
 
-//                _price = price.getText().toString();
-//
-//                //int total_item = Integer.parseInt(quantity.getText().toString());
-//                int total_item = Integer.parseInt(quantity.getText().toString());
-//                if (total_item != 1) {
-//                    total_item--;
-//                    quantity.setText(total_item + "");
-//                    Log.d("totalItem", total_item + "");
-//                    String subTotal = String.valueOf(Double.parseDouble(_price) * total_item);
-//
-//
-//                    cartList.get(cartId).setQuantity(quantity.getText().toString());
-//                    cartList.get(cartId).setSubTotal(subTotal);
-//                    cartList.get(cartId).setAttribute(attribute.getText().toString());
-//                    cartList.get(cartId).setPrice(_price);
-//                    String cartStr = gson.toJson(cartList);
-//                    //Log.d("CART", cartStr);
-//                    localStorage.setCart(cartStr);
-//                }
+
             }
         });
 
@@ -256,12 +211,6 @@ public class ProductViewActivity extends BaseActivity {
                     org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     price.setText(productDetails.getPrice());
                     currency.setText(productDetails.getCurrency().getSymbol());
-//                    if(Double.parseDouble(productDetails.getDiscount())>0){
-//                        discount.setText(productDetails.getDiscount());
-//                        discount.setVisibility(View.VISIBLE);
-//                    }else{
-//                        discount.setVisibility(View.GONE);
-//                    }
 
 
                     if (productDetails.getImages().get(0).getImage() != null) {
@@ -399,18 +348,14 @@ public class ProductViewActivity extends BaseActivity {
     @Override
     public void onAddProduct() {
         super.onAddProduct();
-        //  cart_count++;
         getCartDetails();
-        //    invalidateOptionsMenu();
 
     }
 
     @Override
     public void onRemoveProduct() {
         super.onRemoveProduct();
-        //  cart_count--;
         getCartDetails();
-        //   invalidateOptionsMenu();
     }
 
     private void getCartDetails() {

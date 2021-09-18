@@ -36,11 +36,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
     Integer[] imageList = { R.drawable.offer_bg_1, R.drawable.offer_bg_2, R.drawable.offer_bg_3, R.drawable.offer_bg_4};
 
 
-    public OfferAdapter(List<VoucherList> offerList, Context context) {
-        this.offerList = offerList;
-        this.context = context;
-    }
-
     public OfferAdapter(List<VoucherList> offerList, Context context, String tag) {
         this.offerList = offerList;
         this.context = context;
@@ -93,18 +88,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             }
 
 
-
-//        Picasso.get().load(offer.getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
-//            @Override
-//            public void onSuccess() {
-//                holder.progressBar.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onError(Exception e) {
-//
-//            }
-//        });
     }
 
     @Override

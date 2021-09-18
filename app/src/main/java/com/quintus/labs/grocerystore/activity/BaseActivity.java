@@ -51,33 +51,19 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
         gson = new Gson();
         userJson = localStorage.getUserLogin();
         progressDialog = new ProgressDialog(BaseActivity.this);
-        //user = gson.fromJson(userJson, UserResult.class);
-        //  NetworkCheck.isNetworkAvailable(getApplicationContext());
-      //  cartCount();
+
 
     }
 
     public int cartCount() {
 
-//        gson = new Gson();
-//        if (localStorage.getCart() != null) {
-//            String jsonCart = localStorage.getCart();
-//            Log.d("CART : ", jsonCart);
-//            Type type = new TypeToken<List<Cart>>() {
-//            }.getType();
-//            cartList = gson.fromJson(jsonCart, type);
-//
-//
-//            //Toast.makeText(getContext(),remedyList.size()+"",Toast.LENGTH_LONG).show();
-//            return cartList.size();
-//        }
+
        return 0;
     }
 
     public List<ProductDetail> getCartList() {
         if (localStorage.getCart() != null) {
             String jsonCart = localStorage.getCart();
-            //Log.d("CART : ", jsonCart);
             Type type = new TypeToken<List<ProductDetail>>() {
             }.getType();
             cartList1 = gson.fromJson(jsonCart, type);
@@ -89,28 +75,12 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
     public List<Order> getOrderList() {
         if (localStorage.getOrder() != null) {
             String jsonOrder = localStorage.getOrder();
-            //Log.d("CART : ", jsonCart);
             Type type = new TypeToken<List<Order>>() {
             }.getType();
             orderList = gson.fromJson(jsonOrder, type);
             return orderList;
         }
         return orderList;
-    }
-
-    public Double getTotalPrice() {
-       // cartList = getCartList();
-//        Double total = 0.0;
-//        if (cartCount() > 0) {
-//            for (int i = 0; i < cartList.size(); i++) {
-//                total = total + Double.valueOf(cartList.get(i).getSubTotal());
-//                Log.d(TAG, "Total :" + total + "");
-//            }
-//            Log.d(TAG, "Total :" + total + "");
-//            return total;
-//        }
-//        return total;
-        return null;
     }
 
 

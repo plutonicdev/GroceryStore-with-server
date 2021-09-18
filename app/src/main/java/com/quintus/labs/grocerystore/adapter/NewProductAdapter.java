@@ -62,12 +62,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
     String _quantity, _price, _attribute, _subtotal;
     String token;
     View changeProgressBar;
-   // PopularProductsResult product;
 
-    public NewProductAdapter(List<PopularProductsResult> productList, Context context) {
-        this.productList = productList;
-        this.context = context;
-    }
+
 
     public NewProductAdapter(List<PopularProductsResult> productList, Context context, String tag) {
         this.productList = productList;
@@ -98,22 +94,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
         localStorage = new LocalStorage(context);
         gson = new Gson();
        cartList = ((BaseActivity) context).getCartList();
-//        Log.d("cart", String.valueOf(cartList1));
        holder.quantity.setText("0");
         token=localStorage.getApiKey();
-//        for(int i=0;i<cartList1.size();i++){
-//                if (cartList1.get(i).getProduct().getId().equals(product.getId())) {
-//                    holder.shopNow.setVisibility(View.GONE);
-//                    holder.quantity_ll.setVisibility(View.VISIBLE);
-//                    holder.quantity.setText(cartList1.get(i).getCount());
-//
-//                }
-//
-//
-//        }
-
-//        holder.shopNow.setVisibility(View.GONE);
-//        holder.quantity_ll.setVisibility(View.VISIBLE);
 
         holder.title.setText(product.getName());
         if (Float.parseFloat(product.getPrice()) < Float.parseFloat(product.getMrp())) {
@@ -126,8 +108,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             holder.org_price.setVisibility(View.GONE);
         }
         holder.currency.setText(product.getCurrency().getSymbol());
-       // holder.attribute.setText(product.getAttribute());
-//        Log.d(TAG, Utils.ProductImage + product.getImage());
+
         Picasso.get().load(product.getImages().get(0).getImage()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -160,31 +141,15 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
             public void onClick(View v) {
                 holder.shopNow.setVisibility(View.GONE);
                 holder.quantity_ll.setVisibility(View.VISIBLE);
-//                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-//                    _price = product.getDiscount();
-//                } else {
-//                    _price = product.getPrice();
-//                }
                 _quantity = holder.quantity.getText().toString();
                 int qty=Integer.parseInt(_quantity)+1;
                 holder.quantity.setText(String.valueOf(qty));
-              //  _attribute = product.getAttribute();
-               // _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
-
                 if (context instanceof MainActivity) {
-//                    Cart cart = new Cart(String.valueOf(product.getId()), product.getName(), product.getImages().get(0).getImage(), product.getCurrency().getSymbol(), _price, _attribute, _quantity, _subtotal);
-//                    cartList = ((BaseActivity) context).getCartList();
-//                    cartList.add(cart);
 
                     int prouct_id = product.getId();
                     AddToCart addtoCart = new AddToCart(1,prouct_id,null,true);
                     addingToCart(addtoCart,position,"plus");
 
-                 //   String cartStr = gson.toJson(cartList);
-                    //Log.d("CART", cartStr);
-                 //   localStorage.setCart(cartStr);
-
-//                    notifyItemChanged(position);
                 }
             }
         });
@@ -200,20 +165,6 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                 int qty=Integer.parseInt(_quantity)+1;
                 holder.quantity.setText(String.valueOf(qty));
 
-//                for (int i = 0; i < cartList.size(); i++) {
-//                    if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
-//                        int total_item = Integer.parseInt(cartList.get(i).getQuantity());
-//                        total_item++;
-//                        Log.d("totalItem", total_item + "");
-//                        holder.quantity.setText(total_item + "");
-//                        _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-//                        cartList.get(i).setQuantity(holder.quantity.getText().toString());
-//                        cartList.get(i).setSubTotal(_subtotal);
-//                        String cartStr = gson.toJson(cartList);
-//                        //Log.d("CART", cartStr);
-//                        localStorage.setCart(cartStr);
-//                    }
-//                }
 
 
             }
@@ -233,27 +184,6 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
                     holder.quantity_ll.setVisibility(View.GONE);
                 }
                 holder.quantity.setText(String.valueOf(qty));
-//                if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
-//                    for (int i = 0; i < cartList.size(); i++) {
-//                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(product.getId()))) {
-//                            int total_item = Integer.parseInt(holder.quantity.getText().toString());
-//
-//                            total_item--;
-//                            holder.quantity.setText(total_item + "");
-//                            Log.d("totalItem", total_item + "");
-//
-//                            _subtotal = String.valueOf(Double.parseDouble(holder.price.getText().toString()) * total_item);
-//
-//                            cartList.get(i).setQuantity(holder.quantity.getText().toString());
-//                            cartList.get(i).setSubTotal(_subtotal);
-//                            String cartStr = gson.toJson(cartList);
-//                            //Log.d("CART", cartStr);
-//                            localStorage.setCart(cartStr);
-//
-//                        }
-//                    }
-//
-//                }
 
 
             }
@@ -278,10 +208,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.My
 
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        return position;
-//    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;

@@ -112,9 +112,6 @@ public class PaymentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initiatePayment();
-//                Intent intent = new Intent(getContext(), PayuPaymentActivity.class);
-//                // intent.putExtra("payment_id", payment_id);
-//                startActivity(intent);
             }
         });
         paymentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -122,16 +119,13 @@ public class PaymentFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = view.findViewById(checkedId);
                 if (radioButton.getId() == R.id.cash_on_delivery) {
-//                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                    ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-//                    ft.replace(R.id.content_frame, new PaymentFragment());
-//                    ft.commit();
+
                     payment_type = "cod";
 
                 } else {
                     payment_type = "online";
                 }
-                // Toast.makeText(getContext(),radioButton.getText()+"",Toast.LENGTH_LONG).show();
+
             }
         });
 

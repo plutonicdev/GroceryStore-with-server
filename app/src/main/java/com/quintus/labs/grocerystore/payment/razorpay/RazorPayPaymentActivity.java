@@ -131,8 +131,6 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
         }
 
 
-        //  Toast.makeText(this, "Payment is successful : " + s, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -164,7 +162,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                 Log.e(TAG, "Exception in onPaymentError", e);
             }
         }
-        //   Toast.makeText(this, "Payment Failed due to error : " + s, Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -217,7 +215,7 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
                         } else {
                             Toast.makeText(getApplicationContext(), "Order placed Successfully !", Toast.LENGTH_SHORT).show();
                             localStorage.deleteCart();
-                            //       showCustomDialog();
+
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                             finish();
@@ -247,25 +245,6 @@ public class RazorPayPaymentActivity extends AppCompatActivity implements Paymen
 
     }
 
-    private void showCustomDialog() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(getApplicationContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
-        // Include dialog.xml file
-        dialog.setContentView(R.layout.success_dialog);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
-        });
-        // Set dialog title
-
-        dialog.show();
-    }
 
     private void hideProgressDialog() {
         progress.setVisibility(View.GONE);

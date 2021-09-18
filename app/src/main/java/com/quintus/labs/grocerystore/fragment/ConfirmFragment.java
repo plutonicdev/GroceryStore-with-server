@@ -70,16 +70,13 @@ public class ConfirmFragment extends Fragment {
     ProgressDialog progressDialog;
     List<Order> orderList = new ArrayList<>();
     List<OrderItem> orderItemList = new ArrayList<>();
-    PlaceOrder confirmOrder;
-    String orderNo, address;
-    String id;
     OrderItem orderItem = new OrderItem();
     String token;
     User user;
     View progress;
-    Double totalPrice,originalPrice;
+    Double totalPrice, originalPrice;
     EditText et_code;
-    Button code_button,code_button_disabled;
+    Button code_button, code_button_disabled;
     String voucher_code;
     TextView remove_coupon;
 
@@ -123,9 +120,9 @@ public class ConfirmFragment extends Fragment {
                 code_button_disabled.setVisibility(View.GONE);
                 et_code.setText("");
                 Toast.makeText(getContext(), "Coupon Removed Successfully.", Toast.LENGTH_SHORT).show();
-                payable.setText("\u20B9" + " " +originalPrice);
+                payable.setText("\u20B9" + " " + originalPrice);
                 discount.setText("\u20B9" + " " + "0.0");
-                totalPrice=originalPrice;
+                totalPrice = originalPrice;
                 remove_coupon.setVisibility(View.GONE);
             }
         });
@@ -190,11 +187,7 @@ public class ConfirmFragment extends Fragment {
     }
 
     private void setUpCartRecyclerview() {
-//        recyclerView.setHasFixedSize(true);
-//        recyclerViewlayoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(recyclerViewlayoutManager);
-//        adapter = new CheckoutCartAdapter(cartList, getContext());
-//        recyclerView.setAdapter(adapter);
+
     }
 
     @Override

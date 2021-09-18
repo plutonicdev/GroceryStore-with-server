@@ -123,7 +123,6 @@ public class CategoryFragment extends Fragment {
     private void setupCategoryRecycleView() {
         mAdapter = new CategoryAdapter(categoryList, getContext(), "Category");
        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-       // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

@@ -129,51 +129,6 @@ public class HomeFragment extends Fragment {
 
         sliderDotspanel = view.findViewById(R.id.SliderDots);
 
-//       HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
-//
-//       viewPager.setAdapter(viewPagerAdapter);
-//
-//        dotscount = viewPagerAdapter.getCount();
-//        dots = new ImageView[dotscount];
-//
-//        for (int i = 0; i < dotscount; i++) {
-//
-//            dots[i] = new ImageView(getContext());
-//            dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
-//
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//            params.setMargins(8, 0, 8, 0);
-//
-//            sliderDotspanel.addView(dots[i], params);
-//
-//        }
-//
-//        dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-//
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//
-//                for (int i = 0; i < dotscount; i++) {
-//                    dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
-//                }
-//
-//                dots[position].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-//        scheduleSlider();
 
         return view;
     }
@@ -192,9 +147,9 @@ public class HomeFragment extends Fragment {
 
                         assert productResult != null;
                         popularProductList = productResult.getResults();
-                        if(popularProductList.size()>0){
+                        if (popularProductList.size() > 0) {
                             popular_tv.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             popular_tv.setVisibility(View.GONE);
                         }
                         setupPopularProductRecycleView();
@@ -333,9 +288,9 @@ public class HomeFragment extends Fragment {
 
                                 }
                             });
-                            // setupBannersRecycleView();
 
-                        }else{
+
+                        } else {
                             slider_rl.setVisibility(View.GONE);
                         }
 
@@ -435,17 +390,6 @@ public class HomeFragment extends Fragment {
         adv_banner_rv.setLayoutManager(mLayoutManager);
         adv_banner_rv.setItemAnimator(new DefaultItemAnimator());
         adv_banner_rv.setAdapter(advBannerAdapter);
-
-
-    }
-
-    private void setupBannersRecycleView() {
-        //   viewPagerAdapter = new HomeSliderAdapter(bannersList, getContext());
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(mAdapter);
-        //    viewPager.setAdapter(viewPagerAdapter);
 
 
     }

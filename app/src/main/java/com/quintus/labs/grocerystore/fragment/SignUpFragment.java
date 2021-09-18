@@ -49,8 +49,7 @@ import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
  */
 public class SignUpFragment extends Fragment implements OnClickListener {
     private static View view;
-    private static EditText fullName, mobileNumber,emailId,
-            password;
+    private static EditText fullName, mobileNumber, emailId, password;
     private static TextView login;
     private static Button signUpButton;
     private static CheckBox terms_conditions;
@@ -58,7 +57,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     LocalStorage localStorage;
     Gson gson = new Gson();
     UserResponse userResponse;
-   ErrorUtils errorUtils;
+    ErrorUtils errorUtils;
     View progress;
     String firebaseToken;
 
@@ -86,7 +85,6 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         mobileNumber = view.findViewById(R.id.mobileNumber);
 
         password = view.findViewById(R.id.password);
-//        errorUtils = new ErrorUtils(getContext());
         signUpButton = view.findViewById(R.id.signUpBtn);
         login = view.findViewById(R.id.already_user);
         terms_conditions = view.findViewById(R.id.terms_conditions);
@@ -125,7 +123,6 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         }
 
     }
-
 
 
     // Check Validation Method
@@ -179,20 +176,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-//                    UserResult userResult = response.body();
-//                    if (userResult != null && userResult.getCode() == 201) {
-//                        String userString = gson.toJson(userResult.getUser());
-//                        localStorage.createUserLoginSession(userString);
-//                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
-//                        startActivity(new Intent(getContext(), MainActivity.class));
-//                        getActivity().finish();
-//                    } else {
-//                        new CustomToast().Show_Toast(getActivity(), view,
-//                                "Server Error Please try after sometime");
-//
-//                    }
                     userResponse = response.body();
-                    if (userResponse !=null && response.code() == 201) {
+                    if (userResponse != null && response.code() == 201) {
                         String userJson = gson.toJson(userResponse);
                         localStorage.createUserLoginSession(userJson);
                         Toast.makeText(getContext(), getResources().getString(R.string.registered_successfull), Toast.LENGTH_LONG).show();
@@ -205,22 +190,18 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                             getActivity().finish();
                         } else {
                             startActivity(new Intent(getContext(), OtpVarificationActivity.class));
-//                            Toast.makeText(getContext(), "Otp sent to your phone number for verification", Toast.LENGTH_LONG).show();
                             getActivity().finish();
                         }
 
 
                     } else {
                         errorUtils.checkUserError(response);
-//                        new CustomToast().Show_Toast(getActivity(), view,
-//                                "Server Error Please try after sometime");
-                }
 
+                    }
 
 
                 } else {
-//                    new CustomToast().Show_Toast(getActivity(), view,
-//                            "Please Enter Correct Data");
+
                     errorUtils.checkUserError(response);
                 }
 
@@ -231,7 +212,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 new CustomToast().Show_Toast(getActivity(), view,
-                                "Server Error Please try after sometime");
+                        "Server Error Please try after sometime");
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }

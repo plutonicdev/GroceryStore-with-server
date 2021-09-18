@@ -140,20 +140,6 @@ public class MainActivity extends BaseActivity
     }
 
 
-
-    /*public void toggleCommunicationGroup(View button) {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        MenuItem group = navigationView.getMenu().findItem(R.id.nav_communication_group);
-        boolean isVisible = group.isVisible();
-        group.setVisible(!isVisible);
-        Button toggleButton = (Button)findViewById(R.id.main_toggle_button);
-        if (isVisible) {
-            toggleButton.setText("Enable communication group");
-        } else {
-            toggleButton.setText("Disable communication group");
-        }
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -205,33 +191,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void getSearchProduct(String query) {
-//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
-//        call.enqueue(new Callback<ProductResult>() {
-//            @Override
-//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    ProductResult productResult = response.body();
-//                    if (productResult.getCode() == 200) {
-//
-//                        productList = productResult.getProductList();
-//                        setUpRecyclerView();
-//
-//                    }
-//
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductResult> call, Throwable t) {
-//                Log.d("Error", t.getMessage());
-//
-//
-//            }
-//        });
+
 
     }
 
@@ -423,9 +383,6 @@ public class MainActivity extends BaseActivity
                     if (response.code() == 200) {
                         assert cartDetails != null;
                         cart_count = cartDetails.getTotalItems();
-//                        String cartStr = gson.toJson(cartDetails.getProductDetails());
-//                            //Log.d("CART", cartStr);
-//                           localStorage.setCart(cartStr);
                         productDetail.clear();
                         if(cartDetails.getProductDetails().size()>0) {
                             for (int i = 0; i < cartDetails.getProductDetails().size(); i++) {

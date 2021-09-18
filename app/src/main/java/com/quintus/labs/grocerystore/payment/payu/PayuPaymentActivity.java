@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class PayuPaymentActivity extends AppCompatActivity {
 
-    private static final String TAG ="PayuPaymentActivity==>" ;
+    private static final String TAG = "PayuPaymentActivity==>";
 
     LocalStorage localStorage;
     Gson gson;
@@ -37,7 +37,7 @@ public class PayuPaymentActivity extends AppCompatActivity {
     String key;
     int payment_id;
     View progress;
-    String serverCalculatedHash,amount,txnid,productinfo,mode,merchant_key;
+    String serverCalculatedHash, amount, txnid, productinfo, mode, merchant_key;
     boolean debug;
 
     @Override
@@ -55,17 +55,17 @@ public class PayuPaymentActivity extends AppCompatActivity {
         totalAmount = localStorage.getTotalAmount();
         address_id = localStorage.getAddressId();
         payment_id = getIntent().getIntExtra("payment_id", 0);
-        serverCalculatedHash=getIntent().getStringExtra("serverCalculatedHash");
-        amount=getIntent().getStringExtra("amount");
-        txnid=getIntent().getStringExtra("txnid");
-        productinfo=getIntent().getStringExtra("productinfo");
-        mode=getIntent().getStringExtra("mode");
-        merchant_key=getIntent().getStringExtra("merchant_key");
+        serverCalculatedHash = getIntent().getStringExtra("serverCalculatedHash");
+        amount = getIntent().getStringExtra("amount");
+        txnid = getIntent().getStringExtra("txnid");
+        productinfo = getIntent().getStringExtra("productinfo");
+        mode = getIntent().getStringExtra("mode");
+        merchant_key = getIntent().getStringExtra("merchant_key");
 
-        if(mode.equalsIgnoreCase("Test")){
-            debug=true;
-        }else{
-            debug=false;
+        if (mode.equalsIgnoreCase("Test")) {
+            debug = true;
+        } else {
+            debug = false;
         }
         showProgressDialog();
 
@@ -106,15 +106,13 @@ public class PayuPaymentActivity extends AppCompatActivity {
 
         paymentParam.setMerchantHash(serverCalculatedHash);
 
-        boolean isOverrideResultScreen= false;
+        boolean isOverrideResultScreen = false;
 
         PayUmoneyFlowManager.startPayUMoneyFlow(paymentParam,
                 this, R.style.AppTheme_default, isOverrideResultScreen);
 
 
     }
-
-
 
 
     @Override
@@ -124,35 +122,30 @@ public class PayuPaymentActivity extends AppCompatActivity {
         // Result Code is -1 send from Payumoney activity
         Log.d("MainActivity", "request code " + requestCode + " resultcode " + resultCode);
         if (requestCode == PayUmoneyFlowManager.REQUEST_CODE_PAYMENT && resultCode == RESULT_OK && data != null) {
-            TransactionResponse transactionResponse = data.getParcelableExtra( PayUmoneyFlowManager.INTENT_EXTRA_TRANSACTION_RESPONSE );
+            TransactionResponse transactionResponse = data.getParcelableExtra(PayUmoneyFlowManager.INTENT_EXTRA_TRANSACTION_RESPONSE);
 
             if (transactionResponse != null && transactionResponse.getPayuResponse() != null) {
 
-                if(transactionResponse.getTransactionStatus().equals( TransactionResponse.TransactionStatus.SUCCESSFUL )){
+                if (transactionResponse.getTransactionStatus().equals(TransactionResponse.TransactionStatus.SUCCESSFUL)) {
 
                     String status = "success";
-                    String payment_response_id =transactionResponse.getTransactionDetails() ;
+                    String payment_response_id = transactionResponse.getTransactionDetails();
                     String payment_type = "online";
                     UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
                     updatePaymentData(updatePayment);
 
                     //Success Transaction
-                } else{
+                } else {
 
                     String status = "failure";
-                    String payment_response_id = transactionResponse.getTransactionDetails() ;
+                    String payment_response_id = transactionResponse.getTransactionDetails();
                     String payment_type = "online";
                     UpdatePayment updatePayment = new UpdatePayment(status, payment_response_id, payment_type);
                     updatePaymentData(updatePayment);
                     //Failure Transaction
                 }
 
-                // Response from Payumoney
-              //  String payuResponse = transactionResponse.getPayuResponse();
-
-                // Response from SURl and FURL
-              //  String merchantResponse = transactionResponse.getTransactionDetails();
-            }  else {
+            } else {
                 Log.d(TAG, "Both objects are null!");
 
                 Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
@@ -160,7 +153,7 @@ public class PayuPaymentActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 finish();
             }
-        }else{
+        } else {
 
             Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), CartActivity.class));
@@ -250,12 +243,6 @@ public class PayuPaymentActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
-
-
 
 
     private void hideProgressDialog() {

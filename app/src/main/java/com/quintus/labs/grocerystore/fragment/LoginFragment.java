@@ -106,8 +106,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
         userString = localStorage.getUserLogin();
         user = gson.fromJson(userString, User.class);
         firebaseToken = localStorage.getFirebaseToken();
-        if(firebaseToken==null){
-             firebaseToken="Axydsmkoidfslfsad";
+        if (firebaseToken == null) {
+            firebaseToken = "Axydsmkoidfslfsad";
         }
         Log.d("User", userString);
         // Load ShakeAnimation
@@ -213,10 +213,10 @@ public class LoginFragment extends Fragment implements OnClickListener {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Enter both credentials.");
             vibrate(200);
-        }else if( getMobile.length() < 10){
+        } else if (getMobile.length() < 10) {
             mobile.setError("Enter Correct Mobile Number");
             mobile.requestFocus();
-        }else if( getPassword.length() < 8){
+        } else if (getPassword.length() < 8) {
             password.setError("Enter Correct Password");
             password.requestFocus();
         } else if (NetworkCheck.isNetworkAvailable(getContext())) {
@@ -235,13 +235,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-//                    UserResult userResult = response.body();
-//                    if (userResult != null && userResult.getCode() == 200) {
-//                        String userString = gson.toJson(userResult.getUser());
-//                        localStorage.createUserLoginSession(userString);
-//                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
-//                        startActivity(new Intent(getContext(), MainActivity.class));
-//                        getActivity().finish();
                     userResponse = response.body();
                     if (response.code() == 200) {
                         String userJson = gson.toJson(userResponse);
@@ -255,18 +248,16 @@ public class LoginFragment extends Fragment implements OnClickListener {
                             getActivity().finish();
                         } else {
                             startActivity(new Intent(getContext(), OtpVarificationActivity.class));
-//                            Toast.makeText(getContext(), "Otp sent to your phone number for verification", Toast.LENGTH_LONG).show();
+
                             getActivity().finish();
                         }
                     } else {
-//                        new CustomToast().Show_Toast(getActivity(), view,
-//                                "Server error Please try after sometime");
+
                         errorUtils.checkUserError(response);
                     }
 
                 } else {
-//                    new CustomToast().Show_Toast(getActivity(), view,
-//                            "Please Enter Correct Data");
+
                     errorUtils.checkUserError(response);
                 }
 

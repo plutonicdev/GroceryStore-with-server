@@ -41,10 +41,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     Context context;
     String Tag;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
-        this.categoryList = categoryList;
-        this.context = context;
-    }
+
 
     public CategoryAdapter(List<Category> categoryList, Context context, String tag) {
         this.categoryList = categoryList;
@@ -73,8 +70,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         final Category category = categoryList.get(position);
         holder.title.setText(category.getName());
-//        Log.d("Category Image ==>", category.getCateimg());
-//        if (Tag.equalsIgnoreCase("Category")) {
+
             Picasso.get()
                     .load( category.getImage())
                     .into(holder.imageView, new Callback() {
@@ -88,8 +84,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                             Log.d("Error : ", e.getMessage());
                         }
                     });
-  //      }
-//
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,28 +95,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 context.startActivity(intent);
             }
         });
-//
-//        holder.title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, ProductActivity.class);
-//                intent.putExtra("category", category.getCategry());
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                context.startActivity(intent);
-//            }
-//        });
+
 
     }
 
     @Override
     public int getItemCount() {
-//        if (Tag.equalsIgnoreCase("Home") && categoryList.size() < 6 && categoryList.size() > 3) {
-//            return 3;
-//        } else if (Tag.equalsIgnoreCase("Home") && categoryList.size() >= 6) {
-//            return 6;
-//        } else {
+
             return categoryList.size();
-       // }
+
 
     }
 

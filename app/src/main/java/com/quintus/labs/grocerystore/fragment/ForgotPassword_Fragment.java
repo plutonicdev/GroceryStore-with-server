@@ -178,25 +178,7 @@ public class ForgotPassword_Fragment extends Fragment implements
                 }
                 hideProgressDialog();
             }
-//                if (response != null) {
-//                    UserResult userResult = response.body();
-//                    userResponse = response.body();
-//                    if (userResponse != null && response.code() == 200) {
-//                        new LoginRegisterActivity().replaceLoginFragment();
-//                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
-//                        Log.d("masterToken", masterToken);
-//                        localStorage.setApiKey(masterToken);
-//                    } else {
-//                        new CustomToast().Show_Toast(getActivity(), view,
-//                                "Please try again");
-//                    }
-//                } else {
-//                    new CustomToast().Show_Toast(getActivity(), view,
-//                            "Please enter your valid Code");
-//                }
-//
-//                hideProgressDialog();
-//            }
+
 
             @Override
             public void onFailure(Call<MessageResponse> call, Throwable t) {
@@ -230,11 +212,7 @@ public class ForgotPassword_Fragment extends Fragment implements
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
-//                    UserResult userResult = response.body();
-//                    if (userResult != null && userResult.getCode() == 200) {
-//                        String userString = gson.toJson(userResult.getUser());
-//                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
-//                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
+
                     if (response.code() == 200) {
                         Toast.makeText(getContext(), "OTP  Sent to Your Mobile Successfully", Toast.LENGTH_LONG).show();
                         reset_password_FL.setVisibility(View.VISIBLE);
