@@ -65,25 +65,31 @@ import retrofit2.http.Query;
 public interface RestService {
     String tenant_id = "4";
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/register/")
     Call<UserResponse> register(@Body User user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/login/")
     Call<UserResponse> login(@Body User user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/forget_password/")
     Call<UserResponse> forgotPassword(@Body User user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @PUT("users/confirm_forget_password/")
     Call<MessageResponse> resetPassword(@Body User1 user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/verify_otp/")
     Call<UserResponse> otpVarification(@Body User user);
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("users/verify_resend_otp/")
     Call<UserResponse> resendOTP(@Body User user);
 
-
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("config/slider_images/")
     Call<List<Banners>> bannerList();
 
@@ -152,6 +158,7 @@ public interface RestService {
     Call<ProductResult> addfavouriteProduct(@Header("Authorization") String token);
 
 
+    @Headers("X-TENANT-ID:" + tenant_id)
     @POST("vouchers/voucher_validity/")
     Call<VoucherResult> checkVoucher(@Header("Authorization") String token, @Body Voucher voucher);
 
@@ -159,26 +166,22 @@ public interface RestService {
     @GET("orders/list/")
     Call<Order> getOrderDetails(@Header("Authorization") String token,@Query("page") int page,@Query("page_size") int page_size);
 
-
+    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("orders/{id}/details/")
     Call<OrderDetails> getSingleOrderDetails(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("locations/countries/")
     Call<List<Country>> getcountry();
 
-    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/country/{id}/states/")
     Call<List<State>> getState(@Path("id") int id);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/state/{id}/cities/")
     Call<List<City>> getcity(@Path("id") int id);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/pin/")
     Call<Pin> pin(@Path("id") int id);
 
-    @Headers("X-TENANT-ID:" + tenant_id)
     @GET("locations/city/{id}/pin/")
     Call<List<Pin>> getzip(@Path("id") int id);
 
