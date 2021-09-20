@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.instamojo:android-sdk:+'
     implementation 'com.payumoney.sdkui:plug-n-play:1.6.0'
     implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
