@@ -1,21 +1,17 @@
 package com.quintus.labs.grocerystore.fragment;
 
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +29,7 @@ import com.quintus.labs.grocerystore.model.City;
 import com.quintus.labs.grocerystore.model.Country;
 
 import com.quintus.labs.grocerystore.model.Pin;
-import com.quintus.labs.grocerystore.model.Country;
-import com.quintus.labs.grocerystore.model.AddAddressListResponse;
 import com.quintus.labs.grocerystore.model.State;
-import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -472,7 +465,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
 
     private void getCountry() {
 
-        Call<List<Country>> call = RestClient.getRestService(getContext()).getcountry();
+        Call<List<Country>> call = RestClient.getRestService(getContext()).getCountry();
         call.enqueue(new Callback<List<Country>>() {
             @Override
             public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
@@ -574,7 +567,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
     private void getCity(int state_id) {
-        Call<List<City>> call = RestClient.getRestService(getContext()).getcity(state_id);
+        Call<List<City>> call = RestClient.getRestService(getContext()).getCity(state_id);
         call.enqueue(new Callback<List<City>>() {
             @Override
             public void onResponse(Call<List<City>> call, Response<List<City>> response) {
@@ -624,7 +617,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, S
     }
 
     public void getPin(int id) {
-        Call<List<Pin>> call = RestClient.getRestService(getContext()).getzip(id);
+        Call<List<Pin>> call = RestClient.getRestService(getContext()).getZip(id);
         call.enqueue(new Callback<List<Pin>>() {
             @Override
             public void onResponse(Call<List<Pin>> call, Response<List<Pin>> response) {

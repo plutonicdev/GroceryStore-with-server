@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token, page, page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token, page, page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -313,7 +313,7 @@ public class HomeFragment extends Fragment {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token, page, page_size);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(page, page_size);
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {

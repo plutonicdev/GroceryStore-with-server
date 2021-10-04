@@ -75,7 +75,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @POST("users/verify_otp/")
-    Call<UserResponse> otpVarification(@Body User user);
+    Call<UserResponse> otpVerification(@Body User user);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @POST("users/verify_resend_otp/")
@@ -87,7 +87,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/categories/")
-    Call<CategoryResult> allCategory(@Header("Authorization") String token, @Query("page") int page, @Query("page_size") int page_size);
+    Call<CategoryResult> allCategory(@Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("vouchers/list/")
@@ -95,23 +95,23 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/popular_categories/")
-    Call<CategoryResult> popularCategory(@Header("Authorization") String token, @Query("page") int page, @Query("page_size") int page_size);
+    Call<CategoryResult> popularCategory(@Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/popular_products/")
-    Call<PopularProducts> popularProducts(@Header("Authorization") String token, @Query("page") int page, @Query("page_size") int page_size);
+    Call<PopularProducts> popularProducts(@Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/product/recently_added/")
-    Call<PopularProducts> newProducts(@Header("Authorization") String token, @Query("page") int page, @Query("page_size") int page_size);
+    Call<PopularProducts> newProducts(@Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/category/{id}/products/")
-    Call<PopularProducts> allProducts(@Header("Authorization") String token, @Path("id") int id, @Query("page") int page, @Query("page_size") int page_size);
+    Call<PopularProducts> allProducts(@Path("id") int id, @Query("page") int page, @Query("page_size") int page_size);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/product/{id}/details/")
-    Call<ProductDetails> productDetails(@Header("Authorization") String token, @Path("id") String id);
+    Call<ProductDetails> productDetails(@Path("id") String id);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @GET("catalog/wishlist/")
@@ -147,7 +147,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @POST("catalog/add_update_wishlist/")
-    Call<ProductResult> addfavouriteProduct(@Header("Authorization") String token);
+    Call<ProductResult> addFavouriteProduct(@Header("Authorization") String token);
 
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
@@ -163,19 +163,19 @@ public interface RestService {
     Call<OrderDetails> getSingleOrderDetails(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("locations/countries/")
-    Call<List<Country>> getcountry();
+    Call<List<Country>> getCountry();
 
     @GET("locations/country/{id}/states/")
     Call<List<State>> getState(@Path("id") int id);
 
     @GET("locations/state/{id}/cities/")
-    Call<List<City>> getcity(@Path("id") int id);
+    Call<List<City>> getCity(@Path("id") int id);
 
     @GET("locations/pin/")
     Call<Pin> pin(@Path("id") int id);
 
     @GET("locations/city/{id}/pin/")
-    Call<List<Pin>> getzip(@Path("id") int id);
+    Call<List<Pin>> getZip(@Path("id") int id);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @POST("users/address/create/")
@@ -191,7 +191,7 @@ public interface RestService {
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @POST("payments/initiate/")
-    Call<InitiatePayment> initatePayment(@Header("Authorization") String token, @Body Total total);
+    Call<InitiatePayment> initiatePayment(@Header("Authorization") String token, @Body Total total);
 
     @Headers("X-TENANT-ID:" + TENANT_ID_HEADER_VALUE)
     @PUT("payments/{id}/status_update/")

@@ -91,7 +91,7 @@ public class PopularProductFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(token,page,page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(page,page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -175,7 +175,7 @@ public class PopularProductFragment extends Fragment {
         page = page + 1;
 
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(token, page, page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {

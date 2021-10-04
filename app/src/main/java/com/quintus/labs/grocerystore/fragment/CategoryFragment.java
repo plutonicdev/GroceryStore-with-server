@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +21,6 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
-import com.quintus.labs.grocerystore.model.PopularProducts;
-import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
@@ -53,8 +50,8 @@ public class CategoryFragment extends Fragment {
     private List<Category> categoryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CategoryAdapter mAdapter;
-    int page=1;
-    int page_size=10;
+    int page = 1;
+    int page_size = 10;
     boolean isLoading = true;
 
     public CategoryFragment() {
@@ -84,7 +81,7 @@ public class CategoryFragment extends Fragment {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token,page,page_size);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(page, page_size);
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
@@ -122,7 +119,7 @@ public class CategoryFragment extends Fragment {
 
     private void setupCategoryRecycleView() {
         mAdapter = new CategoryAdapter(categoryList, getContext(), "Category");
-       RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -143,7 +140,6 @@ public class CategoryFragment extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Category");
     }
-
 
 
     private void initScrollListener() {
@@ -175,7 +171,7 @@ public class CategoryFragment extends Fragment {
         page = page + 1;
 
         showProgressDialog();
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token, page, page_size);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(page, page_size);
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
@@ -185,7 +181,7 @@ public class CategoryFragment extends Fragment {
                     CategoryResult productResult = response.body();
                     if (response.code() == 200) {
 
-                        categoryList.addAll( productResult.getResults());
+                        categoryList.addAll(productResult.getResults());
                         mAdapter.notifyDataSetChanged();
 
                         if (page < productResult.getTotalPages()) {

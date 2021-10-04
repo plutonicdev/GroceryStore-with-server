@@ -199,7 +199,7 @@ public class ProductViewActivity extends BaseActivity {
 
     private void getProductDetails() {
 
-        Call<ProductDetails> call = RestClient.getRestService(getApplicationContext()).productDetails(token, _id);
+        Call<ProductDetails> call = RestClient.getRestService(getApplicationContext()).productDetails(_id);
         call.enqueue(new retrofit2.Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {

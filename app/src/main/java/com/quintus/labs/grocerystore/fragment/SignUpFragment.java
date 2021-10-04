@@ -1,5 +1,7 @@
 package com.quintus.labs.grocerystore.fragment;
 
+import static com.quintus.labs.grocerystore.api.LocalAppConfig.FIREBASE_OTP;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
@@ -26,20 +30,16 @@ import com.quintus.labs.grocerystore.activity.OtpVarificationActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
-import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
 import com.quintus.labs.grocerystore.util.ErrorUtils;
 import com.quintus.labs.grocerystore.util.NetworkCheck;
-import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
-import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
 
 /**
  * Grocery App
@@ -48,6 +48,7 @@ import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
 public class SignUpFragment extends Fragment implements OnClickListener {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     private static View view;
     private static EditText fullName, mobileNumber, emailId, password;
     private static TextView login;
@@ -181,6 +182,15 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                         String userJson = gson.toJson(userResponse);
                         localStorage.createUserLoginSession(userJson);
                         Toast.makeText(getContext(), getResources().getString(R.string.registered_successfull), Toast.LENGTH_LONG).show();
+
+                        if (FIREBASE_OTP) {
+                            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                    "+91" + userResponse.getPhone(),                     // Phone number to verify
+                                    20,                           // Timeout duration
+                                    TimeUnit.SECONDS,                // Unit of timeout
+                                    getActivity(),        // Activity (for callback binding)
+                                    mCallback);                      // OnVerificationStateChangedCallbacks
+                        }
 
                         String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
                         Log.d("masterToken", masterToken);

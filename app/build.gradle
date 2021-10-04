@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.quintus.labs.grocerystore"
         minSdkVersion 21
@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary  true
+        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         release {
@@ -27,13 +27,12 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
-        maven{
+        maven {
             url "https://s3-ap-southeast-1.amazonaws.com/godel-release/godel/"
         }
         maven {
-            url  "https://dl.bintray.com/sasidhar-678/maven"
+            url "https://dl.bintray.com/sasidhar-678/maven"
         }
-
     }
 }
 
@@ -59,8 +58,8 @@ dependencies {
     implementation 'com.razorpay:checkout:1.6.6'
     implementation 'com.instamojo:android-sdk:+'
     implementation 'com.payumoney.sdkui:plug-n-play:1.6.0'
-    implementation 'com.google.firebase:firebase-core:11.8.0'
-    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

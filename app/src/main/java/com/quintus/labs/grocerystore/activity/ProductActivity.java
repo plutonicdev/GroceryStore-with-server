@@ -112,7 +112,7 @@ public class ProductActivity extends BaseActivity {
     private void getCategoryProduct() {
 
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(token,id,page,page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(id,page,page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
@@ -288,7 +288,7 @@ public class ProductActivity extends BaseActivity {
         page = page + 1;
 
         showProgressDialog();
-        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(token,id,page, page_size);
+        Call<PopularProducts> call = RestClient.getRestService(getApplicationContext()).allProducts(id,page, page_size);
         call.enqueue(new Callback<PopularProducts>() {
             @Override
             public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {

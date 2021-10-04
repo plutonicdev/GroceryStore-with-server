@@ -41,5 +41,10 @@
       <option name="name" value="maven3" />
       <option name="url" value="https://dl.bintray.com/sasidhar-678/maven" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="https://maven.google.com" />
+    </remote-repository>
   </component>
 </project>

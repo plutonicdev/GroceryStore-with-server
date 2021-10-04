@@ -3,9 +3,7 @@ package com.quintus.labs.grocerystore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -19,17 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
-import com.quintus.labs.grocerystore.fragment.LoginFragment;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.UserResponse;
-import com.quintus.labs.grocerystore.util.CustomToast;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
 
 
 public class OtpVarificationActivity extends AppCompatActivity{
@@ -188,7 +182,7 @@ public class OtpVarificationActivity extends AppCompatActivity{
 
 
     private void submitOtp(User user) {
-        Call<UserResponse> call = RestClient.getRestService(getApplicationContext()).otpVarification(user);
+        Call<UserResponse> call = RestClient.getRestService(getApplicationContext()).otpVerification(user);
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {

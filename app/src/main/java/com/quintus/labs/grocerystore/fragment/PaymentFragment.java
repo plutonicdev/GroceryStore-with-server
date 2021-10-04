@@ -1,7 +1,6 @@
 package com.quintus.labs.grocerystore.fragment;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,15 +19,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
-import com.quintus.labs.grocerystore.activity.BaseActivity;
 import com.quintus.labs.grocerystore.activity.CartActivity;
 import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
-import com.quintus.labs.grocerystore.model.AddAddress;
 import com.quintus.labs.grocerystore.model.CheckoutDetails;
 import com.quintus.labs.grocerystore.model.InitiatePayment;
 import com.quintus.labs.grocerystore.model.Total;
@@ -37,18 +33,10 @@ import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.payment.payu.PayuPaymentActivity;
 import com.quintus.labs.grocerystore.payment.razorpay.RazorPayPaymentActivity;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.quintus.labs.grocerystore.fragment.MyOrderFragment.TAG;
 /**
  * Grocery App
  * https://github.com/quintuslabs/GroceryStore
@@ -144,7 +132,7 @@ public class PaymentFragment extends Fragment {
     private void initiatePayment() {
         showProgressDialog();
         Total total = new Total(totalAmount,payment_type);
-        Call<InitiatePayment> call = RestClient.getRestService(getContext()).initatePayment(token, total);
+        Call<InitiatePayment> call = RestClient.getRestService(getContext()).initiatePayment(token, total);
         call.enqueue(new Callback<InitiatePayment>() {
             @Override
             public void onResponse(Call<InitiatePayment> call, Response<InitiatePayment> response) {
