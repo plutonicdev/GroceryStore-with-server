@@ -11,4 +11,7 @@
         <attr name="delay_in_millis" format="integer" />
         <attr name="gif_src" format="string" />
     </declare-styleable>
+    <declare-styleable name="CircleImage">
+        <attr name="img_radius" format="float" />
+    </declare-styleable>
 </resources>

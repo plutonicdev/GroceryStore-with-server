@@ -39,5 +39,37 @@
     <string name="reset_code">Reset Code</string>
     <string name="reset_password">Reset Password</string>
     <string name="resend_code">Resend Code</string>
-    <string name="order_item_details">Your Order Details</string>
+    <string name="order_item_details">My Order Details</string>
+    <string name="an_otp_code_sent_to_your_phone">An OTP is sent to your phone number, enter here.</string>
+    <string name="enter_otp_code">Enter OTP</string>
+    <string name="save">Save</string>
+    <string name="ResendOTP">Resend OTP</string>
+    <string name="registered_successfull">Registered Successful</string>
+    <string name="login_successfull">Login Successful</string>
+    <string name="please_try_after_sometime">Please try after sometime</string>
+    <string name="enter_otp">Enter Otp</string>
+    <string name="enter_valid_otp">Enter Valid Otp</string>
+    <string name="home">Home</string>
+    <string name="work">Work</string>
+    <string name="address">Address</string>
+    <string name="otp"><![CDATA[<font color="#a3a3a3">We will send you an</font> <font color="#000000">One Time Password</font> <font color="#a3a3a3">on this mobile number</font>]]></string>
+    <string name="otp1"><![CDATA[<font color="#a3a3a3">Enter OTP sent to </font> <font color="#000000"></font>]]></string>
+
+    <string name="please_select_country">Please select Country</string>
+    <string name="please_select_zip">Please select Zip</string>
+    <string name="please_select_state">Please select State</string>
+    <string name="please_select_city">Please select City</string>
+    <string name="please_select_address_type">Please select Address Type</string>
+    <string name="name">Name : </string>
+    <string name="end_date">End Date :</string>
+    <string name="status">Status :</string>
+    <string name="code">Code :</string>
+    <string name="discount_price">Discount Price :</string>
+    <string name="minimum_order_price">Minimum Order Price :</string>
+    <string name="order_no">Order No :</string>
+    <string name="total_price">Total Price :</string>
+    <string name="delivery_date">Delivery Date :</string>
+    <string name="order_date">Order Date:</string>
+    <string name="enter_coupon_code">Enter Coupon Code</string>
+    <string name="apply">Apply</string>
 </resources>

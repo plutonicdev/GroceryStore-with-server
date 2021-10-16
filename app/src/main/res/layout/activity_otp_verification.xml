@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.OtpVarificationActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-16dp"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <ImageView
+                    android:layout_width="210dp"
+                    android:layout_height="210dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mail_box_img" />
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="OTP Verification"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                    android:id="@+id/otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingExtra="6dp"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textColor="#000000"
+                            android:textAlignment="center"
+                            android:textColorHint="#D3D3D3"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:layout_marginLeft="8dp"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000"
+                            android:textColorHint="#c7c7c8"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:layout_marginLeft="8dp"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textColor="#000000"
+                            android:textAlignment="center"
+                            android:textColorHint="#c7c7c8"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:layout_marginLeft="8dp"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textColor="#000000"
+                            android:textAlignment="center"
+                            android:textColorHint="#c7c7c8"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:layout_marginLeft="8dp"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textColor="#000000"
+                            android:textAlignment="center"
+                            android:textColorHint="#c7c7c8"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="16.66"
+                        android:layout_marginLeft="8dp"
+                        android:background="#E8E8E8">
+
+                        <com.quintus.labs.grocerystore.customfonts.EditTextMedium
+                            android:id="@+id/otp_box_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="&#x2731;"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:padding="12dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000"
+                            android:textColorHint="#c7c7c8"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Don't recieve the OTP?"
+                    android:textAlignment="center"
+                    android:textColor="#a3a3a3"
+                    android:textSize="16sp" />
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="RESEND OTP"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:onClick="onResendOTPClicked"
+                    android:id="@+id/resend_otp"/>
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="RESEND OTP"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:onClick="onResendOTPClicked"
+                    android:id="@+id/otp_timer"
+                    android:visibility="gone"/>
+
+
+                <com.quintus.labs.grocerystore.customfonts.ButtonSemiBold
+                    android:id="@+id/verify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/buttonshape"
+                    android:text="VERIFY"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:onClick="onVerifyMobileOtpClicked"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

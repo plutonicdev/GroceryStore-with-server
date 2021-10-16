@@ -1,5 +1,7 @@
 package com.quintus.labs.grocerystore.fragment;
 
+import static com.quintus.labs.grocerystore.api.LocalAppConfig.FIREBASE_OTP;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -18,19 +20,22 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.activity.OtpVarificationActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.util.CustomToast;
+import com.quintus.labs.grocerystore.util.ErrorUtils;
 import com.quintus.labs.grocerystore.util.NetworkCheck;
-import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
-import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,15 +48,17 @@ import retrofit2.Response;
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
 public class SignUpFragment extends Fragment implements OnClickListener {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     private static View view;
-    private static EditText fullName, mobileNumber,
-            password;
+    private static EditText fullName, mobileNumber, emailId, password;
     private static TextView login;
     private static Button signUpButton;
     private static CheckBox terms_conditions;
     User user;
     LocalStorage localStorage;
     Gson gson = new Gson();
+    UserResponse userResponse;
+    ErrorUtils errorUtils;
     View progress;
     String firebaseToken;
 
@@ -65,6 +72,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         view = inflater.inflate(R.layout.signup_layout, container, false);
         localStorage = new LocalStorage(getContext());
         firebaseToken = localStorage.getFirebaseToken();
+        errorUtils = new ErrorUtils(getContext());
         initViews();
         setListeners();
         return view;
@@ -74,11 +82,10 @@ public class SignUpFragment extends Fragment implements OnClickListener {
     private void initViews() {
         fullName = view.findViewById(R.id.fullName);
         progress = view.findViewById(R.id.progress_bar);
-//        emailId = view.findViewById(R.id.userEmailId);
+        emailId = view.findViewById(R.id.userEmailId);
         mobileNumber = view.findViewById(R.id.mobileNumber);
 
         password = view.findViewById(R.id.password);
-
         signUpButton = view.findViewById(R.id.signUpBtn);
         login = view.findViewById(R.id.already_user);
         terms_conditions = view.findViewById(R.id.terms_conditions);
@@ -118,40 +125,43 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
     }
 
+
     // Check Validation Method
     private void checkValidation() {
         // Get all edittext texts
         String getFullName = fullName.getText().toString();
-//        String getEmailId = emailId.getText().toString();
+        String getEmailId = emailId.getText().toString();
         String getMobileNumber = mobileNumber.getText().toString();
         String getPassword = password.getText().toString();
-        // Pattern match for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
 
         if (getFullName.length() == 0) {
-            fullName.setError("Eneter Your Name");
+            fullName.setError("Enter Your Name");
             fullName.requestFocus();
-        }/* else if (getEmailId.length() == 0) {
-            emailId.setError("Eneter Your Email");
+        } else if (getEmailId.length() == 0) {
+            emailId.setError("Enter Your Email");
             emailId.requestFocus();
-        } else if (!m.find()) {
-            emailId.setError("Eneter Correct Email");
+        } else if (!getEmailId.matches(emailPattern)) {
+            emailId.setError("Enter Correct Email");
             emailId.requestFocus();
-        }*/ else if (getMobileNumber.length() == 0) {
-            mobileNumber.setError("Eneter Your Mobile Number");
+        } else if (getMobileNumber.length() == 0) {
+            mobileNumber.setError("Enter Your Mobile Number");
+            mobileNumber.requestFocus();
+        } else if (getMobileNumber.length() < 10) {
+            mobileNumber.setError("Enter Correct Mobile Number");
             mobileNumber.requestFocus();
         } else if (getPassword.length() == 0) {
-            password.setError("Eneter Password");
+            password.setError("Enter Password");
             password.requestFocus();
-        } else if (getPassword.length() < 6) {
-            password.setError("Eneter 6 digit Password");
+        } else if (getPassword.length() < 8) {
+            password.setError("Enter 8 digit Password");
             password.requestFocus();
         } else if (!terms_conditions.isChecked()) {
             new CustomToast().Show_Toast(getActivity(), view,
                     "Accept Term & Conditions");
         } else {
-            user = new User(getFullName, "", getMobileNumber, getPassword, firebaseToken);
+            user = new User(getFullName, getEmailId, getMobileNumber, getPassword, firebaseToken);
             registerUser(user);
 
         }
@@ -160,29 +170,49 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
     private void registerUser(User userString) {
         showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).register(userString);
-        call.enqueue(new Callback<UserResult>() {
+        Call<UserResponse> call = RestClient.getRestService(getContext()).register(userString);
+        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 201) {
-                        String userString = gson.toJson(userResult.getUser());
-                        localStorage.createUserLoginSession(userString);
-                        Toast.makeText(getContext(), userResult.getStatus(), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), MainActivity.class));
-                        getActivity().finish();
+                    userResponse = response.body();
+                    if (userResponse != null && response.code() == 201) {
+                        String userJson = gson.toJson(userResponse);
+                        localStorage.createUserLoginSession(userJson);
+                        Toast.makeText(getContext(), getResources().getString(R.string.registered_successfull), Toast.LENGTH_LONG).show();
+
+                        if (FIREBASE_OTP) {
+                            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                    "+91" + userResponse.getPhone(),                     // Phone number to verify
+                                    20,                           // Timeout duration
+                                    TimeUnit.SECONDS,                // Unit of timeout
+                                    getActivity(),        // Activity (for callback binding)
+                                    mCallback);                      // OnVerificationStateChangedCallbacks
+                        }
+
+                        String masterToken = "Bearer " + response.headers().get("X-AUTH-TOKEN");
+                        Log.d("masterToken", masterToken);
+                        localStorage.setApiKey(masterToken);
+                        if (userResponse.isPhone_verified()) {
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                            getActivity().finish();
+                        } else {
+                            startActivity(new Intent(getContext(), OtpVarificationActivity.class));
+                            getActivity().finish();
+                        }
+
+
                     } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Server Error Please try after sometime");
+                        errorUtils.checkUserError(response);
 
                     }
 
+
                 } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please Enter Correct Data");
+
+                    errorUtils.checkUserError(response);
                 }
 
                 hideProgressDialog();
@@ -190,7 +220,9 @@ public class SignUpFragment extends Fragment implements OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                new CustomToast().Show_Toast(getActivity(), view,
+                        "Server Error Please try after sometime");
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context=".payment.instamojo.InstamojoPaymentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/env_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:checked="false"
+            android:text="TEST"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textOff="TEST"
+            android:textOn="PRODUCTION" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/ui_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:checked="false"
+            android:text="Instamojo UI"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textOff="Instamojo UI"
+            android:textOn="Custom UI" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textPersonName"
+            android:text="Santosh" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textEmailAddress"
+            android:text="santosh@email.com" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="phone"
+            android:text="9778178337" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="numberDecimal"
+            android:text="100" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textAutoComplete|textCapSentences"
+            android:text="pay for test" />
+
+        <Button
+            android:id="@+id/pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="PAY" />
+
+    </LinearLayout>
+</ScrollView>

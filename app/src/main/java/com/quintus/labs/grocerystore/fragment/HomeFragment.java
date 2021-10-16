@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -22,19 +24,26 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.MainActivity;
+import com.quintus.labs.grocerystore.adapter.AdvertisementBannerAdapter;
 import com.quintus.labs.grocerystore.adapter.CategoryAdapter;
 import com.quintus.labs.grocerystore.adapter.HomeSliderAdapter;
 import com.quintus.labs.grocerystore.adapter.NewProductAdapter;
 import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
+import com.quintus.labs.grocerystore.model.AdvertisementBanner;
+import com.quintus.labs.grocerystore.model.AdvertisementBannerResult;
+import com.quintus.labs.grocerystore.model.Banners;
 import com.quintus.labs.grocerystore.model.Category;
 import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.PopularProductsResult;
 import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.PopularProducts;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,17 +74,25 @@ public class HomeFragment extends Fragment {
     LocalStorage localStorage;
     Gson gson = new Gson();
     User user;
-    Token token;
+    String token;
     private int dotscount;
     private ImageView[] dots;
     private List<Category> categoryList = new ArrayList<>();
-    private List<Product> productList = new ArrayList<>();
-    private List<Product> popularProductList = new ArrayList<>();
-    private RecyclerView recyclerView, nRecyclerView, pRecyclerView;
+    private List<AdvertisementBannerResult> advertisementBannerList = new ArrayList<>();
+    private List<PopularProductsResult> productList = new ArrayList<>();
+    private List<PopularProductsResult> popularProductList = new ArrayList<>();
+    private List<Banners> bannersList;
+    private RecyclerView recyclerView, nRecyclerView, pRecyclerView, adv_banner_rv;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
     private PopularProductAdapter pAdapter;
+    private AdvertisementBannerAdapter advBannerAdapter;
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
+    int page = 1;
+    int page_size = 10;
+    HomeSliderAdapter viewPagerAdapter;
+    RelativeLayout slider_rl;
+    TextView popular_tv;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -90,15 +107,21 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.category_rv);
         pRecyclerView = view.findViewById(R.id.popular_product_rv);
+        adv_banner_rv = view.findViewById(R.id.adv_banner_rv);
         nRecyclerView = view.findViewById(R.id.new_product_rv);
         progress = view.findViewById(R.id.progress_bar);
+        slider_rl = view.findViewById(R.id.slider_rl);
+        popular_tv = view.findViewById(R.id.popular_tv);
 
         localStorage = new LocalStorage(getContext());
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = new Token(user.getToken());
+        token = localStorage.getApiKey();
+        bannersList = new ArrayList<>();
+        getBannerData();
         getCategoryData();
         getNewProduct();
         getPopularProduct();
+        getOffersData();
 
 
         timer = new Timer();
@@ -106,68 +129,29 @@ public class HomeFragment extends Fragment {
 
         sliderDotspanel = view.findViewById(R.id.SliderDots);
 
-        HomeSliderAdapter viewPagerAdapter = new HomeSliderAdapter(getContext(), images);
-
-        viewPager.setAdapter(viewPagerAdapter);
-
-        dotscount = viewPagerAdapter.getCount();
-        dots = new ImageView[dotscount];
-
-        for (int i = 0; i < dotscount; i++) {
-
-            dots[i] = new ImageView(getContext());
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(8, 0, 8, 0);
-
-            sliderDotspanel.addView(dots[i], params);
-
-        }
-
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                for (int i = 0; i < dotscount; i++) {
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
-                }
-
-                dots[position].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        scheduleSlider();
 
         return view;
     }
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).popularProducts(page, page_size);
+        call.enqueue(new Callback<PopularProducts>() {
             @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
 
-                        popularProductList = productResult.getProductList();
+                        assert productResult != null;
+                        popularProductList = productResult.getResults();
+                        if (popularProductList.size() > 0) {
+                            popular_tv.setVisibility(View.VISIBLE);
+                        } else {
+                            popular_tv.setVisibility(View.GONE);
+                        }
                         setupPopularProductRecycleView();
 
                     }
@@ -178,7 +162,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
 
             }
         });
@@ -196,17 +180,19 @@ public class HomeFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
-        call.enqueue(new Callback<ProductResult>() {
+        Call<PopularProducts> call = RestClient.getRestService(getContext()).newProducts(page, page_size);
+        call.enqueue(new Callback<PopularProducts>() {
             @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+            public void onResponse(Call<PopularProducts> call, Response<PopularProducts> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    PopularProducts productResult = response.body();
+                    if (response.code() == 200) {
 
-                        productList = productResult.getProductList();
+                        assert productResult != null;
+                        productList = productResult.getResults();
+
                         setupProductRecycleView();
 
                     }
@@ -217,7 +203,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
+            public void onFailure(Call<PopularProducts> call, Throwable t) {
                 Log.d("Error", t.getMessage());
                 hideProgressDialog();
 
@@ -234,11 +220,100 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void getBannerData() {
+        showProgressDialog();
+
+        Call<List<Banners>> call = RestClient.getRestService(getContext()).bannerList();
+        call.enqueue(new Callback<List<Banners>>() {
+            @Override
+            public void onResponse(Call<List<Banners>> call, Response<List<Banners>> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+                    if (response.code() == 200) {
+                        List<Banners> bannersListData = response.body();
+
+                        if (bannersListData.size() > 0) {
+                            for (int i = 0; i < bannersListData.size(); i++) {
+                                Banners sliderUtils = new Banners();
+                                sliderUtils.setImage(bannersListData.get(i).getImage());
+//                            try {
+//                                JSONObject jsonObject = bannersListData.getJSONObject(i);
+//                                sliderUtils.setSliderImageUrl(jsonObject.getString("thumbnailImageUrl"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                                bannersList.add(sliderUtils);
+                            }
+                            viewPagerAdapter = new HomeSliderAdapter(getContext(), bannersList);
+
+                            viewPager.setAdapter(viewPagerAdapter);
+
+                            dotscount = viewPagerAdapter.getCount();
+                            dots = new ImageView[dotscount];
+
+                            for (int i = 0; i < dotscount; i++) {
+
+                                dots[i] = new ImageView(getContext());
+                                dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
+
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                params.setMargins(8, 0, 8, 0);
+
+                                sliderDotspanel.addView(dots[i], params);
+
+                            }
+
+                            dots[0].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
+
+                            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                @Override
+                                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                                }
+
+                                @Override
+                                public void onPageSelected(int position) {
+
+                                    for (int i = 0; i < dotscount; i++) {
+                                        dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.non_active_dot));
+                                    }
+
+                                    dots[position].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
+
+                                }
+
+                                @Override
+                                public void onPageScrollStateChanged(int state) {
+
+                                }
+                            });
+
+
+                        } else {
+                            slider_rl.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<Banners>> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
+
+    }
+
     private void getCategoryData() {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(page, page_size);
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
@@ -246,9 +321,9 @@ public class HomeFragment extends Fragment {
                 if (response != null) {
 
                     CategoryResult categoryResult = response.body();
-                    if (categoryResult.getCode() == 200) {
+                    if (response.code() == 200) {
 
-                        categoryList = categoryResult.getCategoryList();
+                        categoryList = categoryResult.getResults();
                         setupCategoryRecycleView();
 
                     }
@@ -272,6 +347,49 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+
+    }
+
+    private void getOffersData() {
+
+        showProgressDialog();
+
+        Call<AdvertisementBanner> call = RestClient.getRestService(getContext()).getAdvertisementBanners(token, page, page_size);
+        call.enqueue(new Callback<AdvertisementBanner>() {
+            @Override
+            public void onResponse(Call<AdvertisementBanner> call, Response<AdvertisementBanner> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    AdvertisementBanner advertisementBanner = response.body();
+                    if (response.code() == 200) {
+
+                        assert advertisementBanner != null;
+                        advertisementBannerList = advertisementBanner.getResults();
+                        setupOffersRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<AdvertisementBanner> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
+
+    }
+
+    private void setupOffersRecycleView() {
+        advBannerAdapter = new AdvertisementBannerAdapter(advertisementBannerList, getContext(), "Home");
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        adv_banner_rv.setLayoutManager(mLayoutManager);
+        adv_banner_rv.setItemAnimator(new DefaultItemAnimator());
+        adv_banner_rv.setAdapter(advBannerAdapter);
 
 
     }

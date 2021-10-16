@@ -69,27 +69,27 @@
             android:layout_height="2px"
             android:background="@color/colorPrimary" />
 
-        <!--    <com.google.android.material.textfield.TextInputLayout-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="7dp">-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
 
-        <!--        <EditText-->
-        <!--            android:id="@+id/userEmailId"-->
-        <!--            android:layout_width="fill_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="5dp"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:drawablePadding="8dp"-->
-        <!--            android:gravity="center_vertical"-->
-        <!--            android:hint="@string/email"-->
-        <!--            android:inputType="textEmailAddress"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:singleLine="true"-->
-        <!--            android:textColor="@color/text_color"-->
-        <!--            android:textColorHint="@color/colorPrimary"-->
-        <!--            android:textSize="16sp" />-->
-        <!--    </com.google.android.material.textfield.TextInputLayout>-->
+                <EditText
+                    android:id="@+id/userEmailId"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/colorPrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="fill_parent"

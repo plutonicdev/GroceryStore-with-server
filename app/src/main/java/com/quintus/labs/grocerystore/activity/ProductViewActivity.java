@@ -17,18 +17,31 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
+import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
+import com.quintus.labs.grocerystore.model.AddToCart;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.CartDetails;
+import com.quintus.labs.grocerystore.model.ProductDetail;
+import com.quintus.labs.grocerystore.model.ProductDetails;
+import com.quintus.labs.grocerystore.model.Token;
+import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -39,31 +52,36 @@ import java.util.List;
 public class ProductViewActivity extends BaseActivity {
     private static int cart_count = 0;
     public TextView quantity, inc, dec;
-    String _id, _title, _image, _description, _price, _currency, _discount, _attribute;
+    String _id, _title, _image, _description, _price, _currency, _discount, _attribute, _quantity;
     TextView id, title, description, price, org_price, currency, discount, attribute;
     ImageView imageView;
     ProgressBar progressBar;
     LinearLayout addToCart, share;
     RelativeLayout quantityLL;
-    List<Cart> cartList = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
     int cartId;
     Cart cart;
+    ProductDetails productDetails;
+    String token;
+    User user;
+    View changeProgressBar;
+    private ArrayList<ProductDetail> productDetail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_view);
+        changeProgressBar = findViewById(R.id.progress_bar);
 
         Intent intent = getIntent();
 
         _id = intent.getStringExtra("id");
-        _title = intent.getStringExtra("title");
-        _image = intent.getStringExtra("image");
-        _description = intent.getStringExtra("description");
-        _price = intent.getStringExtra("price");
-        _currency = intent.getStringExtra("currency");
-        _discount = intent.getStringExtra("discount");
-        _attribute = intent.getStringExtra("attribute");
+        localStorage = new LocalStorage(getApplicationContext());
+        user = gson.fromJson(localStorage.getUserLogin(), User.class);
+        token = localStorage.getApiKey();
+
+        getProductDetails();
+        getCartDetails();
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         changeActionBarTitle(getSupportActionBar());
@@ -73,14 +91,12 @@ public class ProductViewActivity extends BaseActivity {
         //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        cart_count = cartCount();
 
         title = findViewById(R.id.apv_title);
-        description = findViewById(R.id.apv_description);
+        description = findViewById(R.id.description);
         currency = findViewById(R.id.apv_currency);
         price = findViewById(R.id.apv_price);
         org_price = findViewById(R.id.apv_org_price);
-        attribute = findViewById(R.id.apv_attribute);
         discount = findViewById(R.id.apv_discount);
         imageView = findViewById(R.id.apv_image);
         progressBar = findViewById(R.id.progressbar);
@@ -91,57 +107,16 @@ public class ProductViewActivity extends BaseActivity {
         inc = findViewById(R.id.quantity_plus);
         dec = findViewById(R.id.quantity_minus);
 
-        cartList = getCartList();
-        title.setText(_title);
-        description.setText(_description);
-        if (_discount != "" && _discount.length() > 0) {
-            price.setText(_discount);
-            org_price.setText(_price);
-            org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        } else {
-            price.setText(_price);
-        }
-        currency.setText(_currency);
-        attribute.setText(_attribute);
-        discount.setText(_discount);
-        Log.d(TAG, "Discount : " + _discount);
+          cartList = getCartList();
+          quantity.setText("0");
 
-
-        if (_price != null && _price.length() != 0 && _price != "" && _discount != null && _discount.length() != 0 && _discount != "") {
-            double M = Double.parseDouble(_price);
-            double S = Double.parseDouble(_discount);
-            double discount_m = M - S;
-            int disPercent = (int) Math.round((discount_m / M) * 100);
-
-            if (disPercent > 1) {
-                discount.setText(disPercent + "% OFF");
-            } else {
-                discount.setVisibility(View.GONE);
-            }
-
-        } else {
-            discount.setVisibility(View.GONE);
-        }
-        if (_image != null) {
-            Picasso.get().load(Utils.ProductImage + _image).error(R.drawable.no_image).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            });
-        }
 
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
-                if (cartList.get(i).getId().equalsIgnoreCase(_id)) {
+                if (cartList.get(i).getId().equals(Integer.parseInt(_id))) {
                     addToCart.setVisibility(View.GONE);
                     quantityLL.setVisibility(View.VISIBLE);
-                    quantity.setText(cartList.get(i).getQuantity());
+                    quantity.setText(String.valueOf(cartList.get(i).getCount()));
                     cartId = i;
 
                 }
@@ -152,8 +127,8 @@ public class ProductViewActivity extends BaseActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEntry = _image + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
-
+                //    String userEntry = productDetails.getImages().get(0).getImage() + "\n" + _title + "\n" + _description + "\n" + _attribute + "-" + _currency + _price + "(" + _discount + ")";
+                String userEntry = productDetails.getImages().get(0).getImage() + "\n" + productDetails.getName() + "\n" + productDetails.getDescription() + "\n" + productDetails.getCurrency().getSymbol() + productDetails.getPrice() + "(" + productDetails.getMrp() + ")";
                 Intent textShareIntent = new Intent(Intent.ACTION_SEND);
                 textShareIntent.putExtra(Intent.EXTRA_TEXT, userEntry);
                 textShareIntent.setType("text/plain");
@@ -162,19 +137,24 @@ public class ProductViewActivity extends BaseActivity {
         });
 
 
+        if(quantity.getText().toString().equalsIgnoreCase("0")){
+            addToCart.setVisibility(View.VISIBLE);
+            quantityLL.setVisibility(View.GONE);
+        }
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _price = price.getText().toString();
 
-                cart = new Cart(_id, _title, _image, _currency, _price, _attribute, "1", _price);
-                cartList.add(cart);
-                String cartStr = gson.toJson(cartList);
-                //Log.d("CART", cartStr);
-                localStorage.setCart(cartStr);
-                onAddProduct();
                 addToCart.setVisibility(View.GONE);
                 quantityLL.setVisibility(View.VISIBLE);
+
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) + 1;
+                quantity.setText(String.valueOf(qty));
+
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, true);
+                addingToCart(addtoCart, "plus");
+
             }
         });
 
@@ -182,51 +162,78 @@ public class ProductViewActivity extends BaseActivity {
         inc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _price = price.getText().toString();
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) + 1;
+                quantity.setText(String.valueOf(qty));
+
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, true);
+                addingToCart(addtoCart, "plus");
 
 
-                // int total_item = Integer.parseInt(cartList.get(cartId).getQuantity());
-                int total_item = Integer.parseInt(quantity.getText().toString());
-                total_item++;
-                Log.d("totalItem", total_item + "");
-                quantity.setText(total_item + "");
-                String subTotal = String.valueOf(Double.parseDouble(_price) * total_item);
-                cartList.get(cartId).setQuantity(quantity.getText().toString());
-                cartList.get(cartId).setSubTotal(subTotal);
-                cartList.get(cartId).setAttribute(attribute.getText().toString());
-                cartList.get(cartId).setPrice(_price);
-                String cartStr = gson.toJson(cartList);
-                //Log.d("CART", cartStr);
-                localStorage.setCart(cartStr);
+
             }
         });
 
         dec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _price = price.getText().toString();
+                _quantity = quantity.getText().toString();
+                int qty = Integer.parseInt(_quantity) - 1;
+                quantity.setText(String.valueOf(qty));
 
-                //int total_item = Integer.parseInt(quantity.getText().toString());
-                int total_item = Integer.parseInt(quantity.getText().toString());
-                if (total_item != 1) {
-                    total_item--;
-                    quantity.setText(total_item + "");
-                    Log.d("totalItem", total_item + "");
-                    String subTotal = String.valueOf(Double.parseDouble(_price) * total_item);
-
-
-                    cartList.get(cartId).setQuantity(quantity.getText().toString());
-                    cartList.get(cartId).setSubTotal(subTotal);
-                    cartList.get(cartId).setAttribute(attribute.getText().toString());
-                    cartList.get(cartId).setPrice(_price);
-                    String cartStr = gson.toJson(cartList);
-                    //Log.d("CART", cartStr);
-                    localStorage.setCart(cartStr);
+                if(quantity.getText().toString().equalsIgnoreCase("0")){
+                    addToCart.setVisibility(View.VISIBLE);
+                    quantityLL.setVisibility(View.GONE);
                 }
+
+                AddToCart addtoCart = new AddToCart(1, Integer.parseInt(_id), null, false);
+                addingToCart(addtoCart, "minus");
+
+
+
             }
         });
 
 
+    }
+
+    private void getProductDetails() {
+
+        Call<ProductDetails> call = RestClient.getRestService(getApplicationContext()).productDetails(_id);
+        call.enqueue(new retrofit2.Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                if (response.code() == 200) {
+                    productDetails = response.body();
+                    title.setText(productDetails.getName());
+                    description.setText(productDetails.getDescription());
+                    org_price.setText(productDetails.getMrp());
+                    org_price.setPaintFlags(org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    price.setText(productDetails.getPrice());
+                    currency.setText(productDetails.getCurrency().getSymbol());
+
+
+                    if (productDetails.getImages().get(0).getImage() != null) {
+                        Picasso.get().load(productDetails.getImages().get(0).getImage()).error(R.drawable.no_image).into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     private void changeActionBarTitle(ActionBar actionBar) {
@@ -282,18 +289,133 @@ public class ProductViewActivity extends BaseActivity {
     }
 
 
+    private void hideProgressDialog() {
+        changeProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        changeProgressBar.setVisibility(View.VISIBLE);
+    }
+
+
+    private void addingToCart(AddToCart addtoCart, final String plus) {
+
+
+        showProgressDialog();
+        Call<AddToCart> call = RestClient.getRestService(getApplicationContext()).addToCart(token, addtoCart);
+        call.enqueue(new retrofit2.Callback<AddToCart>() {
+            @Override
+            public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    AddToCart addToCartResponse = response.body();
+                    if (response.code() == 200) {
+
+                        if (plus.equalsIgnoreCase("plus")) {
+                            onAddProduct();
+                            Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            onRemoveProduct();
+                            Toast.makeText(getApplicationContext(), "Successfully removed", Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "please try after sometime", Toast.LENGTH_SHORT).show();
+                }
+
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<AddToCart> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+
+    }
+
     @Override
     public void onAddProduct() {
-        cart_count++;
-        invalidateOptionsMenu();
+        super.onAddProduct();
+        getCartDetails();
 
     }
 
     @Override
     public void onRemoveProduct() {
-        cart_count--;
-        invalidateOptionsMenu();
+        super.onRemoveProduct();
+        getCartDetails();
+    }
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new retrofit2.Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        cart_count = cartDetails.getTotalItems();
+
+                        productDetail.clear();
+                        if(cartDetails.getProductDetails().size()>0) {
+                            for (int i = 0; i < cartDetails.getProductDetails().size(); i++) {
+
+                                int id = cartDetails.getProductDetails().get(i).getProduct().getId();
+                                int count = cartDetails.getProductDetails().get(i).getCount();
+                                ProductDetail productDetails = new ProductDetail(id, count);
+                                productDetail.add(productDetails);
+                            }
+                            String cartStr = gson.toJson(productDetail);
+                            Log.d("CART", cartStr);
+                            localStorage.setCart(cartStr);
+                        }else{
+                            productDetail.clear();
+                            localStorage.deleteCart();
+                        }
+
+
+                        invalidateOptionsMenu();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
 
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
+
+    }
+
+
 }
+
+

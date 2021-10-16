@@ -50,9 +50,9 @@ public class ProfileFragment extends Fragment {
         localStorage = new LocalStorage(getContext());
 
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        name.setText(user.getFname());
+        name.setText(user.getName());
         email.setText(user.getEmail());
-        mobile.setText(user.getMobile());
+        mobile.setText(user.getPhone());
         address.setText(user.getAddress());
 
         return view;
@@ -64,4 +64,6 @@ public class ProfileFragment extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Profile");
     }
+
+
 }

@@ -13,7 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.model.AddressDetails;
+import com.quintus.labs.grocerystore.model.DelExecDetails;
+import com.quintus.labs.grocerystore.model.OrderDetails;
+import com.quintus.labs.grocerystore.model.OrderDetailsData;
 import com.quintus.labs.grocerystore.model.OrderItem;
+import com.quintus.labs.grocerystore.model.ProductsData;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -21,12 +26,18 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyViewHolder> {
-    List<OrderItem> orderItemList;
+    OrderDetailsData orderItemList;
+    DelExecDetails delExecDetails;
+    List<ProductsData> productsData;
+    AddressDetails addressDetails;
     Context context;
 
 
-    public OrderItemAdapter(List<OrderItem> orderItemList, Context context) {
+    public OrderItemAdapter(OrderDetailsData orderItemList, DelExecDetails delExecDetails,List<ProductsData> productsData,AddressDetails addressDetails,Context context) {
         this.orderItemList = orderItemList;
+        this.delExecDetails = delExecDetails;
+        this.productsData = productsData;
+        this.addressDetails = addressDetails;
         this.context = context;
     }
 
@@ -48,14 +59,19 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyVi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final OrderItemAdapter.MyViewHolder holder, final int position) {
-        final OrderItem order = orderItemList.get(position);
-        holder.order_id.setText("#" + order.getOrderid());
-        holder.order_title.setText(order.getItemname() + "(" + order.getAttribute() + ")");
-        holder.order_quantity.setText(order.getItemquantity());
-        holder.order_unitprice.setText(order.getCurrency() + order.getItemprice());
-        holder.total_price.setText(order.getItemquantity() + "X" + order.getItemprice() + "=" + order.getItemtotal());
+        final OrderDetailsData order = orderItemList;
+      final  DelExecDetails delExecDetailsdata = delExecDetails;
+      final  ProductsData productsDataList= productsData.get(position);
+      final   AddressDetails addressDetailsData=addressDetails;
+        holder.order_id.setText("#" + order.getOrderNo());
+
+            holder.order_title.setText(productsDataList.getProduct().getName());
+
+        holder.order_quantity.setText(String.valueOf(productsDataList.getQuantity()));
+        holder.order_unitprice.setText(productsDataList.getProduct().getCurrency().getSymbol()+" "+productsDataList.getProduct().getPrice());
+        holder.total_price.setText(productsDataList.getProduct().getCurrency().getSymbol() + " " + productsDataList.getPrice());
         Picasso.get()
-                .load(Utils.ProductImage + order.getitemImage())
+                .load(productsDataList.getProduct().getImages().get(0).getImage())
                 .into(holder.order_image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -73,9 +89,9 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyVi
 
     @Override
     public int getItemCount() {
-
-        return orderItemList.size();
+        return productsData.size();
     }
+
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

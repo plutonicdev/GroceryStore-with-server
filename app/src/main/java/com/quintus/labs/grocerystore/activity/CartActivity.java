@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +25,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.CartAdapter;
+import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.Cart;
+import com.quintus.labs.grocerystore.model.CartDetails;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Grocery App
@@ -38,7 +46,7 @@ import java.util.List;
  */
 public class CartActivity extends BaseActivity {
     LocalStorage localStorage;
-    List<Cart> cartList = new ArrayList<>();
+    List<ProductDetail> cartList = new ArrayList<>();
     Gson gson;
     RecyclerView recyclerView;
     CartAdapter adapter;
@@ -47,6 +55,8 @@ public class CartActivity extends BaseActivity {
     LinearLayout checkoutLL;
     TextView totalPrice;
     private String mState = "SHOW_MENU";
+    String token;
+    View progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +69,18 @@ public class CartActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
-        //upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
+        progress = findViewById(R.id.progress_bar);
         localStorage = new LocalStorage(getApplicationContext());
         gson = new Gson();
         emptyCart = findViewById(R.id.empty_cart_img);
         checkoutLL = findViewById(R.id.checkout_LL);
         totalPrice = findViewById(R.id.total_price);
-        totalPrice.setText("Rs. " + getTotalPrice() + "");
-        setUpCartRecyclerview();
+        token = localStorage.getApiKey();
+        recyclerView = findViewById(R.id.cart_rv);
+        recyclerView.setHasFixedSize(true);
 
+        getCartDetails();
 
     }
 
@@ -82,7 +93,7 @@ public class CartActivity extends BaseActivity {
         if (mState.equalsIgnoreCase("HIDE_MENU")) {
             item.setVisible(false);
         } else {
-            item.setVisible(true);
+            item.setVisible(false);
         }
         return true;
     }
@@ -156,16 +167,19 @@ public class CartActivity extends BaseActivity {
     private void changeActionBarTitle(ActionBar actionBar) {
         // Create a LayoutParams for TextView
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, // Width of TextView
+                RelativeLayout.LayoutParams.WRAP_CONTENT, // Width of TextView
                 RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
+lp.setMarginStart(300);
+
         TextView tv = new TextView(getApplicationContext());
         // Apply the layout parameters to TextView widget
         tv.setLayoutParams(lp);
         tv.setGravity(Gravity.CENTER);
         tv.setTypeface(null, Typeface.BOLD);
         // Set text to display in TextView
-        tv.setText("Cart"); // ActionBar title text
+        tv.setText("My Cart"); // ActionBar title text
         tv.setTextSize(20);
+
 
         // Set the text color of TextView to red
         // This line change the ActionBar title text color
@@ -179,16 +193,7 @@ public class CartActivity extends BaseActivity {
 
 
     private void setUpCartRecyclerview() {
-        cartList = new ArrayList<>();
-        cartList = getCartList();
-        if (cartList.isEmpty()) {
-            mState = "HIDE_MENU";
-            invalidateOptionsMenu();
-            emptyCart.setVisibility(View.VISIBLE);
-            checkoutLL.setVisibility(View.GONE);
-        }
-        recyclerView = findViewById(R.id.cart_rv);
-        recyclerView.setHasFixedSize(true);
+
         recyclerViewlayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         adapter = new CartAdapter(cartList, CartActivity.this);
@@ -205,13 +210,58 @@ public class CartActivity extends BaseActivity {
     @Override
     public void updateTotalPrice() {
 
-        totalPrice.setText("Rs. " + getTotalPrice() + "");
-        if (getTotalPrice() == 0.0) {
-            mState = "HIDE_MENU";
-            invalidateOptionsMenu();
-            emptyCart.setVisibility(View.VISIBLE);
-            checkoutLL.setVisibility(View.GONE);
-        }
+
+        getCartDetails();
+    }
+
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        if (cartDetails.getTotalItems() > 0) {
+                            cartList = cartDetails.getProductDetails();
+                            String _subtotal = String.valueOf(cartDetails.getProductTotalPrice());
+                            totalPrice.setText("Rs. " + _subtotal);
+                            setUpCartRecyclerview();
+                        } else {
+                            mState = "HIDE_MENU";
+                            invalidateOptionsMenu();
+                            emptyCart.setVisibility(View.VISIBLE);
+                            checkoutLL.setVisibility(View.GONE);
+                        }
+
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+    }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
     }
 
 }

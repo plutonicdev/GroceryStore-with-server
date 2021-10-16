@@ -1,5 +1,9 @@
 package com.quintus.labs.grocerystore.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Grocery App
  * https://github.com/quintuslabs/GroceryStore
@@ -7,43 +11,137 @@ package com.quintus.labs.grocerystore.model;
  * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
  */
 public class Category {
-    String id;
-    String categry;
-    String cateimg;
-    String token;
+    @SerializedName("id")
+   
+    private Integer id;
+    @SerializedName("name")
+   
+    private String name;
+    @SerializedName("slug")
+   
+    private String slug;
+    @SerializedName("description")
+   
+    private String description;
+    @SerializedName("parent")
+   
+    private Object parent;
+    @SerializedName("image")
+   
+    private String image;
+    @SerializedName("image_alt")
+   
+    private String imageAlt;
+    @SerializedName("created_date")
+   
+    private String createdDate;
+    @SerializedName("status")
+   
+    private Boolean status;
+    @SerializedName("is_favorite")
+   
+    private Boolean isFavorite;
+    @SerializedName("items")
+   
+    private Integer items;
+    @SerializedName("sub_category")
+   
+    private List<SubCategory> subCategory = null;
 
-    public Category(String id, String categry, String cateimg) {
-        this.id = id;
-        this.categry = categry;
-        this.cateimg = cateimg;
-    }
-
-    public Category(String categry, String token) {
-        this.categry = categry;
-        this.token = token;
-    }
-
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getCategry() {
-        return categry;
+    public String getName() {
+        return name;
     }
 
-    public void setCategry(String categry) {
-        this.categry = categry;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCateimg() {
-        return cateimg;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setCateimg(String cateimg) {
-        this.cateimg = cateimg;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Object getParent() {
+        return parent;
+    }
+
+    public void setParent(Object parent) {
+        this.parent = parent;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImageAlt() {
+        return imageAlt;
+    }
+
+    public void setImageAlt(String imageAlt) {
+        this.imageAlt = imageAlt;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(Boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public Integer getItems() {
+        return items;
+    }
+
+    public void setItems(Integer items) {
+        this.items = items;
+    }
+
+    public List<SubCategory> getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(List<SubCategory> subCategory) {
+        this.subCategory = subCategory;
+    }
+
 }

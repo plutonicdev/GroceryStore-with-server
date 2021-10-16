@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +37,7 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.SearchAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.fragment.AddressFragment;
 import com.quintus.labs.grocerystore.fragment.CategoryFragment;
 import com.quintus.labs.grocerystore.fragment.HomeFragment;
 import com.quintus.labs.grocerystore.fragment.MyOrderFragment;
@@ -42,7 +46,9 @@ import com.quintus.labs.grocerystore.fragment.OffrersFragment;
 import com.quintus.labs.grocerystore.fragment.PopularProductFragment;
 import com.quintus.labs.grocerystore.fragment.ProfileFragment;
 import com.quintus.labs.grocerystore.helper.Converter;
+import com.quintus.labs.grocerystore.model.CartDetails;
 import com.quintus.labs.grocerystore.model.Product;
+import com.quintus.labs.grocerystore.model.ProductDetail;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -64,9 +70,17 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int cart_count = 0;
     User user;
+    private ArrayList<ProductDetail> productDetail = new ArrayList<>();
     List<Product> productList = new ArrayList<>();
     SearchAdapter mAdapter;
     private RecyclerView recyclerView;
+    boolean doubleBackToExitPressedOnce = false;
+
+    LocalStorage localStorage;
+
+    Gson gson;
+    String token;
+    View progress;
 
     @SuppressLint("ResourceAsColor")
     static void centerToolbarTitle(@NonNull final Toolbar toolbar) {
@@ -82,6 +96,8 @@ public class MainActivity extends BaseActivity
             toolbar.requestLayout();
             //also you can use titleView for changing font: titleView.setTypeface(Typeface);
         }
+
+
     }
 
     @Override
@@ -90,24 +106,39 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            getCartDetails();
+            FragmentManager manager = getSupportFragmentManager();
+            int count = manager.getBackStackEntryCount();
+            // Log.d("This Fragment name: ", ""+count);
+            if (count == 1) {
+                if (doubleBackToExitPressedOnce) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+            } else {
+
+                super.onBackPressed();
+            }
         }
     }
 
-
-
-    /*public void toggleCommunicationGroup(View button) {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        MenuItem group = navigationView.getMenu().findItem(R.id.nav_communication_group);
-        boolean isVisible = group.isVisible();
-        group.setVisible(!isVisible);
-        Button toggleButton = (Button)findViewById(R.id.main_toggle_button);
-        if (isVisible) {
-            toggleButton.setText("Enable communication group");
-        } else {
-            toggleButton.setText("Disable communication group");
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,6 +148,7 @@ public class MainActivity extends BaseActivity
         menuItem.setIcon(Converter.convertLayoutToImage(MainActivity.this, cart_count, R.drawable.ic_shopping_basket));
         final MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        searchItem.setVisible(false);
 
         SearchView searchView = null;
         if (searchItem != null) {
@@ -159,33 +191,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void getSearchProduct(String query) {
-        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
 
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setUpRecyclerView();
-
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-
-
-            }
-        });
 
     }
 
@@ -225,8 +231,13 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         centerToolbarTitle(toolbar);
-        cart_count = cartCount();
+        //cart_count = cartCount();
 
+        progress = findViewById(R.id.progress_bar);
+        localStorage = new LocalStorage(getApplicationContext());
+        gson = new Gson();
+        token = localStorage.getApiKey();
+        getCartDetails();
         FloatingActionButton fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.search_recycler_view);
         fab.setVisibility(View.GONE);
@@ -248,6 +259,8 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -287,6 +300,9 @@ public class MainActivity extends BaseActivity
             case R.id.nav_profile:
                 fragment = new ProfileFragment();
                 break;
+//            case R.id.nav_address:
+//                fragment = new AddressFragment();
+//                break;
             case R.id.nav_category:
                 fragment = new CategoryFragment();
                 break;
@@ -317,6 +333,7 @@ public class MainActivity extends BaseActivity
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
             ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(null);
             ft.commit();
 
         }
@@ -337,14 +354,74 @@ public class MainActivity extends BaseActivity
     @Override
     public void onAddProduct() {
         super.onAddProduct();
-        cart_count++;
-        invalidateOptionsMenu();
+        //  cart_count++;
+        getCartDetails();
+        //  invalidateOptionsMenu();
 
     }
 
     @Override
     public void onRemoveProduct() {
         super.onRemoveProduct();
+        //  cart_count--;
+        getCartDetails();
+        //  invalidateOptionsMenu();
+    }
+
+
+    private void getCartDetails() {
+
+        showProgressDialog();
+        Call<CartDetails> call = RestClient.getRestService(getApplicationContext()).getCartList(token);
+        call.enqueue(new Callback<CartDetails>() {
+            @Override
+            public void onResponse(Call<CartDetails> call, Response<CartDetails> response) {
+                Log.d("Response :=>", response.body() + "");
+                if (response != null) {
+
+                    CartDetails cartDetails = response.body();
+                    if (response.code() == 200) {
+                        assert cartDetails != null;
+                        cart_count = cartDetails.getTotalItems();
+                        productDetail.clear();
+                        if(cartDetails.getProductDetails().size()>0) {
+                            for (int i = 0; i < cartDetails.getProductDetails().size(); i++) {
+
+                                int id = cartDetails.getProductDetails().get(i).getProduct().getId();
+                                int count = cartDetails.getProductDetails().get(i).getCount();
+                                ProductDetail productDetails = new ProductDetail(id, count);
+                                productDetail.add(productDetails);
+                            }
+                            String cartStr = gson.toJson(productDetail);
+                            Log.d("CART", cartStr);
+                            localStorage.setCart(cartStr);
+                        }else{
+                            productDetail.clear();
+                            localStorage.deleteCart();
+                        }
+                        invalidateOptionsMenu();
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CartDetails> call, Throwable t) {
+                Log.d("Error==> ", t.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+    }
+
+    private void hideProgressDialog() {
+        progress.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        progress.setVisibility(View.VISIBLE);
     }
 
 

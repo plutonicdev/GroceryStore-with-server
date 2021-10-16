@@ -1,6 +1,7 @@
 package com.quintus.labs.grocerystore.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,14 +21,20 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
+import com.quintus.labs.grocerystore.model.MessageResponse;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.User1;
+import com.quintus.labs.grocerystore.model.UserResponse;
 import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
 import com.quintus.labs.grocerystore.util.NotificationHelper;
+import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
 
 /**
  * Grocery App
@@ -42,8 +50,12 @@ public class ForgotPassword_Fragment extends Fragment implements
     private static TextView submit, back, reset, resend;
     FrameLayout forgot_password_FL, reset_password_FL;
     View progress;
+    LocalStorage localStorage;
+    UserResponse userResponse;
     Gson gson = new Gson();
     User user;
+    User1 user1;
+    String mobileNO;
 
     public ForgotPassword_Fragment() {
 
@@ -73,6 +85,7 @@ public class ForgotPassword_Fragment extends Fragment implements
         resend = view.findViewById(R.id.resend_button);
         reset_password_FL = view.findViewById(R.id.reset_password_FL);
         progress = view.findViewById(R.id.progress_bar);
+        localStorage = new LocalStorage(getContext());
 
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
@@ -139,38 +152,36 @@ public class ForgotPassword_Fragment extends Fragment implements
             new CustomToast().Show_Toast(getActivity(), view,
                     "Password and confirm password doesn't match");
         } else {
-            user.setReset_code(getOtp);
-            user.setPassword(getPassword);
-            resetPassword();
+
+            User1 user1 = new User1(mobileNO,getOtp,getPassword);
+//            user1.setOtp(getOtp);
+//            user1.setPassword(getPassword);
+//            user1.setPhone(mobileNO);
+            resetPassword(user1);
         }
 
     }
 
-    private void resetPassword() {
+    private void resetPassword(User1 users) {
         showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).resetPassword(user);
-        call.enqueue(new Callback<UserResult>() {
+        Call<MessageResponse> call = RestClient.getRestService(getContext()).resetPassword(users);
+        call.enqueue(new Callback<MessageResponse>() {
             @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 200) {
-                        new LoginRegisterActivity().replaceLoginFragment();
-                    } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Please try again");
-                    }
-                } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please enter your valid Code");
-                }
+                if (response.code() == 200) {
+                    Toast.makeText(getContext(), "Password Reset Successfully", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getContext(), LoginRegisterActivity.class));
 
+                } else {
+                    Toast.makeText(getContext(), "Please Enter Correct OTP", Toast.LENGTH_LONG).show();
+                }
                 hideProgressDialog();
             }
 
+
             @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
@@ -186,6 +197,7 @@ public class ForgotPassword_Fragment extends Fragment implements
             new CustomToast().Show_Toast(getActivity(), view,
                     "Please enter your Mobile Number");
         } else {
+            mobileNO=getMobile;
             user = new User();
             user.setMobile(getMobile);
             forgotPassword();
@@ -194,17 +206,15 @@ public class ForgotPassword_Fragment extends Fragment implements
 
     private void forgotPassword() {
         showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).forgotPassword(user);
-        call.enqueue(new Callback<UserResult>() {
+        Call<UserResponse> call = RestClient.getRestService(getContext()).forgotPassword(user);
+        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d("Response :=>", response.body() + "");
                 if (response != null) {
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 200) {
-                        String userString = gson.toJson(userResult.getUser());
-                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
-                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
+
+                    if (response.code() == 200) {
+                        Toast.makeText(getContext(), "OTP  Sent to Your Mobile Successfully", Toast.LENGTH_LONG).show();
                         reset_password_FL.setVisibility(View.VISIBLE);
                         forgot_password_FL.setVisibility(View.GONE);
                     } else {
@@ -216,7 +226,7 @@ public class ForgotPassword_Fragment extends Fragment implements
             }
 
             @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.d("Error==> ", t.getMessage());
                 hideProgressDialog();
             }
@@ -231,4 +241,12 @@ public class ForgotPassword_Fragment extends Fragment implements
     private void showProgressDialog() {
         progress.setVisibility(View.VISIBLE);
     }
+
+
+    public void onResendclicked(View view) {
+        forgotPassword();
+
+    }
+
+
 }

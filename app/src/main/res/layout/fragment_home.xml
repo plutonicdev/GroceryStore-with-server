@@ -20,7 +20,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,13 +30,14 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="170dp">
+                    android:layout_height="170dp"
+                    android:id="@+id/slider_rl">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"></androidx.viewpager.widget.ViewPager>
+                        android:layout_alignParentTop="true" />
 
                     <LinearLayout
                         android:id="@+id/SliderDots"
@@ -45,7 +46,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal" />
                 </RelativeLayout>
 
 
@@ -58,7 +59,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/category_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content"
+                        />
                 </RelativeLayout>
 
 
@@ -71,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -87,54 +89,19 @@
                         android:layout_height="wrap_content">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:layout_marginBottom="@dimen/margin_20dp">
 
-                        <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/adv_banner_rv"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_height="wrap_content"/>
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="4dp"
-                                app:cardUseCompatPadding="true">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@drawable/offer2"
-                                    android:scaleType="fitXY" />
-
-                            </androidx.cardview.widget.CardView>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="4dp"
-                                app:cardUseCompatPadding="true">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@drawable/offer1"
-                                    android:scaleType="fitXY" />
-
-                            </androidx.cardview.widget.CardView>
-
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -143,7 +110,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <com.quintus.labs.grocerystore.customfonts.TextViewRegular
+                            android:id="@+id/popular_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -156,7 +124,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/popular_product_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

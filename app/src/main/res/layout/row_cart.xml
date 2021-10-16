@@ -171,7 +171,8 @@
                             android:layout_marginRight="5dp"
                             android:text="1 Bunch"
                             android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -188,4 +189,8 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 </LinearLayout>

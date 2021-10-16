@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">
 
@@ -25,15 +25,99 @@
             <ImageView
                 android:id="@+id/offer_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:gravity="center">
+
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewBold
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="@dimen/dimen_50dp"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16"
+                    android:visibility="gone"/>
+
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16"
+                    android:visibility="gone"/>
+
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="@dimen/margin_10"
+                       >
+                       <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                           android:id="@+id/code"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text=""
+                           android:textColor="@color/white"
+                           android:textSize="@dimen/dimen_20dp" />
+
+                       <ImageView
+                           android:id="@+id/copy"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="@dimen/margin_20dp"
+                           android:src="@drawable/ic_baseline_content_copy_24" />
+                   </LinearLayout>
+
+
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/discount_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16" />
+
+
+                <com.quintus.labs.grocerystore.customfonts.TextViewSemiBold
+                    android:id="@+id/minimum_ordre_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:layout_weight="0.5"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_16" />
+
+
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/progressbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
 
 
         </RelativeLayout>

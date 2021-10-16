@@ -1,15 +1,22 @@
 package com.quintus.labs.grocerystore.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.quintus.labs.grocerystore.R;
+import com.quintus.labs.grocerystore.model.Banners;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Grocery App
@@ -21,20 +28,20 @@ public class HomeSliderAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private Integer[] images;
 
-    public HomeSliderAdapter(Context context) {
+    private  List<Banners> bannersList;
+
+
+
+    public HomeSliderAdapter( Context context,List bannersList) {
         this.context = context;
+        this.bannersList = bannersList;
     }
 
-    public HomeSliderAdapter(Context context, Integer[] images) {
-        this.context = context;
-        this.images = images;
-    }
 
     @Override
     public int getCount() {
-        return images.length;
+        return bannersList.size();
     }
 
     @Override
@@ -48,7 +55,21 @@ public class HomeSliderAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_home_slider, null);
         ImageView imageView = view.findViewById(R.id.imageView);
-        imageView.setImageResource(images[position]);
+      final ProgressBar progressBar = view.findViewById(R.id.progressbar);
+
+
+        Banners utils = bannersList.get(position);
+        Picasso.get().load(utils.getImage()).error(R.drawable.no_image).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.d("Error : ", e.getMessage());
+            }
+        });
 
 
         ViewPager vp = (ViewPager) container;

@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/order_rv"
         android:layout_width="match_parent"
@@ -38,4 +39,9 @@
             android:text="You have no orders"
             android:textSize="18dp" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 </RelativeLayout>

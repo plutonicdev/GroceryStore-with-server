@@ -1,5 +1,6 @@
 package com.quintus.labs.grocerystore.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,10 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
-import com.quintus.labs.grocerystore.model.Order;
+import com.quintus.labs.grocerystore.model.AddressDetails;
+import com.quintus.labs.grocerystore.model.DelExecDetails;
+import com.quintus.labs.grocerystore.model.OrderDetails;
+import com.quintus.labs.grocerystore.model.OrderDetailsData;
+import com.quintus.labs.grocerystore.model.OrdersResult;
 import com.quintus.labs.grocerystore.model.OrderItem;
 import com.quintus.labs.grocerystore.model.OrdersResult;
+import com.quintus.labs.grocerystore.model.ProductsData;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.VoucherList;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -41,19 +49,23 @@ import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
-    List<Order> orderList;
+    List<OrdersResult> orderList;
+    OrderDetailsData orderDetails;
+    DelExecDetails delExecDetails;
+    List<ProductsData> productsData;
+    AddressDetails addressDetails;
+    OrderItemAdapter orderItemAdapter;
     Context context;
-    int pQuantity = 1;
-    String _subtotal, _price, _quantity;
+    String Tag;
+    RecyclerView recyclerView;
     LocalStorage localStorage;
     Gson gson;
-    User user;
     String token;
-    List<OrderItem> orderItemList = new ArrayList<>();
-    OrderItemAdapter orderItemAdapter;
-    RecyclerView recyclerView;
+    View changeProgressBar;
+    TextView total,payable,payable_price_dec;
+    LinearLayout ll_total;
 
-    public OrderAdapter(List<Order> orderList, Context context) {
+    public OrderAdapter(List<OrdersResult> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
     }
@@ -75,54 +87,73 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        localStorage = new LocalStorage(context);
+        gson = new Gson();
+        token = localStorage.getApiKey();
 
-        final Order order = orderList.get(position);
-        holder.orderId.setText("#" + order.getId());
-        holder.date.setText(order.getDate());
-        holder.total.setText(order.getTotal());
+        final OrdersResult order = orderList.get(position);
+        holder.order_no.setText("#" + order.getOrderNo());
+        holder.order_date.setText(order.getCreatedDate());
+        holder.total_price.setText(order.getTotal());
         holder.status.setText(order.getStatus());
-        holder.status.setText(order.getStatus());
+        holder.delivery_date.setText(order.getDeliveryDate());
         holder.viewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openOrderItemModal(order);
+                openOrderItemModal(order.getId());
             }
         });
 
 
-    }
+   }
 
-    private void openOrderItemModal(Order order) {
+    private void openOrderItemModal(int id) {
         final Dialog dialog = new Dialog(context, R.style.FullScreenDialogStyle);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.orderdetails_dialog);
-        Gson gson = new Gson();
-        localStorage = new LocalStorage(context);
-        user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        token = user.getToken();
-        OrderItem orderItem = new OrderItem();
-        orderItem.setOrder_id(order.getId());
-        orderItem.setToken(token);
+
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
         recyclerView = dialog.findViewById(R.id.order_list);
+        total = dialog.findViewById(R.id.total_price);
+        payable = dialog.findViewById(R.id.payable_price);
+        payable_price_dec = dialog.findViewById(R.id.payable_price_dec);
+        ll_total = dialog.findViewById(R.id.ll_total);
 
-        Call<OrdersResult> call = RestClient.getRestService(context).getOrderItems(orderItem);
-        call.enqueue(new Callback<OrdersResult>() {
+        showProgressDialog();
+        Call<OrderDetails> call = RestClient.getRestService(context).getSingleOrderDetails(token,id);
+        call.enqueue(new Callback<OrderDetails>() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                orderItemList = response.body().getOrderItemList();
-                orderItemAdapter = new OrderItemAdapter(orderItemList, context);
+            public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
+                orderDetails = response.body().getOrderDetails();
+                delExecDetails=response.body().getDelExecDetails();
+                productsData=response.body().getProducts();
+                addressDetails=response.body().getAddressDetails();
+                total.setText(orderDetails.getPaymentMode());
+                if(orderDetails.getPaymentMode().equalsIgnoreCase("online")){
+                    payable_price_dec.setText("Total Price Paid : ");
+                }else{
+                    payable_price_dec.setText("Total Payable Price : ");
+                }
+                if(orderDetails.getPaymentStatus().equalsIgnoreCase("failure")){
+                    ll_total.setVisibility(View.GONE);
+                }
+                payable.setText(productsData.get(0).getProduct().getCurrency().getSymbol()+" "+ orderDetails.getPayableAmount());
+                orderItemAdapter = new OrderItemAdapter(orderDetails,delExecDetails,productsData,addressDetails, context);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(orderItemAdapter);
 
+                hideProgressDialog();
+
             }
 
             @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
+            public void onFailure(Call<OrderDetails> call, Throwable t) {
                 Log.d(TAG, "errorResponse:==>" + t.getMessage());
+                hideProgressDialog();
             }
         });
 
@@ -146,17 +177,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView orderId, date, total, status, viewDetails;
+        TextView  order_no,total_price,status,delivery_date,order_date;
+        Button viewDetails;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            orderId = itemView.findViewById(R.id.order_id);
-            date = itemView.findViewById(R.id.date);
-            total = itemView.findViewById(R.id.total_amount);
+            order_no = itemView.findViewById(R.id.order_no);
+            total_price = itemView.findViewById(R.id.total_price);
+            delivery_date = itemView.findViewById(R.id.delivery_date);
             status = itemView.findViewById(R.id.status);
-            viewDetails = itemView.findViewById(R.id.viewDetails);
+            order_date = itemView.findViewById(R.id.order_date);
+            viewDetails = itemView.findViewById(R.id.view_details);
+            changeProgressBar = itemView.findViewById(R.id.progress_bar);
+
 
         }
+    }
+
+    private void hideProgressDialog() {
+        changeProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressDialog() {
+        changeProgressBar.setVisibility(View.VISIBLE);
     }
 }

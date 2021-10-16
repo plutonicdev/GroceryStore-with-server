@@ -70,7 +70,7 @@
                     android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$12"
+                    android:text=""
                     android:textColor="@color/colorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -108,6 +108,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/empty_cart_img"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progressbar"
         android:visibility="gone" />
 
 

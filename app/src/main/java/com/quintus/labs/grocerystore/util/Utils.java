@@ -19,6 +19,4 @@ public class Utils {
     public static final String ForgotPassword_Fragment = "ForgotPassword_Fragment";
     public static final String CategoryImage = RestClient.BASE_URL + "assets/images/ProductImage/category/";
     public static final String ProductImage = RestClient.BASE_URL + "assets/images/ProductImage/product/";
-
-
 }
